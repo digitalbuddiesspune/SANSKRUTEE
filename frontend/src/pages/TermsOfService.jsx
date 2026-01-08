@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom';
 
 const TermsOfService = () => {
+  const getCurrentDate = () => {
+    const date = new Date();
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,173 +21,142 @@ const TermsOfService = () => {
             </svg>
             Back to Home
           </Link>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Terms of Service</h1>
-          <p className="text-sm sm:text-base text-gray-600">Last updated: January 2024</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Terms & Conditions</h1>
+          <p className="text-sm sm:text-base text-gray-600">Last updated: {getCurrentDate()}</p>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
           <section>
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">1. Agreement to Terms</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">1. Introduction</h2>
             <p className="text-gray-700 leading-relaxed">
-              By accessing or using Shopzy's website and services, you agree to be bound by these Terms of Service 
-              and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited 
-              from using or accessing this site.
+              These Terms & Conditions ("Terms") govern your use of the website and services offered by <strong>STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED</strong>("we", "our", "us"). By accessing or purchasing from our website, you agree to be bound by these Terms. If you do not agree, please do not use our website.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Use License</h2>
-            <p className="text-gray-700 leading-relaxed mb-3">
-              Permission is granted to temporarily access the materials on Shopzy's website for personal, non-commercial 
-              transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">2. Eligibility</h2>
+            <p className="text-gray-700 leading-relaxed">
+              You must be at least 18 years of age and capable of entering into a legally binding contract under applicable law to place orders on our website.
             </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">3. Products, Availability & Pricing</h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
-              <li>Modify or copy the materials</li>
-              <li>Use the materials for any commercial purpose or for any public display</li>
-              <li>Attempt to reverse engineer any software contained on the website</li>
-              <li>Remove any copyright or other proprietary notations from the materials</li>
-              <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+              <li>We sell sarees and women's accessories. Product images are for reference; slight colour or texture variations may occur.</li>
+              <li>Prices are listed in Indian Rupees (INR) and are subject to change at any time without prior notice.</li>
+              <li>Acceptance of your order is subject to product availability and successful payment confirmation.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">3. User Accounts</h2>
-            <p className="text-gray-700 leading-relaxed mb-3">
-              When you create an account with us, you must provide information that is accurate, complete, and current. 
-              You are responsible for:
-            </p>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">4. Orders & Payments</h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
-              <li>Maintaining the security of your account and password</li>
-              <li>All activities that occur under your account</li>
-              <li>Notifying us immediately of any unauthorized use of your account</li>
-              <li>Ensuring that you exit from your account at the end of each session</li>
+              <li>When you place an order, you agree that all information provided is accurate and complete.</li>
+              <li>We reserve the right to cancel any order in case of pricing errors, suspected fraud or other legitimate reasons. Any amount charged will be refunded in such cases.</li>
+              <li>Payments must be made via the methods listed at checkout (UPI/cards/net banking/wallets etc.).</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">4. Products and Pricing</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Product Information</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  We strive to provide accurate product descriptions, images, and pricing. However, we do not warrant 
-                  that product descriptions or other content on this site is accurate, complete, reliable, current, or 
-                  error-free. If a product offered by us is not as described, your sole remedy is to return it in unused condition.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Pricing</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  All prices are in Indian Rupees (INR) and are subject to change without notice. We reserve the right 
-                  to modify prices at any time. In the event of a pricing error, we reserve the right to cancel any orders 
-                  placed at the incorrect price.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">5. Orders and Payment</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Order Acceptance</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Your order is an offer to purchase products from us. We reserve the right to accept or reject your order 
-                  for any reason, including product availability, errors in pricing or product information, or problems 
-                  identified by our credit and fraud avoidance department.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Payment</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Payment must be received by us before we ship your order. We accept various payment methods as indicated 
-                  on our website. You represent and warrant that you have the legal right to use any payment method you use 
-                  in connection with a purchase.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">6. Returns and Refunds</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">5. Shipping & Delivery</h2>
             <p className="text-gray-700 leading-relaxed">
-              Our return and refund policy is detailed in our <Link to="/returns" className="text-gray-900 underline hover:text-gray-700">Returns Policy</Link>. 
-              By making a purchase, you agree to our return and refund policy. We reserve the right to refuse returns that 
-              do not comply with our policy.
+              Shipping timelines, charges and delivery conditions are governed by our Shipping Policy. By placing an order, you agree to those terms as well.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Prohibited Uses</h2>
-            <p className="text-gray-700 leading-relaxed mb-3">
-              You may not use our website:
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">6. Returns, Refunds & Cancellations</h2>
+            <p className="text-gray-700 leading-relaxed">
+              All requests for returns, exchanges, refunds or cancellations are handled in accordance with our Refund & Cancellation Policy.
             </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">7. User Responsibilities</h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
-              <li>In any way that violates any applicable law or regulation</li>
-              <li>To transmit any malicious code, viruses, or harmful data</li>
-              <li>To impersonate or attempt to impersonate the company or any employee</li>
-              <li>In any way that infringes upon the rights of others</li>
-              <li>To engage in any automated use of the system</li>
-              <li>To interfere with or disrupt the website or servers</li>
+              <li>Do not use the website for any unlawful or fraudulent purpose.</li>
+              <li>Do not attempt to gain unauthorised access to our systems.</li>
+              <li>Do not post or transmit any defamatory, abusive, obscene or harmful content.</li>
+              <li>Do not resell our products commercially without written permission.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Intellectual Property</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">8. Intellectual Property</h2>
             <p className="text-gray-700 leading-relaxed">
-              The website and its original content, features, and functionality are owned by Shopzy and are protected by 
-              international copyright, trademark, patent, trade secret, and other intellectual property laws. You may not 
-              reproduce, distribute, modify, create derivative works of, publicly display, or otherwise exploit any of the 
-              content without our prior written permission.
+              All content on the website including logos, product photos, designs, text, graphics and layout is the property of <strong>STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED</strong> or its licensors and is protected by applicable copyright and trademark laws. Unauthorised use, reproduction or distribution is strictly prohibited.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Limitation of Liability</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">9. Limitation of Liability</h2>
             <p className="text-gray-700 leading-relaxed">
-              In no event shall Shopzy, its directors, employees, or agents be liable for any indirect, incidental, special, 
-              consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other 
-              intangible losses, resulting from your use of the website or services.
+              To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special or consequential damages arising out of your use of the website or purchase of products, including but not limited to loss due to courier delays, minor colour variations, improper washing or misuse of products.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Indemnification</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">10. Fraud Prevention</h2>
             <p className="text-gray-700 leading-relaxed">
-              You agree to defend, indemnify, and hold harmless Shopzy and its officers, directors, employees, and agents from 
-              and against any claims, liabilities, damages, losses, and expenses, including without limitation, reasonable 
-              attorney's fees, arising out of or in any way connected with your access to or use of the website or your violation 
-              of these Terms of Service.
+              We reserve the right to cancel orders, block accounts or refuse service in cases of suspected fraud, repeated COD refusals or policy abuse.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Governing Law</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">11. Third-Party Links</h2>
             <p className="text-gray-700 leading-relaxed">
-              These Terms of Service shall be governed by and construed in accordance with the laws of India, without regard to 
-              its conflict of law provisions. Any disputes arising under or in connection with these terms shall be subject to 
-              the exclusive jurisdiction of the courts of Mumbai, India.
+              Our website may contain links to third-party sites such as social media platforms and payment gateways. We are not responsible for the content, privacy practices or terms of those websites.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">12. Changes to Terms</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">12. Changes to These Terms</h2>
             <p className="text-gray-700 leading-relaxed">
-              We reserve the right to modify or replace these Terms of Service at any time. If a revision is material, we will 
-              provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be 
-              determined at our sole discretion.
+              We may modify these Terms from time to time. Updated Terms will be posted on this page. Continued use of the website after such changes constitutes your acceptance of the revised Terms.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">13. Contact Information</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">13. Governing Law & Jurisdiction</h2>
             <p className="text-gray-700 leading-relaxed">
-              If you have any questions about these Terms of Service, please contact us at:
+              These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts at Rajkot, Gujarat.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">14. Grievance Officer & Data Protection Queries</h2>
+            <p className="text-gray-700 leading-relaxed mb-3">
+              In accordance with applicable Indian data-protection regulations, you may contact our Grievance Officer for concerns, complaints or queries relating to your personal data or these Terms.
             </p>
             <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-              <p className="text-gray-700"><strong>Email:</strong> legal@shopzy.com</p>
-              <p className="text-gray-700"><strong>Phone:</strong> +91 1800-123-4567</p>
-              <p className="text-gray-700"><strong>Address:</strong> 123 Shopping Street, Mumbai, India 400001</p>
+              <p className="text-gray-700 mb-2"><strong>Grievance Officer:</strong></p>
+              <p className="text-gray-700 ml-4">• Prem Kumar Yelubandi (Director, Andhra Pradesh)</p>
+              <p className="text-gray-700 ml-4">• Sai Durga Prasad Sundrapalli (Director, Andhra Pradesh)</p>
+              <p className="text-gray-700 mt-3"><strong>Email:</strong> support@shopzyfashion.in</p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">15. Contact Us</h2>
+            <p className="text-gray-700 leading-relaxed mb-3">
+              For any queries regarding these Terms, contact:
+            </p>
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <p className="text-gray-700 font-semibold mb-2"><strong>STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED</strong></p>
+              <p className="text-gray-700"><strong>Email:</strong> support@shopzyfashion.in</p>
+              <div className="text-gray-700">
+                <p className="font-semibold">Address
+                Floor No.: 4th floor
+                Building No./Flat No.: 401, 6-3-862/1
+                Road/Street: Laxmi Nivas
+                Locality/Sub Locality: Begumpet
+                City/Town/Village: Secunderabad
+                District: Medchal Malkajgiri
+                State: Telangana</p>
+                <p className="ml-4 pb-2"><strong>PIN Code:</strong> 500016</p> 
+              </div> 
+              <p className="text-gray-700"><strong>GSTIN:</strong> 36ABQCS3170D1Z8</p>
             </div>
           </section>
         </div>

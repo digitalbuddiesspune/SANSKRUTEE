@@ -14,12 +14,15 @@ const Footer = () => {
           {/* About Section */}
           <div className="md:col-span-1">
             <div className="mb-5 bg-transparent">
-              <img 
-                src="https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png"
-                alt="Shopzy Logo"
-                className="h-12 w-auto object-contain mb-5 filter brightness-110"
-                style={{ backgroundColor: 'transparent', background: 'transparent' }}
-              />
+              <div className="flex items-center gap-2">
+                <img 
+                  src="https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png"
+                  alt="Shopzy Logo"
+                  className="h-12 w-auto object-contain filter brightness-110"
+                  style={{ backgroundColor: 'transparent', background: 'transparent' }}
+                />
+                <span className="text-xl font-serif font-semibold italic text-white">Fashion</span>
+              </div>
             </div>
             <h3 className="text-white text-lg font-bold mb-3 tracking-wide">About Shopzy</h3>
             <p className="text-sm text-gray-300 mb-5 leading-relaxed">
@@ -177,15 +180,9 @@ const Footer = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">support@shopzy.com</span>
-              </li>
-              <li className="flex items-start group">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center mr-3 flex-shrink-0 group-hover:bg-amber-500/20 transition-all duration-300">
-                  <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">+91 1800-123-4567</span>
+                <a href="mailto:support@shopzyfashion.in" className="text-gray-300 group-hover:text-white transition-colors duration-300 break-all">
+                  support@shopzyfashion.in
+                </a>
               </li>
               <li className="flex items-start group">
                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center mr-3 flex-shrink-0 group-hover:bg-amber-500/20 transition-all duration-300">
@@ -194,7 +191,16 @@ const Footer = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">123 Shopping Street,<br />Mumbai, India 400001</span>
+                <div className="text-gray-300 group-hover:text-white transition-colors duration-300">
+                  <p><strong>Floor No.:</strong> 4th floor</p>
+                  <p><strong>Building No./Flat No.:</strong> 401, 6-3-862/1</p>
+                  <p><strong>Road/Street:</strong> Laxmi Nivas</p>
+                  <p><strong>Locality/Sub Locality:</strong> Begumpet</p>
+                  <p><strong>City/Town/Village:</strong> Secunderabad</p>
+                  <p><strong>District:</strong> Medchal Malkajgiri</p>
+                  <p><strong>State:</strong> Telangana</p>
+                  <p><strong>PIN Code:</strong> 500016</p>
+                </div>
               </li>
             </ul>
           </div>
@@ -204,7 +210,7 @@ const Footer = () => {
         <div className="border-t border-white/10 mt-10 sm:mt-12 pt-6 sm:pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
             <p className="text-sm text-gray-400 text-center md:text-left">
-              © 2024 Shopzy. All rights reserved.
+              © 2026 Shopzy. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm">
               <Link 
@@ -219,13 +225,15 @@ const Footer = () => {
               >
                 Terms of Service
               </Link>
-              <Link 
-                to="/cookie-policy" 
-                className="text-gray-400 hover:text-amber-400 transition-all duration-300 hover:underline hover:underline-offset-4"
-              >
-                Cookie Policy
-              </Link>
             </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white/5">
+            <p className="text-sm text-gray-400 text-center mb-2">
+              <strong>STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED</strong>
+            </p>
+            <p className="text-sm text-gray-400 text-center">
+              <strong>GSTIN:</strong> 36ABQCS3170D1Z8
+            </p>
           </div>
         </div>
       </div>

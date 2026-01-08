@@ -21,30 +21,20 @@ const NAV_LINKS = [
   { 
     id: 'watches', 
     label: 'Watches', 
-    path: '/watches', 
-    subItems: [
-      { name: 'Classic Watches', path: '/watches?gender=women' },
-      { name: 'Smart Watches', path: '/watches?type=smart' },
-    ] 
+    path: '/watches'
   },
   { 
     id: 'lenses', 
     label: 'Eyewear', 
     path: '/lenses', 
     subItems: [
-      { name: 'Eyewear Collection', path: '/lenses?gender=women' },
-      { name: 'Sunglasses', path: '/lenses?type=sun' },
+      { name: 'Eyewear Collection', path: '/lenses?gender=women' }
     ] 
   },
   { 
     id: 'accessories', 
-    label: 'Accessories', 
-    path: '/accessories', 
-    subItems: [
-      { name: 'Accessories Collection', path: '/accessories?gender=women' },
-      { name: 'Wallets & Belts', path: '/accessories?type=general' },
-      { name: 'Earrings', path: '/accessories?subCategory=earrings' },
-    ] 
+    label: 'Earrings', 
+    path: '/accessories?subCategory=earrings'
   },
   { 
     id: 'shoes', 
@@ -168,12 +158,13 @@ const Navbar = () => {
 
             {/* LEFT: Logo */}
             <div className="flex-shrink-0">
-              <Link to="/" className="flex items-center">
+              <Link to="/" className="flex items-center gap-2">
                 <img 
                   src="https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png"
                   alt="Shopzy Logo"
                   className="h-7 lg:h-8 w-auto object-contain"
                 />
+                <span className="text-lg sm:text-xl font-serif font-semibold italic text-gray-900">Fashion</span>
               </Link>
             </div>
 
@@ -333,35 +324,57 @@ const Navbar = () => {
             </Link>
             {NAV_LINKS.map((link) => (
               <div key={link.id} className="border-b border-gray-100 last:border-0">
-                <button 
-                  onClick={() => toggleMobileAccordion(link.id)}
-                  className="w-full flex items-center justify-between py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors"
-                >
-                  <span>{link.label}</span>
-                  <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedMobileCategory === link.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                
-                <div className={`overflow-hidden transition-all ${expandedMobileCategory === link.id ? 'max-h-96 opacity-100 pb-2' : 'max-h-0 opacity-0'}`}>
-                  <div className="pl-4 space-y-2 pt-1">
-                    {link.subItems.map((sub, idx) => (
-                      <Link 
-                        key={idx} 
-                        to={sub.path} 
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block text-sm text-gray-600 hover:text-[#3D2817] transition-colors"
-                      >
-                        {sub.name}
-                      </Link>
-                    ))}
-                    <Link to={link.path} onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium text-[#3D2817] hover:text-[#2C1F14] pt-2 transition-colors">Shop All</Link>
-                  </div>
-                </div>
+                {link.subItems && link.subItems.length > 0 ? (
+                  <>
+                    <button 
+                      onClick={() => toggleMobileAccordion(link.id)}
+                      className="w-full flex items-center justify-between py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors"
+                    >
+                      <span>{link.label}</span>
+                      <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedMobileCategory === link.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    <div className={`overflow-hidden transition-all ${expandedMobileCategory === link.id ? 'max-h-96 opacity-100 pb-2' : 'max-h-0 opacity-0'}`}>
+                      <div className="pl-4 space-y-2 pt-1">
+                        {link.subItems.map((sub, idx) => (
+                          <Link 
+                            key={idx} 
+                            to={sub.path} 
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block text-sm text-gray-600 hover:text-[#3D2817] transition-colors"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                        <Link to={link.path} onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium text-[#3D2817] hover:text-[#2C1F14] pt-2 transition-colors">Shop All</Link>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <Link 
+                    to={link.path} 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </div>
             ))}
             <Link to="/sale" className="block py-2.5 text-sm font-medium text-[#3D2817] hover:text-[#2C1F14] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
               Sale
+            </Link>
+          </div>
+
+          {/* Contact & About Links */}
+          <div className="p-5 border-t border-gray-200 space-y-1">
+            <Link to="/contact" className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+              Contact Us
+            </Link>
+            <Link to="/about" className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+              About
             </Link>
           </div>
         </div>

@@ -84,8 +84,7 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
             <div className="space-y-1 text-sm">
               <p className="font-bold text-gray-900" style={{ fontFamily: "'Dancing Script', cursive" }}>Shopzy</p>
               <p className="text-gray-600">Fashion & Lifestyle Store</p>
-              <p className="text-gray-600">Email: support@shopzy.com</p>
-              <p className="text-gray-600">Phone: +91 1800-XXX-XXXX</p>
+              <p className="text-gray-600">Email: support@shopzyfashion.in</p>
             </div>
           </div>
           <div>
@@ -101,9 +100,6 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
                   {order.shippingAddress.state && `, ${order.shippingAddress.state}`}
                   {order.shippingAddress.zipCode && ` - ${order.shippingAddress.zipCode}`}
                 </p>
-              )}
-              {order?.shippingAddress?.phone && (
-                <p className="text-gray-600">Phone: {order.shippingAddress.phone}</p>
               )}
             </div>
           </div>

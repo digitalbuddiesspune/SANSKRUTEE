@@ -19,7 +19,7 @@ const fetchFreshDrops = async () => {
   try {
     const [womenShoes, accessories, watches, lenses] = await Promise.all([
       productAPI.getWomenItems({ limit: 10, category: 'shoes' }),
-      productAPI.getAccessories({ limit: 10 }),
+      productAPI.getAccessories({ limit: 10, subCategory: 'earrings' }),
       productAPI.getWatches({ limit: 10 }),
       productAPI.getLenses({ limit: 10 })
     ]);
@@ -73,7 +73,7 @@ const fetchAccessories = async () => {
   try {
     const [lenses, acc] = await Promise.all([
       productAPI.getLenses({ limit: 2 }),
-      productAPI.getAccessories({ limit: 2 })
+      productAPI.getAccessories({ limit: 2, subCategory: 'earrings' })
     ]);
     let combined = [];
     if (lenses.success) combined = [...combined, ...lenses.data.products];
@@ -198,7 +198,7 @@ const Home = () => {
           productAPI.getWomenItems({ subCategory: 'tshirt', limit: 5 }).then(res => res.success ? res.data.products : []),
           productAPI.getWatches({ limit: 5 }).then(res => res.success ? res.data.products : []),
           productAPI.getLenses({ limit: 5 }).then(res => res.success ? res.data.products : []),
-          productAPI.getAccessories({ limit: 5 }).then(res => res.success ? res.data.products : [])
+          productAPI.getAccessories({ limit: 5, subCategory: 'earrings' }).then(res => res.success ? res.data.products : [])
         ]);
         setFreshDrops(freshDropsData);
         setSaleItems(saleData);
@@ -493,30 +493,20 @@ const Home = () => {
     { 
       id: 'watches', 
       label: 'Watches', 
-      path: '/watches', 
-      subItems: [
-        { name: 'Classic Watches', path: '/watches?gender=women' },
-        { name: 'Smart Watches', path: '/watches?type=smart' }
-      ] 
+      path: '/watches'
     },
     { 
       id: 'lenses', 
       label: 'Eyewear', 
       path: '/lenses', 
       subItems: [
-        { name: 'Eyewear Collection', path: '/lenses?gender=women' },
-        { name: 'Sunglasses', path: '/lenses?type=sun' }
+        { name: 'Eyewear Collection', path: '/lenses?gender=women' }
       ] 
     },
     { 
       id: 'accessories', 
-      label: 'Accessories', 
-      path: '/accessories', 
-      subItems: [
-        { name: 'Accessories Collection', path: '/accessories?gender=women' },
-        { name: 'Wallets & Belts', path: '/accessories?type=general' },
-        { name: 'Earrings', path: '/accessories?subCategory=earrings' }
-      ] 
+      label: 'Earrings', 
+      path: '/accessories?subCategory=earrings'
     },
     { 
       id: 'skincare', 
@@ -1281,24 +1271,24 @@ const Home = () => {
                   </div>
                 </Link>
 
-                {/* Category 7 - Accessories */}
+                {/* Category 7 - Earrings */}
                 <Link 
-                  to="/accessories" 
+                  to="/accessories?subCategory=earrings" 
                   className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
                 >
                   <div className="relative w-full h-32 sm:h-40 lg:h-48">
                     <img
                       src={optimizeImageUrl('https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop', 50)}
-                      alt="Accessories"
+                      alt="Earrings"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Accessories';
+                        e.target.src = 'https://via.placeholder.com/400x400?text=Earrings';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                       <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Accessories
+                        Earrings
                       </h3>
                       <p className="text-xs text-white/90">
                         Essentials
@@ -1478,8 +1468,8 @@ const Home = () => {
             </div>
           </Link>
 
-          {/* Column 3: Accessories & Watches */}
-          <Link to="/watches" className="relative group overflow-hidden bg-[#FAF8F5] border border-[#3D2817]/30 luxury-shadow transition-all duration-300">
+          {/* Column 3: Earrings & Watches */}
+          <Link to="/accessories?subCategory=earrings" className="relative group overflow-hidden bg-[#FAF8F5] border border-[#3D2817]/30 luxury-shadow transition-all duration-300">
             {/* Content */}
             <div className="relative z-10 p-4 sm:p-5 lg:p-6">
               {/* Brand/Logo */}
@@ -1491,9 +1481,9 @@ const Home = () => {
                   style={{ backgroundColor: 'transparent', background: 'transparent' }}
                 />
                 <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#3D2817' }}>
-                  Accessories
+                  Earrings
                 </h2>
-                <p className="text-xs sm:text-sm mt-1" style={{ color: '#3D2817', opacity: 0.7 }}>Watches & More</p>
+                <p className="text-xs sm:text-sm mt-1" style={{ color: '#3D2817', opacity: 0.7 }}>Elegant Earrings</p>
       </div>
               
               {/* Products Display */}
@@ -1930,11 +1920,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-    
-
-
-      
       <div className="w-fit m-0 p-0 leading-none overflow-visible h-auto w-auto hidden lg:block">
         <img
           src="https://res.cloudinary.com/de1bg8ivx/image/upload/v1765186240/d347cf32-1980-4355-9ac5-9168cf727263.png"

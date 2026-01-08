@@ -281,18 +281,6 @@ const SpecialCollection = ({ type }) => {
                         <p className="text-xs sm:text-sm uppercase tracking-wide text-[#3D2817]/60 font-semibold mb-3">Subcategories</p>
                         <div className="flex flex-wrap gap-2 sm:gap-3">
                           <Link
-                            to="/accessories"
-                            className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#3D2817] border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb]"
-                          >
-                            Accessories Collection
-                          </Link>
-                          <Link
-                            to="/accessories?type=general"
-                            className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#3D2817] border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb]"
-                          >
-                            Wallets & Belts
-                          </Link>
-                          <Link
                             to="/accessories?subCategory=earrings"
                             className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#3D2817] border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb]"
                           >

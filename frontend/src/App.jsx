@@ -24,14 +24,15 @@ import BillingPage from './pages/mobile/BillingPage';
 import SecurityPage from './pages/mobile/SecurityPage';
 import NotificationsPage from './pages/mobile/NotificationsPage';
 import ContactUs from './pages/ContactUs';
+import About from './pages/About';
 import FAQ from './pages/FAQ';
 import ShippingInfo from './pages/ShippingInfo';
+import ShippingPolicy from './pages/ShippingPolicy';
 import Returns from './pages/Returns';
 import TrackOrder from './pages/TrackOrder';
 import SizeGuide from './pages/SizeGuide';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
-import CookiePolicy from './pages/CookiePolicy';
 import OrderSuccess from './pages/OrderSuccess';
 import SearchResults from './pages/SearchResults';
 import RecentlyViewed from './pages/RecentlyViewed';
@@ -134,14 +135,15 @@ function AppContent() {
           <Route path="/profile/notifications" element={<NotificationsPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/shipping" element={<ShippingInfo />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/returns" element={<Returns />} />
           <Route path="/track-order" element={<TrackOrder />} />
           <Route path="/size-guide" element={<SizeGuide />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/recently-viewed" element={<RecentlyViewed />} />

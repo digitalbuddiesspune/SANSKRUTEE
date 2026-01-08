@@ -543,8 +543,6 @@ const CategoryPage = () => {
                     const getSubcategories = () => {
                       if (pathname === '/accessories' || pathname.startsWith('/accessories')) {
                         return [
-                          { name: 'Accessories Collection', path: '/accessories', key: 'collection' },
-                          { name: 'Wallets & Belts', path: '/accessories?type=general', key: 'wallets' },
                           { name: 'Earrings', path: '/accessories?subCategory=earrings', key: 'earrings' },
                         ];
                       } else if (pathname === '/women' || pathname.startsWith('/women/')) {
@@ -564,14 +562,10 @@ const CategoryPage = () => {
                           { name: 'Sandals', path: '/shoes?subCategory=Sandals', key: 'sandals' },
                         ];
                       } else if (pathname === '/watches' || pathname.startsWith('/watches')) {
-                        return [
-                          { name: 'Classic Watches', path: '/watches?gender=women', key: 'classic' },
-                          { name: 'Smart Watches', path: '/watches?type=smart', key: 'smart' },
-                        ];
+                        return [];
                       } else if (pathname === '/lenses' || pathname.startsWith('/lenses')) {
                         return [
                           { name: 'Eyewear Collection', path: '/lenses?gender=women', key: 'eyewear' },
-                          { name: 'Sunglasses', path: '/lenses?type=sun', key: 'sunglasses' },
                         ];
                       } else if (pathname === '/skincare' || pathname.startsWith('/skincare')) {
                         return [
