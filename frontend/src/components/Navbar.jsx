@@ -164,7 +164,7 @@ const Navbar = () => {
                   alt="Shopzy Logo"
                   className="h-7 lg:h-8 w-auto object-contain"
                 />
-                <span className="text-lg sm:text-xl font-serif font-semibold italic text-gray-900">Fashion</span>
+                <span className="text-lg sm:text-xl font-sans font-light tracking-wider text-gray-900">Fashion</span>
               </Link>
             </div>
 

@@ -21,7 +21,7 @@ const Footer = () => {
                   className="h-12 w-auto object-contain filter brightness-110"
                   style={{ backgroundColor: 'transparent', background: 'transparent' }}
                 />
-                <span className="text-xl font-serif font-semibold italic text-white">Fashion</span>
+                <span className="text-xl font-sans font-light tracking-wider text-white">Fashion</span>
               </div>
             </div>
             <h3 className="text-white text-lg font-bold mb-3 tracking-wide">About Shopzy</h3>
