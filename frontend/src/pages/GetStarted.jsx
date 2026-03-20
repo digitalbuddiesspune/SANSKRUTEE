@@ -41,7 +41,7 @@ const GetStarted = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#1A1209] font-sans">
+    <div className="min-h-screen bg-[#1A2F2A] font-sans">
       {/* MOBILE VIEW */}
       <div className="lg:hidden min-h-screen flex flex-col">
         {/* Top Section - Product Posters in Single Line */}
@@ -64,7 +64,7 @@ const GetStarted = () => {
                   className="w-full h-full object-cover"
                   style={{ objectFit: 'cover' }}
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/128x192/3D2817/FAF8F5?text=Product';
+                    e.target.src = 'https://via.placeholder.com/128x192/2B6B5A/F5F0E8?text=Product';
                   }}
                 />
               </div>
@@ -100,13 +100,13 @@ const GetStarted = () => {
         <div className="px-6 pb-8 space-y-4">
           <button
             onClick={() => navigate('/signup')}
-            className="w-full py-4 bg-[#8B4513] hover:bg-[#A0522D] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
+            className="w-full py-4 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
           >
             SIGN UP
           </button>
           <button
             onClick={() => navigate('/login')}
-            className="w-full py-4 bg-[#3D2817] hover:bg-[#2C1F14] text-white font-bold text-lg rounded-lg transition-colors"
+            className="w-full py-4 bg-[#1A2F2A] hover:bg-[#142822] text-white font-bold text-lg rounded-lg transition-colors"
           >
             LOG IN
           </button>
@@ -114,7 +114,7 @@ const GetStarted = () => {
       </div>
 
       {/* DESKTOP VIEW */}
-      <div className="hidden lg:flex min-h-screen bg-[#1A1209]">
+      <div className="hidden lg:flex min-h-screen bg-[#1A2F2A]">
         <div className="max-w-6xl mx-auto w-full flex flex-col justify-center items-center px-8 py-12">
           {/* Product Images in Single Horizontal Line */}
           <div className="w-full mb-12 overflow-x-auto scrollbar-hide">
@@ -130,7 +130,7 @@ const GetStarted = () => {
                     className="w-full h-full object-cover"
                     style={{ objectFit: 'cover' }}
                     onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/192x288/3D2817/FAF8F5?text=Product';
+                      e.target.src = 'https://via.placeholder.com/192x288/2B6B5A/F5F0E8?text=Product';
                     }}
                   />
                 </div>
@@ -166,13 +166,13 @@ const GetStarted = () => {
           <div className="flex gap-4 w-full max-w-md">
             <button
               onClick={() => navigate('/signup')}
-              className="flex-1 py-4 bg-[#8B4513] hover:bg-[#A0522D] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
+              className="flex-1 py-4 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
             >
               SIGN UP
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="flex-1 py-4 bg-[#3D2817] hover:bg-[#2C1F14] text-white font-bold text-lg rounded-lg transition-colors"
+              className="flex-1 py-4 bg-[#1A2F2A] hover:bg-[#142822] text-white font-bold text-lg rounded-lg transition-colors"
             >
               LOG IN
             </button>

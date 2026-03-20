@@ -4,11 +4,10 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import CartSidebar from './CartSidebar';
 
-// --- DATA CONFIGURATION (Moved outside component for performance) ---
 const NAV_LINKS = [
   { 
     id: 'women', 
-    label: 'Fashion', 
+    label: 'New Collection', 
     path: '/women', 
     subItems: [
       { name: 'Shirts', path: '/women/shirt' },
@@ -62,61 +61,47 @@ const NAV_LINKS = [
   },
 ];
 
+const MARQUEE_TEXT = '  +++  NEW COLLECTION  +++  OPEN FOR NEW COLLECTION  +++  CREATING NEW COLLECTION  +++  OPEN FOR NEW COLLECTION  +++  ';
+
 const Navbar = () => {
-  // Context
   const { getCartItemsCount } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
-  
-  // Router
   const location = useLocation();
   const navigate = useNavigate();
-  
-  // States
+
   const [activeCategory, setActiveCategory] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false); // Mobile search
-  const [isDesktopSearchExpanded, setIsDesktopSearchExpanded] = useState(false); // Desktop search animation
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isDesktopSearchExpanded, setIsDesktopSearchExpanded] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
-  
-  // Refs for click outside
+
   const searchInputRef = useRef(null);
 
-  // --- EFFECTS ---
-
-  // Handle Active Category Highlighting
   useEffect(() => {
     const path = location.pathname;
     const foundLink = NAV_LINKS.find(link => path.includes(link.path));
-    
     if (path === '/') setActiveCategory('home');
     else if (path.includes('/sale')) setActiveCategory('sale');
     else if (foundLink) setActiveCategory(foundLink.id);
     else setActiveCategory('');
-    
-    // Close menus on route change
     setIsMobileMenuOpen(false);
     setIsSearchOpen(false);
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // Handle Scroll Styling - Simple shadow on scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle Body Lock
   useEffect(() => {
     document.body.style.overflow = (isMobileMenuOpen || isCartSidebarOpen || isSearchOpen) ? 'hidden' : 'unset';
   }, [isMobileMenuOpen, isCartSidebarOpen, isSearchOpen]);
 
-  // Handle Click Outside for Desktop Search
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
@@ -126,8 +111,6 @@ const Navbar = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [searchQuery]);
-
-  // --- HANDLERS ---
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -145,259 +128,266 @@ const Navbar = () => {
 
   return (
     <>
-      {/* =======================
-               MAIN NAVBAR
-          ======================= */}
-      <nav 
-        className={`sticky top-0 left-0 right-0 z-50 bg-white border-b ${
-          isScrolled ? 'border-gray-200 shadow-sm' : 'border-transparent'
-        } transition-colors duration-200`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 gap-4 lg:gap-6">
+      {/* MARQUEE TICKER — teal bg, gold text, elegant style */}
+      <div className="w-full bg-[#2B6B5A] overflow-hidden select-none">
+        <div className="h-7 flex items-center">
+          <div className="marquee-track">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-[#C4A265] whitespace-nowrap">
+              {MARQUEE_TEXT}{MARQUEE_TEXT}
+            </span>
+          </div>
+        </div>
+      </div>
 
-            {/* LEFT: Logo */}
-            <div className="flex-shrink-0">
-              <Link to="/" className="flex items-center gap-2">
+      {/* MAIN NAVBAR — clean, cream bg, elegant style */}
+      <nav className={`sticky top-0 left-0 right-0 z-50 bg-[#FAF6F0] transition-shadow duration-200 ${isScrolled ? 'shadow-[0_1px_0_#E0D8CE]' : ''}`}>
+        
+        {/* Top row: Logo | Nav Links | Icons */}
+        <div className="border-b border-[#E0D8CE]">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="flex items-center justify-between h-14">
+
+              {/* LEFT: Logo */}
+              <Link to="/" className="flex items-center gap-2 flex-shrink-0">
                 <img 
-                  src="https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png"
-                  alt="Shopzy Logo"
-                  className="h-7 lg:h-8 w-auto object-contain"
+                  src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
+                  alt="Logo"
+                  className="h-12 w-auto object-contain"
                 />
-                <span className="text-lg sm:text-xl font-sans font-light tracking-wider text-gray-900">Fashion</span>
+                <span className="text-sm sm:text-base font-bold uppercase tracking-[0.1em] text-[#1A2F2A]"></span>
               </Link>
-            </div>
 
-            {/* CENTER: Search Bar */}
-            <div className="hidden md:flex flex-1 max-w-md mx-4 lg:mx-6">
-              <form 
-                onSubmit={handleSearch} 
-                ref={searchInputRef}
-                className="flex items-center w-full bg-gray-50 border border-gray-200 rounded-full overflow-hidden focus-within:border-[#3D2817] focus-within:ring-1 focus-within:ring-[#3D2817] transition-colors"
-              >
-                <button 
-                  type="submit" 
-                  className="p-2 text-gray-500 hover:text-[#3D2817] transition-colors flex-shrink-0"
+              {/* CENTER: Desktop Nav Links */}
+              <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+                {NAV_LINKS.slice(0, 5).map((link) => (
+                  <Link
+                    key={link.id}
+                    to={link.path}
+                    className={`text-[11px] xl:text-xs font-semibold uppercase tracking-[0.08em] transition-colors duration-200 ${
+                      activeCategory === link.id ? 'text-[#2B6B5A]' : 'text-[#8B9A95] hover:text-[#2B6B5A]'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Link
+                  to="/sale"
+                  className={`text-[11px] xl:text-xs font-bold uppercase tracking-[0.08em] transition-colors duration-200 ${
+                    activeCategory === 'sale' ? 'text-[#C4A265]' : 'text-[#8B9A95] hover:text-[#C4A265]'
+                  }`}
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  Sale +++
+                </Link>
+              </div>
+
+              {/* RIGHT: Icons */}
+              <div className="flex items-center gap-1">
+                {/* Search Icon (hide on mobile) */}
+                <button
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  className="hidden md:flex w-9 h-9 items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors"
+                >
+                  <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </button>
-                <input 
-                  type="text" 
-                  className="flex-1 bg-transparent border-none outline-none px-2 py-1.5 text-sm text-gray-900 placeholder-gray-400"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsDesktopSearchExpanded(true)}
-                />
-              </form>
-            </div>
 
-            {/* RIGHT: Icons */}
-            <div className="flex items-center gap-3 lg:gap-4">
-              {/* User Icon */}
-              {isAuthenticated ? (
-                <Link to="/profile" className="hidden md:block p-1.5 text-gray-600 hover:text-[#3D2817] transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </Link>
-              ) : (
-                <Link to="/get-started" className="hidden md:block p-1.5 text-gray-600 hover:text-[#3D2817] transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </Link>
-              )}
-              
-              {/* Shopping Bag Icon */}
-              <button 
-                onClick={() => setIsCartSidebarOpen(true)}
-                className="relative p-1.5 text-gray-600 hover:text-[#3D2817] transition-colors"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                {getCartItemsCount() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#3D2817] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full leading-none">
-                    {getCartItemsCount() > 99 ? '99+' : getCartItemsCount()}
-                  </span>
+                {/* User Icon */}
+                {isAuthenticated ? (
+                  <Link to="/profile" className="hidden sm:flex w-9 h-9 items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors">
+                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </Link>
+                ) : (
+                  <Link to="/get-started" className="hidden sm:flex w-9 h-9 items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors">
+                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </Link>
                 )}
-              </button>
 
-              {/* Hamburger Menu - Visible on all screens */}
-              <button 
-                onClick={() => setIsMobileMenuOpen(true)}
-                className="p-1.5 text-gray-600 hover:text-[#3D2817] transition-colors"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
+                {/* Cart */}
+                <button 
+                  onClick={() => setIsCartSidebarOpen(true)}
+                  className="relative w-9 h-9 flex items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors"
+                >
+                  <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  {getCartItemsCount() > 0 && (
+                    <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 px-1 bg-[#2B6B5A] text-[#FAF6F0] text-[9px] font-bold flex items-center justify-center leading-none">
+                      {getCartItemsCount() > 99 ? '99+' : getCartItemsCount()}
+                    </span>
+                  )}
+                </button>
+
+                {/* Cart count text (desktop) */}
+                <span className="hidden lg:inline text-[11px] font-semibold uppercase tracking-wider text-[#1A2F2A] mr-1">
+                   
+                </span>
+
+                {/* Hamburger */}
+                <button 
+                  onClick={() => setIsMobileMenuOpen(true)}
+                  className="lg:hidden w-9 h-9 flex items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors"
+                >
+                  <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+
+                {/* Shop All New CTA removed */}
+              </div>
             </div>
           </div>
         </div>
       </nav>
 
+      {/* SEARCH OVERLAY */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-[70] bg-[#FAF6F0] animate-fadeIn">
+          <div className="max-w-2xl mx-auto px-6 pt-20">
+            <form onSubmit={handleSearch} className="relative">
+              <input
+                ref={searchInputRef}
+                type="text"
+                className="w-full border-b-2 border-[#2B6B5A] bg-transparent outline-none text-2xl sm:text-3xl font-bold text-[#1A2F2A] placeholder-[#8B9A95] pb-4"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+            </form>
+            <button 
+              onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}
+              className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
 
-
-
-
-      {/* =======================
-          SIDE DRAWER (Desktop & Mobile) - Cart Sidebar Style
-      ======================== */}
-      {/* Overlay */}
+      {/* SIDE DRAWER */}
       <div 
-        className={`fixed inset-0 bg-black/40 z-[60] transition-opacity ${
+        className={`fixed inset-0 bg-black/40 z-[60] transition-opacity duration-300 ${
           isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* Drawer */}
       <div 
-        className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-[61] flex flex-col border-l border-gray-200 overflow-hidden shadow-xl transition-transform ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[380px] bg-[#FAF6F0] z-[61] flex flex-col overflow-hidden transition-transform duration-300 ease-out ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-200 bg-white">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Menu
-          </h2>
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between px-5 h-14 border-b border-[#E0D8CE]">
+          <span className="text-xs font-bold uppercase tracking-[0.12em] text-[#1A2F2A]">Menu</span>
           <button 
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 text-gray-500 hover:text-gray-900 transition-colors"
+            className="w-9 h-9 flex items-center justify-center text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {/* Content - Scrollable */}
         <div className="flex-1 overflow-y-auto">
-          {/* User Info */}
           {isAuthenticated && (
-            <div className="p-5 border-b border-gray-200 bg-gray-50">
-              <p className="text-sm text-gray-600">Hello, <span className="font-semibold text-gray-900">{user?.name}</span></p>
+            <div className="px-5 py-4 border-b border-[#E0D8CE] bg-[#F0EBE3]">
+              <p className="text-xs text-[#8B9A95]">Hello, <span className="font-bold text-[#1A2F2A]">{user?.name}</span></p>
             </div>
           )}
 
-          {/* Auth quick actions */}
-          <div className="p-5 flex items-center gap-3 border-b border-gray-200">
+          {/* Auth actions */}
+          <div className="px-5 py-4 flex gap-3 border-b border-[#E0D8CE]">
             {isAuthenticated ? (
               <>
-                <Link
-                  to="/profile"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-white bg-[#3D2817] hover:bg-[#2C1F14] transition-colors rounded-lg"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex-1 btn-neon text-center text-[10px] py-3">
                   Profile
                 </Link>
-                <button
-                  onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-gray-700 border border-gray-300 bg-white hover:bg-gray-50 transition-colors rounded-lg"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="flex-1 btn-black text-center text-[10px] py-3">
                   Logout
                 </button>
               </>
             ) : (
-              <Link
-                to="/get-started"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full py-3 text-center text-sm font-semibold text-white bg-[#3D2817] hover:bg-[#2C1F14] transition-colors rounded-lg"
-              >
+              <Link to="/get-started" onClick={() => setIsMobileMenuOpen(false)} className="w-full btn-neon text-center text-[10px] py-3">
                 Get Started
               </Link>
             )}
           </div>
 
-          {/* Categories */}
-          <div className="p-5 space-y-1">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Categories</p>
-            <Link to="/" className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+          {/* Category Links */}
+          <div className="px-5 py-4">
+            <Link to="/" className="block py-3 text-sm font-semibold text-[#1A2F2A] uppercase tracking-wide border-b border-[#E0D8CE]" onClick={() => setIsMobileMenuOpen(false)}>
               Home
             </Link>
             {NAV_LINKS.map((link) => (
-              <div key={link.id} className="border-b border-gray-100 last:border-0">
+              <div key={link.id} className="border-b border-[#E0D8CE]">
                 {link.subItems && link.subItems.length > 0 ? (
                   <>
                     <button 
                       onClick={() => toggleMobileAccordion(link.id)}
-                      className="w-full flex items-center justify-between py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors"
+                      className="w-full flex items-center justify-between py-3 text-sm font-semibold text-[#1A2F2A] uppercase tracking-wide"
                     >
                       <span>{link.label}</span>
-                      <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedMobileCategory === link.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <svg className={`w-3.5 h-3.5 text-[#8B9A95] transition-transform duration-200 ${expandedMobileCategory === link.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    
-                    <div className={`overflow-hidden transition-all ${expandedMobileCategory === link.id ? 'max-h-96 opacity-100 pb-2' : 'max-h-0 opacity-0'}`}>
-                      <div className="pl-4 space-y-2 pt-1">
+                    <div className={`overflow-hidden transition-all duration-200 ${expandedMobileCategory === link.id ? 'max-h-96 pb-2' : 'max-h-0'}`}>
+                      <div className="pl-4 space-y-1">
                         {link.subItems.map((sub, idx) => (
-                          <Link 
-                            key={idx} 
-                            to={sub.path} 
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="block text-sm text-gray-600 hover:text-[#3D2817] transition-colors"
-                          >
+                          <Link key={idx} to={sub.path} onClick={() => setIsMobileMenuOpen(false)}
+                            className="block py-2 text-xs text-[#8B9A95] hover:text-[#1A2F2A] uppercase tracking-wide transition-colors">
                             {sub.name}
                           </Link>
                         ))}
-                        <Link to={link.path} onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium text-[#3D2817] hover:text-[#2C1F14] pt-2 transition-colors">Shop All</Link>
+                        <Link to={link.path} onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-xs font-bold text-[#1A2F2A] uppercase tracking-wide">
+                          Shop All
+                        </Link>
                       </div>
                     </div>
                   </>
                 ) : (
-                  <Link 
-                    to={link.path} 
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors"
-                  >
+                  <Link to={link.path} onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-3 text-sm font-semibold text-[#1A2F2A] uppercase tracking-wide">
                     {link.label}
                   </Link>
                 )}
               </div>
             ))}
-            <Link to="/sale" className="block py-2.5 text-sm font-medium text-[#3D2817] hover:text-[#2C1F14] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-              Sale
+            <Link to="/sale" onClick={() => setIsMobileMenuOpen(false)}
+              className="block py-3 text-sm font-bold text-[#1A2F2A] uppercase tracking-wide border-b border-[#E0D8CE]">
+              +++ Sale +++
             </Link>
           </div>
 
-          {/* Contact & About Links */}
-          <div className="p-5 border-t border-gray-200 space-y-1">
-            <Link to="/contact" className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="px-5 py-4 border-t border-[#E0D8CE] space-y-0">
+            <Link to="/contact" className="block py-3 text-xs font-semibold text-[#8B9A95] hover:text-[#1A2F2A] uppercase tracking-wide transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
               Contact Us
             </Link>
-            <Link to="/about" className="block py-2.5 text-sm font-medium text-gray-900 hover:text-[#3D2817] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
-              About
+            <Link to="/about" className="block py-3 text-xs font-semibold text-[#8B9A95] hover:text-[#1A2F2A] uppercase tracking-wide transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+              About Brand
             </Link>
           </div>
         </div>
 
-        {/* Footer Actions */}
         {!isAuthenticated && (
-          <div className="border-t border-gray-200 bg-white p-4">
-            <Link
-              to="/get-started" 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="w-full py-2.5 text-center text-sm font-semibold text-white bg-[#3D2817] hover:bg-[#2C1F14] transition-colors rounded-lg"
-            >
+          <div className="border-t border-[#E0D8CE] p-5">
+            <Link to="/get-started" onClick={() => setIsMobileMenuOpen(false)} className="w-full block text-center btn-neon">
               Get Started
             </Link>
           </div>
         )}
       </div>
 
-      {/* Cart Sidebar */}
-      <CartSidebar 
-        isOpen={isCartSidebarOpen} 
-        onClose={() => setIsCartSidebarOpen(false)} 
-      />
+      <CartSidebar isOpen={isCartSidebarOpen} onClose={() => setIsCartSidebarOpen(false)} />
     </>
   );
 };

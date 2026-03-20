@@ -5,7 +5,7 @@ import { authAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
 const LeftIcon = ({ children }) => (
-  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#3D2817]/40">
+  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8B9A95]">
     {children}
   </div>
 );
@@ -115,10 +115,10 @@ const LoginOTP = () => {
     }
   };
 
-  const inputClass = "block w-full pl-10 pr-3 py-2.5 sm:py-3 border-2 border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] placeholder-[#120e0f]/40 focus:outline-none focus:border-[#bb3435] sm:text-sm transition-colors duration-150";
+  const inputClass = "block w-full pl-10 pr-3 py-2.5 sm:py-3 border-2 border-[#E0D8CE] bg-[#F5F0E8] text-[#1A2F2A] placeholder-[#8B9A95] focus:outline-none focus:border-[#2B6B5A] focus:ring-1 focus:ring-[#2B6B5A] sm:text-sm transition-colors duration-150";
 
   return (
-    <div className="fixed inset-0 z-50 flex min-h-screen bg-[#FAF8F5] font-sans">
+    <div className="fixed inset-0 z-50 flex min-h-screen bg-[#F5F0E8] font-sans">
       {/* Left Side */}
       <div 
         className="hidden lg:flex flex-col justify-between w-[45%] p-12 text-white relative overflow-hidden bg-cover bg-center"
@@ -136,7 +136,7 @@ const LoginOTP = () => {
             </div>
             <div>
               <span className="text-xl font-bold text-white tracking-tight leading-none block" style={{ fontFamily: "'Dancing Script', cursive" }}>
-                Shopzy
+                Sanskrutee
               </span>
             </div>
           </div>
@@ -144,19 +144,19 @@ const LoginOTP = () => {
             Secure Login.
           </h1>
         </div>
-        <div className="relative z-10 text-sm text-gray-300 drop-shadow-sm">
-          © 2024 Shopzy. All rights reserved.
+        <div className="relative z-10 text-sm text-white/75 drop-shadow-sm">
+          © 2024 Sanskrutee. All rights reserved.
         </div>
       </div>
 
       {/* Right Side */}
-      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 overflow-y-auto bg-[#FAF8F5]">
+      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 overflow-y-auto bg-[#F5F0E8]">
         <div className="w-full max-w-md space-y-4 sm:space-y-6 lg:space-y-8">
           <div className="text-center lg:text-left">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#3D2817] tracking-tight">Login via OTP</h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#3D2817]/60">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A2F2A] tracking-tight">Login via OTP</h2>
+            <p className="mt-2 text-xs sm:text-sm text-[#8B9A95]">
               Go back to{' '}
-              <Link to="/login" className="font-medium text-[#bb3435] hover:underline underline-offset-2 transition-colors">
+              <Link to="/login" className="font-medium text-[#C4A265] hover:underline underline-offset-2 transition-colors">
                 Standard Login
               </Link>
             </p>
@@ -164,7 +164,7 @@ const LoginOTP = () => {
 
           <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={expandForm ? handleVerifyOtp : handleSendOtp}>
             {error && (
-              <div className="bg-[#FAF8F5] border-2 border-[#bb3435] p-3 sm:p-4 text-xs sm:text-sm text-[#bb3435]">
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 text-xs sm:text-sm text-red-600">
                 <p>{error}</p>
               </div>
             )}
@@ -259,7 +259,7 @@ const LoginOTP = () => {
               <button
                 type="submit"
                 disabled={isLoading || isVerifying}
-                className="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border-2 border-[#3D2817]/30 bg-[#3D2817] text-[#fefcfb] text-xs sm:text-sm font-semibold uppercase tracking-tight hover:bg-[#3D2817]/90 focus:outline-none transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border-2 border-[#2B6B5A] bg-[#2B6B5A] text-white text-xs sm:text-sm font-semibold uppercase tracking-tight hover:bg-[#1A4D3F] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:ring-offset-2 focus:ring-offset-[#F5F0E8] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? "Sending OTP..." : isVerifying ? "Verifying..." : (expandForm ? 'Verify OTP' : 'Send OTP')}
               </button>

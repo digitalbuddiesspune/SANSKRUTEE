@@ -3,7 +3,7 @@
  * Stores products in localStorage and in-memory cache to avoid re-fetching
  */
 
-const CACHE_PREFIX = 'shopzy_products_';
+const CACHE_PREFIX = 'sanskrutee_products_';
 const CACHE_VERSION = 'v1';
 const DEFAULT_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
 

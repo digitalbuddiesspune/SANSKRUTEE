@@ -715,13 +715,13 @@ const ProductDetail = () => {
     <>
       <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
 
-      <div className="min-h-screen bg-[#FAF8F5]">
+      <div className="min-h-screen bg-[#FAF6F0]">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-6 lg:py-8">
 
           {/* Back Button */}
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 text-sm text-[#3D2817] hover:text-[#8B4513] mb-6 transition-colors border border-[#3D2817]/30 px-3 py-1.5 hover:bg-[#3D2817]/5 rounded luxury-shadow"
+            className="inline-flex items-center gap-2 text-sm text-[#1A2F2A] hover:text-[#2B6B5A] mb-6 transition-colors border border-[#E0D8CE] px-3 py-1.5 hover:bg-[#E0D8CE]/50 rounded luxury-shadow"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -735,9 +735,9 @@ const ProductDetail = () => {
             <div className="relative lg:sticky lg:top-8 h-fit order-first lg:order-first">
 
               {/* Main Product Image */}
-              <div className="relative aspect-square bg-white border border-[#3D2817]/20 overflow-hidden mb-4 sm:mb-6 max-w-md mx-auto lg:max-w-full rounded luxury-shadow">
+              <div className="relative aspect-square bg-white border border-[#E0D8CE] overflow-hidden mb-4 sm:mb-6 max-w-md mx-auto lg:max-w-full rounded luxury-shadow">
                 {/* Best Seller Badge */}
-                <div className="absolute top-3 left-3 z-10 bg-[#D4AF37]/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-semibold text-[#3D2817] luxury-shadow">
+                <div className="absolute top-3 left-3 z-10 bg-[#2B6B5A] backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-semibold text-white luxury-shadow">
                   best seller
                 </div>
 
@@ -749,7 +749,7 @@ const ProductDetail = () => {
                       className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all luxury-shadow"
                       aria-label="Previous image"
                     >
-                      <svg className="w-4 h-4 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
                     </button>
@@ -758,7 +758,7 @@ const ProductDetail = () => {
                       className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all luxury-shadow"
                       aria-label="Next image"
                     >
-                      <svg className="w-4 h-4 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </button>
@@ -776,8 +776,8 @@ const ProductDetail = () => {
                 {product.color && (
                   <div className="absolute top-1/4 right-4 sm:right-8">
                     <div className="relative">
-                      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#8B4513] rounded-full z-10"></div>
-                      <div className="bg-[#3D2817]/90 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap luxury-shadow">
+                      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#2B6B5A] rounded-full z-10"></div>
+                      <div className="bg-[#1A2F2A]/90 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap luxury-shadow">
                         {product.color}
                       </div>
                     </div>
@@ -786,8 +786,8 @@ const ProductDetail = () => {
                 {product.brand && (
                   <div className="absolute bottom-1/3 left-4 sm:left-8">
                     <div className="relative">
-                      <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#8B4513] rounded-full z-10"></div>
-                      <div className="bg-[#3D2817]/90 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap luxury-shadow">
+                      <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#2B6B5A] rounded-full z-10"></div>
+                      <div className="bg-[#1A2F2A]/90 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap luxury-shadow">
                         {product.brand}
                       </div>
                     </div>
@@ -798,7 +798,7 @@ const ProductDetail = () => {
               {/* Size Selection */}
               {product.sizes && product.sizes.length > 0 && (
                 <div className="mb-4">
-                  <label className="block text-xs font-semibold text-[#3D2817] uppercase tracking-wide mb-2">Select Size</label>
+                  <label className="block text-xs font-semibold text-[#1A2F2A] uppercase tracking-wide mb-2">Select Size</label>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size) => {
                       const isSelected = selectedSize === size;
@@ -808,8 +808,8 @@ const ProductDetail = () => {
                           onClick={() => setSelectedSize(size)}
                           className={`px-3 py-2 border transition-all flex items-center gap-1.5 rounded ${
                             isSelected
-                            ? 'border-[#3D2817] bg-[#3D2817] text-white luxury-shadow'
-                            : 'border-[#3D2817]/30 bg-white text-[#3D2817] hover:bg-[#3D2817]/5 hover:border-[#8B4513]'
+                            ? 'border-[#2B6B5A] bg-[#2B6B5A] text-white luxury-shadow'
+                            : 'border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#E0D8CE]/50 hover:border-[#2B6B5A]'
                             }`}
                         >
                           <span className="text-xs font-medium">{size}</span>
@@ -828,7 +828,7 @@ const ProductDetail = () => {
               {/* Color Swatches */}
               {(product.colors?.length > 0 || product.color) && (
                 <div>
-                  <label className="block text-xs font-semibold text-[#3D2817] uppercase tracking-wide mb-2">Select Color</label>
+                  <label className="block text-xs font-semibold text-[#1A2F2A] uppercase tracking-wide mb-2">Select Color</label>
                   <div className="flex items-center gap-2 flex-wrap">
                     {(product.colors || [product.color || '#000000']).slice(0, 6).map((color, idx) => {
                       const isSelected = selectedColor === color || (!selectedColor && idx === 0);
@@ -837,7 +837,7 @@ const ProductDetail = () => {
                           key={idx}
                           onClick={() => setSelectedColor(color)}
                           className={`relative w-10 h-10 rounded-full border-2 transition-all luxury-shadow ${
-                            isSelected ? 'border-[#8B4513] scale-110' : 'border-[#3D2817]/30 hover:border-[#8B4513]'
+                            isSelected ? 'border-[#2B6B5A] scale-110' : 'border-[#E0D8CE] hover:border-[#2B6B5A]'
                             }`}
                           style={{ backgroundColor: color }}
                           aria-label={`Select color ${color}`}
@@ -863,11 +863,11 @@ const ProductDetail = () => {
               {/* Product Title & Brand */}
               <div className="space-y-3">
                 {product.brand && (
-                  <div className="text-sm font-semibold text-[#3D2817]/70 uppercase tracking-wide font-serif">
+                  <div className="text-sm font-semibold text-[#8B9A95] uppercase tracking-wide font-serif">
                     {product.brand}
                   </div>
                 )}
-                <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-serif font-bold text-[#3D2817] leading-tight">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-serif font-bold text-[#1A2F2A] leading-tight">
                   {nameWords.map((word, idx) => {
                     const shouldHighlight = highlightWords.some(hw => word.toLowerCase().includes(hw.toLowerCase()));
                     return (
@@ -875,7 +875,7 @@ const ProductDetail = () => {
                         {shouldHighlight ? (
                           <span className="relative inline-block">
                             <span className="relative z-10">{word}</span>
-                            <span className="absolute inset-0 bg-[#8B4513]/20 rounded-lg blur-sm transform -rotate-1 -z-0"></span>
+                            <span className="absolute inset-0 bg-[#2B6B5A]/20 rounded-lg blur-sm transform -rotate-1 -z-0"></span>
                           </span>
                         ) : (
                           <span>{word}</span>
@@ -887,12 +887,12 @@ const ProductDetail = () => {
               </div>
 
               {/* Price Section */}
-              <div className="flex items-baseline gap-3 pb-4 border-b border-[#3D2817]/30">
-                <span className="text-3xl lg:text-4xl font-serif font-bold text-[#8B4513]">₹{formatPrice(finalPrice)}</span>
+              <div className="flex items-baseline gap-3 pb-4 border-b border-[#E0D8CE]">
+                <span className="text-3xl lg:text-4xl font-serif font-bold text-[#C4A265]">₹{formatPrice(finalPrice)}</span>
                 {originalPrice > finalPrice && (
                   <>
-                    <span className="text-lg text-[#3D2817]/40 line-through">₹{formatPrice(originalPrice)}</span>
-                    <span className="text-sm font-semibold text-[#8B4513] bg-[#8B4513]/10 border border-[#8B4513]/30 px-2 py-1 rounded">
+                    <span className="text-lg text-[#8B9A95] line-through">₹{formatPrice(originalPrice)}</span>
+                    <span className="text-sm font-semibold bg-[#C4A265] text-white border border-[#C4A265]/40 px-2 py-1 rounded">
                       {Math.round(((originalPrice - finalPrice) / originalPrice) * 100)}% OFF
                     </span>
                   </>
@@ -903,7 +903,7 @@ const ProductDetail = () => {
               <div className="flex flex-row gap-3">
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#3D2817] hover:bg-[#8B4513] text-white font-semibold px-6 py-3.5 border border-[#3D2817]/30 transition-all active:scale-[0.98] text-base rounded luxury-shadow"
+                  className="flex-1 flex items-center justify-center gap-2 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-semibold px-6 py-3.5 border border-[#1A4D3F]/40 transition-all active:scale-[0.98] text-base rounded luxury-shadow"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -912,7 +912,7 @@ const ProductDetail = () => {
                 </button>
                 <button
                   onClick={handleBuyNow}
-                  className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-[#3D2817]/5 text-[#3D2817] font-semibold px-6 py-3.5 border border-[#3D2817]/30 transition-all active:scale-[0.98] text-base rounded luxury-shadow hover:border-[#8B4513]"
+                  className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-[#E0D8CE]/50 text-[#1A2F2A] font-semibold px-6 py-3.5 border border-[#E0D8CE] transition-all active:scale-[0.98] text-base rounded luxury-shadow hover:border-[#2B6B5A]"
                 >
                   <span>Buy Now</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -923,39 +923,39 @@ const ProductDetail = () => {
 
               {/* Quick Info Cards */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-white/60 backdrop-blur-sm border border-[#3D2817]/30 p-4 rounded luxury-shadow">
+                <div className="bg-white/60 backdrop-blur-sm border border-[#E0D8CE] p-4 rounded luxury-shadow">
                   <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-xs font-semibold text-[#3D2817] uppercase">Free Shipping</span>
+                    <span className="text-xs font-semibold text-[#1A2F2A] uppercase">Free Shipping</span>
                   </div>
-                  <p className="text-xs text-[#3D2817]/60">On orders over ₹1,000</p>
+                  <p className="text-xs text-[#8B9A95]">On orders over ₹1,000</p>
                 </div>
-                <div className="bg-white/60 backdrop-blur-sm border border-[#3D2817]/30 p-4 rounded luxury-shadow">
+                <div className="bg-white/60 backdrop-blur-sm border border-[#E0D8CE] p-4 rounded luxury-shadow">
                   <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span className="text-xs font-semibold text-[#3D2817] uppercase">Easy Returns</span>
+                    <span className="text-xs font-semibold text-[#1A2F2A] uppercase">Easy Returns</span>
                   </div>
-                  <p className="text-xs text-[#3D2817]/60">30 days return policy</p>
+                  <p className="text-xs text-[#8B9A95]">30 days return policy</p>
                 </div>
               </div>
 
               {/* Reviews Summary */}
               {reviewStats && reviewStats.averageRating && (
-                <div className="bg-white/60 backdrop-blur-sm border border-[#3D2817]/30 p-4 sm:p-5 rounded luxury-shadow">
+                <div className="bg-white/60 backdrop-blur-sm border border-[#E0D8CE] p-4 sm:p-5 rounded luxury-shadow">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-[#3D2817]">{reviewStats.averageRating.toFixed(1)}</div>
+                      <div className="text-3xl font-bold text-[#1A2F2A]">{reviewStats.averageRating.toFixed(1)}</div>
                       <div className="flex items-center gap-0.5 mt-1">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <svg
                             key={star}
                             className={`w-4 h-4 ${star <= Math.round(reviewStats.averageRating)
-                              ? 'text-[#3D2817] fill-current'
-                              : 'text-[#3D2817]/20'
+                              ? 'text-[#C4A265] fill-current'
+                              : 'text-[#E0D8CE]'
                               }`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
@@ -966,8 +966,8 @@ const ProductDetail = () => {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-[#3D2817]/60 mb-2">
-                        Based on <span className="font-semibold text-[#3D2817]">{reviewStats.totalReviews}</span> reviews
+                      <p className="text-sm text-[#8B9A95] mb-2">
+                        Based on <span className="font-semibold text-[#1A2F2A]">{reviewStats.totalReviews}</span> reviews
                       </p>
                       {reviewStats.ratingDistribution && (
                         <div className="space-y-1.5">
@@ -978,14 +978,14 @@ const ProductDetail = () => {
                               : 0;
                             return (
                               <div key={rating} className="flex items-center gap-2">
-                                <span className="text-xs text-[#3D2817]/60 w-6">{rating}★</span>
-                                <div className="flex-1 h-1.5 bg-[#3D2817]/10 rounded-full overflow-hidden border border-[#3D2817]/20">
+                                <span className="text-xs text-[#8B9A95] w-6">{rating}★</span>
+                                <div className="flex-1 h-1.5 bg-[#2B6B5A]/10 rounded-full overflow-hidden border border-[#E0D8CE]">
                                   <div
-                                    className="h-full bg-[#8B4513] transition-all duration-300"
+                                    className="h-full bg-[#2B6B5A] transition-all duration-300"
                                     style={{ width: `${percentage}%` }}
                                   />
                                 </div>
-                                <span className="text-xs text-[#3D2817]/60 w-8 text-right">{count}</span>
+                                <span className="text-xs text-[#8B9A95] w-8 text-right">{count}</span>
                               </div>
                             );
                           })}
@@ -994,25 +994,25 @@ const ProductDetail = () => {
                     </div>
                   </div>
                   {reviews.length > 0 && (
-                    <div className="pt-4 border-t border-[#3D2817]/30">
+                    <div className="pt-4 border-t border-[#E0D8CE]">
                       <div className="space-y-3">
                         {reviews.slice(0, 2).map((review) => (
                           <div key={review._id} className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-8 h-8 bg-[#3D2817] text-white rounded-full flex items-center justify-center border border-[#3D2817]/30 luxury-shadow">
+                            <div className="flex-shrink-0 w-8 h-8 bg-[#2B6B5A] text-white rounded-full flex items-center justify-center border border-[#E0D8CE] luxury-shadow">
                               <span className="text-xs font-semibold">
                                 {(review.userName || 'A')[0].toUpperCase()}
                               </span>
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
-                                <span className="text-sm font-medium text-[#3D2817]">{review.userName || 'Anonymous'}</span>
+                                <span className="text-sm font-medium text-[#1A2F2A]">{review.userName || 'Anonymous'}</span>
                                 <div className="flex items-center gap-0.5">
                                   {[1, 2, 3, 4, 5].map((star) => (
                                     <svg
                                       key={star}
                                       className={`w-3 h-3 ${star <= review.rating
-                                        ? 'text-[#3D2817] fill-current'
-                                        : 'text-[#3D2817]/20'
+                                        ? 'text-[#C4A265] fill-current'
+                                        : 'text-[#E0D8CE]'
                                         }`}
                                       fill="currentColor"
                                       viewBox="0 0 20 20"
@@ -1022,8 +1022,8 @@ const ProductDetail = () => {
                                   ))}
                                 </div>
                               </div>
-                              <p className="text-sm font-medium text-[#3D2817] mb-1 line-clamp-1">{review.title}</p>
-                              <p className="text-xs text-[#3D2817]/60 line-clamp-2">{review.comment}</p>
+                              <p className="text-sm font-medium text-[#1A2F2A] mb-1 line-clamp-1">{review.title}</p>
+                              <p className="text-xs text-[#8B9A95] line-clamp-2">{review.comment}</p>
                             </div>
                           </div>
                         ))}
@@ -1034,29 +1034,29 @@ const ProductDetail = () => {
               )}
 
               {/* Product Details */}
-              <div className="bg-white/60 backdrop-blur-sm border border-[#3D2817]/30 p-4 sm:p-5 rounded luxury-shadow">
-                <h3 className="text-lg font-serif font-semibold text-[#3D2817] mb-4">Product Details</h3>
-                <div className="space-y-3 text-sm text-[#3D2817]/80">
+              <div className="bg-white/60 backdrop-blur-sm border border-[#E0D8CE] p-4 sm:p-5 rounded luxury-shadow">
+                <h3 className="text-lg font-serif font-semibold text-[#1A2F2A] mb-4">Product Details</h3>
+                <div className="space-y-3 text-sm text-[#1A2F2A]/90">
                   <p className="leading-relaxed">
                     {product.description || product.productDetails?.description || 'Premium quality product designed for comfort and style.'}
                   </p>
-                  <div className="pt-3 border-t border-[#3D2817]/30 space-y-2">
+                  <div className="pt-3 border-t border-[#E0D8CE] space-y-2">
                     {product.brand && (
                       <div className="flex justify-between">
-                        <span className="font-medium text-[#3D2817]">Brand:</span>
-                        <span className="text-[#3D2817]/60">{product.brand}</span>
+                        <span className="font-medium text-[#1A2F2A]">Brand:</span>
+                        <span className="text-[#8B9A95]">{product.brand}</span>
                       </div>
                     )}
                     {product.productDetails?.fabric && (
                       <div className="flex justify-between">
-                        <span className="font-medium text-[#3D2817]">Fabric:</span>
-                        <span className="text-[#3D2817]/60">{product.productDetails.fabric}</span>
+                        <span className="font-medium text-[#1A2F2A]">Fabric:</span>
+                        <span className="text-[#8B9A95]">{product.productDetails.fabric}</span>
                       </div>
                     )}
                     {product.color && (
                       <div className="flex justify-between">
-                        <span className="font-medium text-[#3D2817]">Color:</span>
-                        <span className="capitalize text-[#3D2817]/60">{product.color}</span>
+                        <span className="font-medium text-[#1A2F2A]">Color:</span>
+                        <span className="capitalize text-[#8B9A95]">{product.color}</span>
                       </div>
                     )}
                   </div>
@@ -1064,34 +1064,34 @@ const ProductDetail = () => {
               </div>
 
               {/* Delivery & Returns Info */}
-              <div className="bg-white/60 backdrop-blur-sm border border-[#3D2817]/30 p-4 sm:p-5 rounded luxury-shadow">
-                <h3 className="text-lg font-serif font-semibold text-[#3D2817] mb-4">Shipping & Returns</h3>
+              <div className="bg-white/60 backdrop-blur-sm border border-[#E0D8CE] p-4 sm:p-5 rounded luxury-shadow">
+                <h3 className="text-lg font-serif font-semibold text-[#1A2F2A] mb-4">Shipping & Returns</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-[#3D2817] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-[#1A2F2A] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <div>
-                      <p className="font-medium text-[#3D2817]">Free Shipping</p>
-                      <p className="text-[#3D2817]/60">On orders over ₹1,000. Standard delivery in 5-7 business days.</p>
+                      <p className="font-medium text-[#1A2F2A]">Free Shipping</p>
+                      <p className="text-[#8B9A95]">On orders over ₹1,000. Standard delivery in 5-7 business days.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-[#3D2817] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-[#1A2F2A] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <div>
-                      <p className="font-medium text-[#3D2817]">5-Day Returns</p>
-                      <p className="text-[#3D2817]/60">Easy returns within 30 days of purchase. No questions asked.</p>
+                      <p className="font-medium text-[#1A2F2A]">5-Day Returns</p>
+                      <p className="text-[#8B9A95]">Easy returns within 30 days of purchase. No questions asked.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-[#3D2817] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-[#1A2F2A] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                     <div>
-                      <p className="font-medium text-[#3D2817]">Secure Payment</p>
-                      <p className="text-[#3D2817]/60">Your payment information is safe and encrypted.</p>
+                      <p className="font-medium text-[#1A2F2A]">Secure Payment</p>
+                      <p className="text-[#8B9A95]">Your payment information is safe and encrypted.</p>
                     </div>
                   </div>
                 </div>
@@ -1100,23 +1100,23 @@ const ProductDetail = () => {
           </div>
 
           {/* Trending Now Section - All Product Recommendations */}
-          <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-[#3D2817]/30 mb-12 sm:mb-20">
+          <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-[#E0D8CE] mb-12 sm:mb-20">
             <div className="mb-6 sm:mb-8">
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-[#3D2817] mb-1">Trending Now</h2>
-              <p className="text-xs sm:text-sm text-[#3D2817]/70">Popular picks across all categories</p>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-serif font-bold text-[#1A2F2A] mb-1">Trending Now</h2>
+              <p className="text-xs sm:text-sm text-[#8B9A95]">Popular picks across all categories</p>
             </div>
 
             {/* You may also like - Related products */}
             {(recommendedProducts.length > 0 || loadingRecommendations) && (
               <div className="mb-8 sm:mb-12">
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#3D2817] mb-3 sm:mb-4">You may also like</h3>
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#1A2F2A] mb-3 sm:mb-4">You may also like</h3>
                 {loadingRecommendations ? (
                   <div className="flex gap-4 overflow-x-auto pb-4">
                     {[...Array(4)].map((_, i) => (
                       <div key={i} className="flex-shrink-0 w-56 sm:w-64 animate-pulse">
-                        <div className="aspect-[4/5] bg-[#E8E0D6] rounded-lg mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded w-2/3"></div>
+                        <div className="aspect-[4/5] bg-[#E0D8CE] rounded-lg mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded w-2/3"></div>
                       </div>
                     ))}
                   </div>
@@ -1129,7 +1129,7 @@ const ProductDetail = () => {
                         className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll left"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                       </button>
@@ -1141,7 +1141,7 @@ const ProductDetail = () => {
                         className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll right"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
@@ -1170,14 +1170,14 @@ const ProductDetail = () => {
             {/* On Sale Section */}
             {(saleProducts.length > 0 || loadingSale) && (
               <div className="mb-8 sm:mb-12">
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#3D2817] mb-3 sm:mb-4">On Sale</h3>
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#1A2F2A] mb-3 sm:mb-4">On Sale</h3>
                 {loadingSale ? (
                   <div className="flex gap-4 overflow-x-auto pb-4">
                     {[...Array(4)].map((_, i) => (
                       <div key={i} className="flex-shrink-0 w-56 sm:w-64 animate-pulse">
-                        <div className="aspect-[4/5] bg-[#E8E0D6] rounded-lg mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded w-2/3"></div>
+                        <div className="aspect-[4/5] bg-[#E0D8CE] rounded-lg mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded w-2/3"></div>
                       </div>
                     ))}
                   </div>
@@ -1190,7 +1190,7 @@ const ProductDetail = () => {
                         className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll left"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                       </button>
@@ -1202,7 +1202,7 @@ const ProductDetail = () => {
                         className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll right"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
@@ -1231,14 +1231,14 @@ const ProductDetail = () => {
             {/* More from [Brand] Section */}
             {product?.brand && (recommendedProducts.length > 0 || loadingRecommendations) && (
               <div className="mb-8 sm:mb-12">
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#3D2817] mb-3 sm:mb-4">More from {product.brand}</h3>
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#1A2F2A] mb-3 sm:mb-4">More from {product.brand}</h3>
                 {loadingRecommendations ? (
                   <div className="flex gap-4 overflow-x-auto pb-4">
                     {[...Array(4)].map((_, i) => (
                       <div key={i} className="flex-shrink-0 w-56 sm:w-64 animate-pulse">
-                        <div className="aspect-[4/5] bg-[#E8E0D6] rounded-lg mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded w-2/3"></div>
+                        <div className="aspect-[4/5] bg-[#E0D8CE] rounded-lg mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded w-2/3"></div>
                       </div>
                     ))}
                   </div>
@@ -1251,7 +1251,7 @@ const ProductDetail = () => {
                         className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll left"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                       </button>
@@ -1263,7 +1263,7 @@ const ProductDetail = () => {
                         className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll right"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
@@ -1299,9 +1299,9 @@ const ProductDetail = () => {
                   <div className="flex gap-4 overflow-x-auto pb-4">
                     {[...Array(4)].map((_, i) => (
                       <div key={i} className="flex-shrink-0 w-56 sm:w-64 animate-pulse">
-                        <div className="aspect-[4/5] bg-[#E8E0D6] rounded-lg mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded mb-2"></div>
-                        <div className="h-4 bg-[#E8E0D6] rounded w-2/3"></div>
+                        <div className="aspect-[4/5] bg-[#E0D8CE] rounded-lg mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded mb-2"></div>
+                        <div className="h-4 bg-[#E0D8CE] rounded w-2/3"></div>
                       </div>
                     ))}
                   </div>
@@ -1314,7 +1314,7 @@ const ProductDetail = () => {
                         className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll left"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                       </button>
@@ -1326,7 +1326,7 @@ const ProductDetail = () => {
                         className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm luxury-shadow rounded-full p-2.5 hover:bg-white transition-all"
                         aria-label="Scroll right"
                       >
-                        <svg className="w-5 h-5 text-[#3D2817]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#1A2F2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
@@ -1354,17 +1354,17 @@ const ProductDetail = () => {
           </div>
 
           {/* Reviews Section */}
-          <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-[#3D2817]/30 mb-12 sm:mb-20">
+          <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-[#E0D8CE] mb-12 sm:mb-20">
             {/* Header with Title and Actions */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-[#3D2817]/30 pb-4 sm:pb-5 mb-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-[#E0D8CE] pb-4 sm:pb-5 mb-6">
               <div className="flex items-center gap-4 flex-wrap">
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#3D2817]">
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#1A2F2A]">
                   Customer Reviews {reviews.length > 0 && `(${reviews.length})`}
                 </h3>
                 {isAuthenticated && !showReviewForm && (
                   <button
                     onClick={() => setShowReviewForm(true)}
-                    className="px-4 py-2 bg-[#3D2817] text-white text-sm font-medium rounded-lg hover:bg-[#8B4513] transition-all luxury-shadow active:scale-95"
+                    className="px-4 py-2 bg-[#2B6B5A] text-white text-sm font-medium rounded-lg hover:bg-[#1A4D3F] transition-all luxury-shadow active:scale-95"
                   >
                     Write a Review
                   </button>
@@ -1372,7 +1372,7 @@ const ProductDetail = () => {
                 {!isAuthenticated && (
                   <button
                     onClick={() => setShowLoginModal(true)}
-                    className="px-4 py-2 bg-[#3D2817] text-white text-sm font-medium rounded-lg hover:bg-[#8B4513] transition-all luxury-shadow active:scale-95"
+                    className="px-4 py-2 bg-[#2B6B5A] text-white text-sm font-medium rounded-lg hover:bg-[#1A4D3F] transition-all luxury-shadow active:scale-95"
                   >
                     Login to Write a Review
                   </button>
@@ -1382,7 +1382,7 @@ const ProductDetail = () => {
                 <select
                   value={reviewSort}
                   onChange={(e) => handleReviewSortChange(e.target.value)}
-                  className="w-full sm:w-auto text-sm border border-[#3D2817]/30 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#8B4513]/20 focus:border-[#8B4513] bg-white"
+                  className="w-full sm:w-auto text-sm border border-[#E0D8CE] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] bg-white"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -1395,12 +1395,12 @@ const ProductDetail = () => {
 
             {/* Review Form */}
             {showReviewForm && (
-              <div className="border border-[#3D2817]/30 rounded-lg p-4 sm:p-6 lg:p-8 bg-white/60 backdrop-blur-sm mb-6 luxury-shadow">
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#3D2817] mb-4 sm:mb-6">Write a Review</h3>
+              <div className="border border-[#E0D8CE] rounded-lg p-4 sm:p-6 lg:p-8 bg-white/60 backdrop-blur-sm mb-6 luxury-shadow">
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[#1A2F2A] mb-4 sm:mb-6">Write a Review</h3>
                 <form onSubmit={handleReviewSubmit} className="space-y-4 sm:space-y-5">
                   {/* Star Rating */}
                   <div>
-                    <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                    <label className="block text-sm font-medium text-[#1A2F2A] mb-2">
                       Rating *
                     </label>
                     <div className="flex gap-1">
@@ -1410,9 +1410,9 @@ const ProductDetail = () => {
                           type="button"
                           onClick={() => setReviewForm({ ...reviewForm, rating: star })}
                           className={`w-8 h-8 ${star <= reviewForm.rating
-                            ? 'text-[#D4AF37]'
-                            : 'text-[#3D2817]/20'
-                            } hover:text-[#D4AF37] transition-colors`}
+                            ? 'text-[#C4A265]'
+                            : 'text-[#E0D8CE]'
+                            } hover:text-[#C4A265] transition-colors`}
                         >
                           <svg fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -1424,7 +1424,7 @@ const ProductDetail = () => {
 
                   {/* Review Title */}
                   <div>
-                    <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                    <label className="block text-sm font-medium text-[#1A2F2A] mb-2">
                       Review Title *
                     </label>
                     <input
@@ -1432,7 +1432,7 @@ const ProductDetail = () => {
                       value={reviewForm.title}
                       onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
                       placeholder="Give your review a title"
-                      className="w-full px-4 py-2 border border-[#3D2817]/30 rounded-lg focus:ring-2 focus:ring-[#8B4513]/20 focus:border-[#8B4513] text-sm bg-white"
+                      className="w-full px-4 py-2 border border-[#E0D8CE] rounded-lg focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] text-sm bg-white"
                       maxLength={200}
                       required
                     />
@@ -1440,7 +1440,7 @@ const ProductDetail = () => {
 
                   {/* Review Comment */}
                   <div>
-                    <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                    <label className="block text-sm font-medium text-[#1A2F2A] mb-2">
                       Your Review *
                     </label>
                     <textarea
@@ -1448,11 +1448,11 @@ const ProductDetail = () => {
                       onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
                       placeholder="Share your experience with this product"
                       rows={5}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm resize-none"
+                      className="w-full px-4 py-2 border border-[#E0D8CE] rounded-lg focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] text-sm resize-none text-[#1A2F2A]"
                       maxLength={2000}
                       required
                     />
-                    <div className="text-xs text-[#3D2817]/60 mt-1 text-right">
+                    <div className="text-xs text-[#8B9A95] mt-1 text-right">
                       {reviewForm.comment.length}/2000
                     </div>
                   </div>
@@ -1462,7 +1462,7 @@ const ProductDetail = () => {
                     <button
                       type="submit"
                       disabled={submittingReview}
-                      className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-[#3D2817] text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-[#8B4513] transition-all luxury-shadow disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                      className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-[#2B6B5A] text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-[#1A4D3F] transition-all luxury-shadow disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
                     >
                       {submittingReview ? 'Submitting...' : 'Submit Review'}
                     </button>
@@ -1472,7 +1472,7 @@ const ProductDetail = () => {
                         setShowReviewForm(false);
                         setReviewForm({ rating: 0, title: '', comment: '' });
                       }}
-                      className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-[#3D2817] text-sm sm:text-base font-semibold rounded-lg border border-[#3D2817]/30 hover:bg-[#3D2817]/5 transition-all active:scale-95 luxury-shadow"
+                      className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-[#1A2F2A] text-sm sm:text-base font-semibold rounded-lg border border-[#E0D8CE] hover:bg-[#E0D8CE]/50 transition-all active:scale-95 luxury-shadow"
                     >
                       Cancel
                     </button>
@@ -1486,24 +1486,24 @@ const ProductDetail = () => {
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="h-4 bg-[#E8E0D6] rounded w-1/4 mb-2"></div>
-                    <div className="h-4 bg-[#E8E0D6] rounded w-1/2 mb-2"></div>
-                    <div className="h-20 bg-[#E8E0D6] rounded"></div>
+                    <div className="h-4 bg-[#E0D8CE] rounded w-1/4 mb-2"></div>
+                    <div className="h-4 bg-[#E0D8CE] rounded w-1/2 mb-2"></div>
+                    <div className="h-20 bg-[#E0D8CE] rounded"></div>
                   </div>
                 ))}
               </div>
             ) : reviews.length > 0 ? (
               <div className="space-y-6 sm:space-y-8">
                 {reviews.map((review) => (
-                  <div key={review._id} className="border-b border-[#3D2817]/30 pb-6 sm:pb-8 last:border-0">
+                  <div key={review._id} className="border-b border-[#E0D8CE] pb-6 sm:pb-8 last:border-0">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-3">
                       <div className="flex-1 w-full">
                         <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <div className="font-semibold text-sm sm:text-base text-[#3D2817]">
+                          <div className="font-semibold text-sm sm:text-base text-[#1A2F2A]">
                             {review.userName || 'Anonymous'}
                           </div>
                           {review.verifiedPurchase && (
-                            <span className="text-xs bg-[#8B4513]/10 text-[#8B4513] px-2 py-1 rounded font-medium border border-[#8B4513]/30">
+                            <span className="text-xs bg-[#2B6B5A]/10 text-[#2B6B5A] px-2 py-1 rounded font-medium border border-[#2B6B5A]/30">
                               Verified Purchase
                             </span>
                           )}
@@ -1514,8 +1514,8 @@ const ProductDetail = () => {
                               <svg
                                 key={star}
                                 className={`w-4 h-4 sm:w-5 sm:h-5 ${star <= review.rating
-                                  ? 'text-[#D4AF37] fill-current'
-                                  : 'text-[#3D2817]/20'
+                                  ? 'text-[#C4A265] fill-current'
+                                  : 'text-[#E0D8CE]'
                                   }`}
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
@@ -1524,7 +1524,7 @@ const ProductDetail = () => {
                               </svg>
                             ))}
                           </div>
-                          <span className="text-xs sm:text-sm text-[#3D2817]/60">
+                          <span className="text-xs sm:text-sm text-[#8B9A95]">
                             {new Date(review.createdAt).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'long',
@@ -1535,18 +1535,18 @@ const ProductDetail = () => {
                       </div>
                     </div>
 
-                    <h4 className="font-semibold text-sm sm:text-base text-[#3D2817] mb-2 sm:mb-3">
+                    <h4 className="font-semibold text-sm sm:text-base text-[#1A2F2A] mb-2 sm:mb-3">
                       {review.title}
                     </h4>
 
-                    <p className="text-sm sm:text-base text-[#3D2817]/80 leading-relaxed mb-4 sm:mb-5 whitespace-pre-wrap">
+                    <p className="text-sm sm:text-base text-[#1A2F2A]/90 leading-relaxed mb-4 sm:mb-5 whitespace-pre-wrap">
                       {review.comment}
                     </p>
 
                     {/* Helpful Button */}
                     <button
                       onClick={() => handleMarkHelpful(review._id)}
-                      className="flex items-center gap-1.5 text-xs sm:text-sm text-[#3D2817]/70 hover:text-[#8B4513] transition-colors py-1"
+                      className="flex items-center gap-1.5 text-xs sm:text-sm text-[#8B9A95] hover:text-[#2B6B5A] transition-colors py-1"
                     >
                       <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
@@ -1558,7 +1558,7 @@ const ProductDetail = () => {
               </div>
             ) : !loadingReviews ? (
               <div className="text-center py-8 sm:py-12">
-                <p className="text-sm sm:text-base text-[#3D2817]/70 mb-4 sm:mb-6">No reviews yet. Be the first to review this product!</p>
+                <p className="text-sm sm:text-base text-[#8B9A95] mb-4 sm:mb-6">No reviews yet. Be the first to review this product!</p>
               </div>
             ) : null}
           </div>
@@ -1569,19 +1569,19 @@ const ProductDetail = () => {
 };
 
 const LoadingState = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5]">
+  <div className="min-h-screen flex items-center justify-center bg-[#FAF6F0]">
     <div className="flex flex-col items-center gap-4">
-      <div className="w-12 h-12 border-4 border-[#E8E0D6] border-t-[#8B4513] rounded-full animate-spin"></div>
-      <p className="text-[#3D2817]/70 font-medium">Loading details...</p>
+      <div className="w-12 h-12 border-4 border-[#E0D8CE] border-t-[#2B6B5A] rounded-full animate-spin"></div>
+      <p className="text-[#8B9A95] font-medium">Loading details...</p>
     </div>
   </div>
 );
 
 const NotFoundState = () => (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF8F5] px-4 text-center">
-    <h1 className="text-2xl font-serif font-bold text-[#3D2817] mb-2">Product Not Found</h1>
-    <p className="text-[#3D2817]/70 mb-6">The product you are looking for doesn't exist or has been removed.</p>
-    <Link to="/" className="bg-[#3D2817] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#8B4513] transition-colors luxury-shadow">
+  <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF6F0] px-4 text-center">
+    <h1 className="text-2xl font-serif font-bold text-[#1A2F2A] mb-2">Product Not Found</h1>
+    <p className="text-[#8B9A95] mb-6">The product you are looking for doesn't exist or has been removed.</p>
+    <Link to="/" className="bg-[#2B6B5A] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#1A4D3F] transition-colors luxury-shadow">
       Back to Home
     </Link>
   </div>

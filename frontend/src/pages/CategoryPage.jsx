@@ -410,7 +410,7 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] py-4 sm:py-6 lg:py-8">
+    <div className="min-h-screen bg-[#FAF6F0] py-4 sm:py-6 lg:py-8">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         
         {/* Header Row - Breadcrumb, Title, and Product Count */}
@@ -420,24 +420,24 @@ const CategoryPage = () => {
               {/* Breadcrumb Navigation */}
               {(derivedGender || pathname === '/women') && (
                 <nav className="text-xs sm:text-sm">
-                  <ol className="flex items-center space-x-1 sm:space-x-2 text-[#3D2817]/60">
+                  <ol className="flex items-center space-x-1 sm:space-x-2 text-[#8B9A95]">
                     <li>
-                      <Link to="/" className="hover:text-[#3D2817] transition-colors">
+                      <Link to="/" className="hover:text-[#1A2F2A] transition-colors">
                         Home
                       </Link>
                     </li>
-                    <li className="text-[#3D2817]/40">/</li>
+                    <li className="text-[#8B9A95]">/</li>
                     {derivedGender && (
                       <>
                         <li>
-                          <Link to={`/${derivedGender}`} className="hover:text-[#3D2817] transition-colors capitalize">
+                          <Link to={`/${derivedGender}`} className="hover:text-[#1A2F2A] transition-colors capitalize">
                             {derivedGender}
                           </Link>
                         </li>
                         {category && (
                           <>
-                            <li className="text-[#3D2817]/40">/</li>
-                            <li className="text-[#3D2817] capitalize">
+                            <li className="text-[#8B9A95]">/</li>
+                            <li className="text-[#1A2F2A] capitalize">
                               {category === 'tshirt' ? 'T-Shirt' : category}
                             </li>
                           </>
@@ -445,7 +445,7 @@ const CategoryPage = () => {
                       </>
                     )}
                     {!derivedGender && pathname === '/women' && (
-                      <li className="text-[#3D2817] capitalize">
+                      <li className="text-[#1A2F2A] capitalize">
                         {pathname.replace('/', '')}
                       </li>
                     )}
@@ -454,7 +454,7 @@ const CategoryPage = () => {
               )}
               
               {/* Title */}
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#3D2817]">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A2F2A]">
                 {isLoading && !pageTitle ? 'Loading...' : pageTitle}
               </h1>
             </div>
@@ -462,7 +462,7 @@ const CategoryPage = () => {
             <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
               {/* Product Count */}
               {!isLoading && filteredList.length > 0 && (
-                <p className="text-xs sm:text-sm text-[#3D2817]/60 whitespace-nowrap">
+                <p className="text-xs sm:text-sm text-[#8B9A95] whitespace-nowrap">
                   Showing {((page - 1) * itemsPerPage) + 1} - {Math.min(page * itemsPerPage, filteredList.length)} of {filteredList.length} products
                 </p>
               )}
@@ -476,7 +476,7 @@ const CategoryPage = () => {
                     setShowMobileFilters(!showMobileFilters);
                   }
                 }}
-                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#FAF8F5] border-2 border-[#3D2817]/30 text-xs sm:text-sm font-medium text-[#3D2817] hover:bg-[#3D2817] hover:text-[#fefcfb] transition-colors whitespace-nowrap"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#FAF6F0] border-2 border-[#E0D8CE] text-xs sm:text-sm font-medium text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors whitespace-nowrap"
                 disabled={isLoading}
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -498,12 +498,12 @@ const CategoryPage = () => {
             lg:w-1/4 
             lg:flex-shrink-0
             lg:transition-all lg:duration-300 lg:ease-in-out
-            ${showMobileFilters ? 'fixed top-14 left-0 right-0 bottom-0 z-40 bg-[#FAF8F5] p-4 sm:p-6 overflow-y-auto lg:relative lg:z-auto lg:bg-transparent lg:p-0 lg:top-0' : ''}
+            ${showMobileFilters ? 'fixed top-14 left-0 right-0 bottom-0 z-40 bg-[#FAF6F0] p-4 sm:p-6 overflow-y-auto lg:relative lg:z-auto lg:bg-transparent lg:p-0 lg:top-0' : ''}
           `}>
              {showMobileFilters && (
                <div className="lg:hidden flex items-center justify-between mb-4 sm:mb-6">
-                 <h2 className="text-lg sm:text-xl font-bold text-[#3D2817]">Filters</h2>
-                 <button onClick={() => setShowMobileFilters(false)} className="text-[#3D2817] hover:opacity-70 transition-opacity">
+                 <h2 className="text-lg sm:text-xl font-bold text-[#1A2F2A]">Filters</h2>
+                 <button onClick={() => setShowMobileFilters(false)} className="text-[#1A2F2A] hover:opacity-70 transition-opacity">
                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                    </svg>
@@ -583,8 +583,8 @@ const CategoryPage = () => {
                     if (subcategories.length === 0) return null;
 
                     return (
-                      <div className="mb-4 sm:mb-6 pb-4 border-b border-[#3D2817]/20">
-                        <p className="text-xs sm:text-sm uppercase tracking-wide text-[#3D2817]/60 font-semibold mb-3">Subcategories</p>
+                      <div className="mb-4 sm:mb-6 pb-4 border-b border-[#E0D8CE]">
+                        <p className="text-xs sm:text-sm uppercase tracking-wide text-[#8B9A95] font-semibold mb-3">Subcategories</p>
                         <div className="flex flex-wrap gap-2 sm:gap-3">
                           {subcategories.map((sub) => {
                             const isActive = location.pathname === sub.path || 
@@ -597,8 +597,8 @@ const CategoryPage = () => {
                                 to={sub.path}
                                 className={`px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors ${
                                   isActive 
-                                    ? 'bg-[#3D2817] text-[#fefcfb] border-[#3D2817]' 
-                                    : 'text-[#3D2817] border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb]'
+                                    ? 'bg-[#2B6B5A] text-white border-[#2B6B5A]' 
+                                    : 'text-[#1A2F2A] border-[#E0D8CE] hover:bg-[#2B6B5A] hover:text-white hover:border-[#2B6B5A]'
                                 }`}
                               >
                                 {sub.name}
@@ -624,7 +624,7 @@ const CategoryPage = () => {
                         <button
                           onClick={() => handlePageChange(page - 1)}
                           disabled={page === 1}
-                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-[#3D2817] bg-[#FAF8F5] border-2 border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#FAF8F5] disabled:hover:text-[#3D2817] transition-all"
+                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-[#1A2F2A] bg-[#FAF6F0] border-2 border-[#E0D8CE] hover:bg-[#E0D8CE]/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#FAF6F0] disabled:hover:text-[#1A2F2A] transition-all"
                         >
                           <span className="flex items-center gap-1">
                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -639,7 +639,7 @@ const CategoryPage = () => {
                         {getPageNumbers().map((pageNum, index) => {
                           if (pageNum === '...') {
                             return (
-                              <span key={`ellipsis-${index}`} className="px-1 sm:px-2 text-[#3D2817]/60 text-xs sm:text-sm">
+                              <span key={`ellipsis-${index}`} className="px-1 sm:px-2 text-[#8B9A95] text-xs sm:text-sm">
                                 ...
                               </span>
                             );
@@ -650,8 +650,8 @@ const CategoryPage = () => {
                               onClick={() => handlePageChange(pageNum)}
                               className={`min-w-[32px] sm:min-w-[40px] px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 transition-all ${
                                 page === pageNum
-                                  ? 'bg-[#3D2817] text-[#fefcfb] border-[#3D2817]/30'
-                                  : 'text-[#3D2817] bg-[#FAF8F5] border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb]'
+                                  ? 'bg-[#2B6B5A] text-white border-[#2B6B5A]'
+                                  : 'text-[#1A2F2A] bg-[#FAF6F0] border-[#E0D8CE] hover:bg-[#E0D8CE]/50'
                               }`}
                             >
                               {pageNum}
@@ -663,7 +663,7 @@ const CategoryPage = () => {
                         <button
                           onClick={() => handlePageChange(page + 1)}
                           disabled={page === totalPages}
-                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-[#3D2817] bg-[#FAF8F5] border-2 border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#FAF8F5] disabled:hover:text-[#3D2817] transition-all"
+                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-[#1A2F2A] bg-[#FAF6F0] border-2 border-[#E0D8CE] hover:bg-[#E0D8CE]/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#FAF6F0] disabled:hover:text-[#1A2F2A] transition-all"
                         >
                           <span className="flex items-center gap-1">
                             <span className="hidden sm:inline">Next</span>
@@ -676,7 +676,7 @@ const CategoryPage = () => {
                       </div>
 
                       {/* Page Info */}
-                      <p className="text-xs sm:text-sm text-[#3D2817]/60">
+                      <p className="text-xs sm:text-sm text-[#8B9A95]">
                         Page {page} of {totalPages}
                       </p>
                     </div>
@@ -684,18 +684,18 @@ const CategoryPage = () => {
                 </>
               ) : (
                 <div className="text-center py-12">
-                  <p className="text-gray-600 text-lg mb-4">No products found matching your filters.</p>
+                  <p className="text-[#8B9A95] text-lg mb-4">No products found matching your filters.</p>
                   {filters.priceRange || filters.brands?.length > 0 || filters.sizes?.length > 0 ? (
                     <button
                       onClick={handleClearFilters}
-                      className="text-blue-600 hover:text-blue-800 font-medium"
+                      className="text-[#2B6B5A] hover:text-[#1A4D3F] font-medium"
                     >
                       Clear filters to see all products
                     </button>
                   ) : (derivedGender || pathname === '/women') ? (
                     <Link
                       to={`/${derivedGender || 'women'}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium"
+                      className="text-[#2B6B5A] hover:text-[#1A4D3F] font-medium"
                     >
                       ← Back to {derivedGender ? `${derivedGender.charAt(0).toUpperCase() + derivedGender.slice(1)}'s Collection` : "Women's Collection"}
                     </Link>

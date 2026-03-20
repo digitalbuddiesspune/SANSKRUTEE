@@ -23,7 +23,7 @@ const About = () => {
             </p>
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
               <p className="text-gray-700 font-semibold mb-3">Contact Details:</p>
-              <p className="text-gray-700 mb-2"><strong>Email:</strong> support@shopzyfashion.in</p>
+              <p className="text-gray-700 mb-2"><strong>Email:</strong> support@sanskruteefashion.in</p>
               <div className="text-gray-700 mb-2">
                 <p className="font-semibold mb-2">Address:</p>
                 <p className="ml-4"><strong>Floor No.:</strong> 4th floor</p>
@@ -45,7 +45,7 @@ const About = () => {
               <p className="text-gray-700 mb-2"><strong>Grievance Officer:</strong></p>
               <p className="text-gray-700 ml-4">• Prem Kumar Yelubandi (Director, Andhra Pradesh)</p>
               <p className="text-gray-700 ml-4">• Sai Durga Prasad Sundrapalli (Director, Andhra Pradesh)</p>
-              <p className="text-gray-700 mt-3"><strong>Email:</strong> support@shopzyfashion.in</p>
+              <p className="text-gray-700 mt-3"><strong>Email:</strong> support@sanskruteefashion.in</p>
             </div>
           </section>
         </div>

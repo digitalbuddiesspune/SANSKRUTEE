@@ -144,14 +144,14 @@ const SearchResults = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#FAF6F0] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-[#1A2F2A] mb-2">
             Search Results {query && `for "${query}"`}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-[#8B9A95]">
             {isLoading ? 'Searching...' : `Found ${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''}`}
           </p>
         </div>
@@ -160,22 +160,22 @@ const SearchResults = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="aspect-[4/5] bg-gray-200 rounded-lg mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                <div className="aspect-[4/5] bg-[#E0D8CE] rounded-lg mb-2"></div>
+                <div className="h-4 bg-[#E0D8CE] rounded mb-2"></div>
+                <div className="h-4 bg-[#E0D8CE] rounded w-2/3"></div>
               </div>
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-16 h-16 bg-[#F5F0E8] rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your search or filters</p>
-            <Link to="/" className="inline-block px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800">
+            <h3 className="text-lg font-medium text-[#1A2F2A] mb-2">No products found</h3>
+            <p className="text-[#8B9A95] mb-4">Try adjusting your search or filters</p>
+            <Link to="/" className="inline-block px-4 py-2 bg-[#2B6B5A] text-white rounded-lg hover:bg-[#1A4D3F]">
               Continue Shopping
             </Link>
           </div>
@@ -199,7 +199,7 @@ const SearchResults = () => {
               <div className="lg:hidden mb-4">
                 <button
                   onClick={() => setShowMobileFilters(!showMobileFilters)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg flex items-center justify-between"
+                  className="w-full px-4 py-2 border border-[#E0D8CE] rounded-lg flex items-center justify-between text-[#1A2F2A] hover:bg-[#E0D8CE]/50 transition-colors"
                 >
                   <span>Filters</span>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -232,12 +232,12 @@ const SearchResults = () => {
                 
                 if (hasAccessories) {
                   return (
-                    <div className="mb-4 sm:mb-6 pb-4 border-b border-[#3D2817]/20">
-                      <p className="text-xs sm:text-sm uppercase tracking-wide text-[#3D2817]/60 font-semibold mb-3">Subcategories</p>
+                    <div className="mb-4 sm:mb-6 pb-4 border-b border-[#E0D8CE]">
+                      <p className="text-xs sm:text-sm uppercase tracking-wide text-[#8B9A95] font-semibold mb-3">Subcategories</p>
                       <div className="flex flex-wrap gap-2 sm:gap-3">
                         <Link
                           to="/accessories?subCategory=earrings"
-                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#3D2817] border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-[#fefcfb]"
+                          className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#1A2F2A] border-[#E0D8CE] hover:bg-[#2B6B5A] hover:text-white hover:border-[#2B6B5A]"
                         >
                           Earrings
                         </Link>
@@ -257,11 +257,11 @@ const SearchResults = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-2 flex-wrap">
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                    className="px-4 py-2 border border-[#E0D8CE] rounded-lg text-[#1A2F2A] bg-[#FAF6F0] hover:bg-[#E0D8CE]/50 disabled:opacity-50 transition-colors"
                   >
                     Previous
                   </button>
@@ -269,8 +269,10 @@ const SearchResults = () => {
                     <button
                       key={i + 1}
                       onClick={() => setPage(i + 1)}
-                      className={`px-4 py-2 border rounded-lg ${
-                        page === i + 1 ? 'bg-gray-900 text-white' : ''
+                      className={`px-4 py-2 border rounded-lg transition-colors ${
+                        page === i + 1
+                          ? 'bg-[#2B6B5A] text-white border-[#2B6B5A]'
+                          : 'border-[#E0D8CE] text-[#1A2F2A] bg-[#FAF6F0] hover:bg-[#E0D8CE]/50'
                       }`}
                     >
                       {i + 1}
@@ -279,7 +281,7 @@ const SearchResults = () => {
                   <button
                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                    className="px-4 py-2 border border-[#E0D8CE] rounded-lg text-[#1A2F2A] bg-[#FAF6F0] hover:bg-[#E0D8CE]/50 disabled:opacity-50 transition-colors"
                   >
                     Next
                   </button>

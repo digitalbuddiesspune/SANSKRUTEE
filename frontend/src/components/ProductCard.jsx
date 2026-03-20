@@ -20,19 +20,15 @@ const ProductCard = ({ product }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [hoverImageLoaded, setHoverImageLoaded] = useState(false);
 
-  // Data Normalization
-  // Handle images - support both array and object formats
   let productImages = [];
   if (product.images) {
     if (Array.isArray(product.images)) {
       productImages = product.images.filter(img => img && img.trim() !== '');
     } else if (typeof product.images === 'object') {
-      // Convert object format {image1: "url", image2: "url"} to array
       productImages = Object.values(product.images).filter(img => img && typeof img === 'string' && img.trim() !== '');
     }
   }
   
-  // Fallback to image or thumbnail if images array is empty
   if (productImages.length === 0) {
     const fallbackImage = product.image || product.thumbnail || product.images?.image1;
     if (fallbackImage) {
@@ -42,7 +38,6 @@ const ProductCard = ({ product }) => {
   
   const isWatch = (product.category || '').toLowerCase().includes('watch');
   const isLens = (product.category || '').toLowerCase().includes('lens');
-  const isSkincare = (product.category || '').toLowerCase().includes('skincare') || (product.category || '').toLowerCase().includes('skin-care');
   const isJeans = (product.subCategory || '').toLowerCase().includes('jeans');
   const sizes = isWatch ? [] : (product.sizes || ['S', 'M', 'L', 'XL']); 
   const finalPrice = product.finalPrice || product.price || product.mrp || 0;
@@ -53,7 +48,6 @@ const ProductCard = ({ product }) => {
     : 0;
   const productId = product._id || product.id;
   
-  // Determine category for URL
   const getCategoryForUrl = () => {
     const category = (product.category || '').toLowerCase();
     if (category.includes('watch')) return 'watches';
@@ -62,39 +56,27 @@ const ProductCard = ({ product }) => {
     if (category.includes('accessor')) return 'accessories';
     if (category.includes('women') || category.includes('saree')) return 'women';
     if (category.includes('shoe')) return 'shoes';
-    return 'product'; // fallback
+    return 'product';
   };
   const productCategory = getCategoryForUrl();
   
-  // Get reviews count and availability
-  const reviewsCount = product.reviewsCount || product.reviewCount || product.numReviews || 0;
   const isBestseller = product.isBestseller || product.bestseller || false;
   const isSoldOut = product.stock === 0 || product.quantity === 0 || product.inStock === false;
-  const soldCount = product.soldCount || product.totalSold || 0;
-  
-  // Description snippet
-  const description = product.description || product.shortDescription || product.longDescription || '';
-  const descriptionSnippet = description.length > 60 ? description.substring(0, 60) + '...' : description;
-  
-  // Get the image source with fallback
-  // For lenses, use the 2nd image (index 1) as default if available
+
   let defaultImageIndex = 0;
   if (isLens && productImages.length > 1) {
-    defaultImageIndex = 1; // Use 2nd image (image2) for lenses
+    defaultImageIndex = 1;
   }
   
-  // Determine which images to show
   let defaultImageSrc = 'https://via.placeholder.com/400x500?text=No+Image';
   let hoverImageSrc = null;
   
   if (productImages.length > 0) {
     defaultImageSrc = productImages[defaultImageIndex];
-    // Get hover image (next image if available)
     const hoverIndex = defaultImageIndex + 1;
     if (productImages.length > hoverIndex) {
       hoverImageSrc = productImages[hoverIndex];
     } else if (productImages.length > 0 && defaultImageIndex > 0) {
-      // If no next image, try the first image as hover
       hoverImageSrc = productImages[0];
     }
   }
@@ -102,8 +84,6 @@ const ProductCard = ({ product }) => {
   const handleAddClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    // If product has sizes, use first available size or empty string
     const selectedSize = sizes.length > 0 ? sizes[0] : '';
     
     if (!isAuthenticated) {
@@ -113,11 +93,6 @@ const ProductCard = ({ product }) => {
     
     setIsAdding(true);
     try {
-      console.log('ProductCard: Adding product to cart', {
-        productId: product._id || product.id,
-        productName: product.name || product.productName,
-        selectedSize
-      });
       await addToCart(product, 1, selectedSize, '');
       success('Product added to cart');
       setIsAdding(false);
@@ -125,7 +100,6 @@ const ProductCard = ({ product }) => {
     } catch (err) {
       setIsAdding(false);
       setShowSizes(false);
-      console.error('ProductCard: Error adding to cart:', err);
       const errorMessage = err.message || 'Failed to add product to cart';
       showError(errorMessage);
       if (errorMessage.toLowerCase().includes('login')) {
@@ -133,7 +107,6 @@ const ProductCard = ({ product }) => {
       }
     }
   };
-
 
   return (
     <>
@@ -149,47 +122,40 @@ const ProductCard = ({ product }) => {
           }
         }}
       >
-        <Link to={`/product/${productCategory}/${productId}`} className="block bg-[#FAF8F5] border border-[#3D2817]/30 p-2 sm:p-3 md:p-4 luxury-shadow rounded transition-shadow">
+        <Link
+          to={`/product/${productCategory}/${productId}`}
+          className="block bg-white border border-[#E0D8CE] transition-all duration-200 hover:border-[#2B6B5A]"
+        >
           
-          {/* IMAGE AREA */}
-          <div className="relative w-full aspect-square overflow-hidden bg-white mb-2 sm:mb-3 md:mb-4 border border-[#3D2817]/20 rounded">
+          {/* IMAGE — clean, square, white bg */}
+          <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#F5F0E8]">
             
-            {/* Bestseller Badge - Yellow with black border */}
+            {/* Sale / Bestseller badge */}
             {isBestseller && (
-              <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-20 bg-[#D4AF37] text-[#3D2817] text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 border border-[#3D2817]/30 rounded uppercase tracking-wide">
+              <span className="absolute top-2 left-2 z-20 bg-[#2B6B5A] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
                 Bestseller
               </span>
             )}
-
-            {/* Discount Tag (if not bestseller) */}
             {!isBestseller && hasDiscount && (
-               <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-20 bg-white text-[#3D2817] text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 border border-[#3D2817]/30 rounded uppercase tracking-wide">
-                 Sale
-               </span>
+              <span className="absolute top-2 left-2 z-20 bg-[#C4A265] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
+                Sale
+              </span>
             )}
 
-            {/* Add to Cart Button - Top Right Corner */}
+            {/* Quick-add button — appears on hover, bottom of image */}
             <button
               type="button"
               onClick={handleAddClick}
               disabled={isAdding || isSoldOut}
-              className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-30 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm border border-[#3D2817]/30 hover:bg-[#3D2817] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded luxury-shadow"
-              title="Add to cart"
+              className={`absolute bottom-0 left-0 right-0 z-30 bg-[#2B6B5A] text-white text-[10px] font-bold uppercase tracking-[0.1em] py-3 text-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${
+                isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+              }`}
               aria-label="Add to cart"
             >
-              {isAdding ? (
-                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              ) : (
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-              )}
+              {isAdding ? 'Adding...' : isSoldOut ? 'Sold Out' : 'Quick Add +'}
             </button>
 
-            {/* Base Image - Square, centered */}
+            {/* Base Image */}
             {defaultImageSrc && (
               <img
                 src={defaultImageSrc}
@@ -197,96 +163,40 @@ const ProductCard = ({ product }) => {
                 onLoad={() => setImageLoaded(true)}
                 decoding="async"
                 loading="lazy"
-                className={`
-                  w-full h-full object-contain transition-opacity duration-300
-                  ${imageLoaded ? 'opacity-100' : 'opacity-0'}
-                `}
+                className={`w-full h-full object-cover transition-all duration-500 ease-out ${imageLoaded ? 'opacity-100' : 'opacity-0'} group-hover:scale-105`}
                 onError={handleImageError}
               />
             )}
 
-            {/* Hover Image - Simple fade transition */}
+            {/* Hover Image */}
             {hoverImageSrc && (
               <>
-                {/* Preload hover image */}
-                <img
-                  src={hoverImageSrc}
-                  alt=""
-                  className="hidden"
-                  onLoad={() => setHoverImageLoaded(true)}
-                  decoding="async"
-                />
-                {/* Hover cover image */}
+                <img src={hoverImageSrc} alt="" className="hidden" onLoad={() => setHoverImageLoaded(true)} decoding="async" />
                 <img
                   src={hoverImageSrc}
                   alt={product.name || product.title || 'Product'}
-                  className={`
-                    absolute inset-0 w-full h-full object-contain transition-opacity duration-300
-                    ${isHovered && hoverImageLoaded ? 'opacity-100 z-10' : 'opacity-0 z-0'}
-                  `}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out ${
+                    isHovered && hoverImageLoaded ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  } group-hover:scale-105`}
                   onError={handleImageError}
                 />
               </>
             )}
-
           </div>
 
-          {/* PRODUCT DETAILS */}
-          <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
-            {/* Product Name - Bold, uppercase, minimal */}
-            <h3 className="text-xs sm:text-sm font-bold text-[#3D2817] leading-tight line-clamp-2 uppercase tracking-tight">
+          {/* PRODUCT INFO — minimal: name + price only (COLLUSION style) */}
+          <div className="px-3 py-3 sm:px-4 sm:py-4">
+            <h3 className="text-[11px] sm:text-xs font-bold text-[#1A2F2A] uppercase tracking-[0.04em] leading-tight line-clamp-1 mb-1.5">
               {(product.name || product.productName || 'Product').toUpperCase()}
             </h3>
 
-            {/* Reviews and Availability - Orange for sales info */}
-            {!isSkincare && (
-              <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-[#3D2817]">
-                {reviewsCount > 0 && (
-                  <span className="font-medium">{reviewsCount.toLocaleString()} Reviews</span>
-                )}
-                {reviewsCount > 0 && (isSoldOut || soldCount > 0) && (
-                  <span className="text-[#3D2817]/40">|</span>
-                )}
-                {isSoldOut ? (
-                  <span className="text-orange-600 font-semibold">
-                    {soldCount >= 10000 ? `${(soldCount / 1000).toFixed(0)}L+ ` : soldCount > 0 ? `${(soldCount / 1000).toFixed(1)}L+ ` : ''}Sold Out!!
-                  </span>
-                ) : soldCount > 0 && (
-                  <span className="text-orange-600 font-semibold">
-                    {soldCount >= 10000 ? `${(soldCount / 1000).toFixed(0)}L+ ` : `${soldCount.toLocaleString()} `}Sold
-                  </span>
-                )}
-              </div>
-            )}
-            {isSkincare && reviewsCount > 0 && (
-              <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-[#3D2817]">
-                <span className="font-medium">{reviewsCount.toLocaleString()} Reviews</span>
-              </div>
-            )}
-
-            {/* Description Snippet - Muted black/gray */}
-            {descriptionSnippet && (
-              <p className="text-[10px] sm:text-xs text-[#3D2817]/60 line-clamp-2 leading-relaxed">
-                {descriptionSnippet}
-              </p>
-            )}
-
-            {/* Divider Line - Thin black line */}
-            <div className="border-t border-[#3D2817]/30"></div>
-
-            {/* Pricing Section - Minimal, clean */}
-            <div className="flex items-baseline gap-1.5 sm:gap-2 pt-0.5 sm:pt-1">
-              {hasDiscount && originalPrice > 0 && (
-                <span className="text-[10px] sm:text-xs text-[#3D2817]/50 line-through">
-                  Rs. {formatPrice(originalPrice)}
-                </span>
-              )}
-              <span className="text-sm sm:text-base font-bold text-[#3D2817]">
+            <div className="flex items-baseline gap-2">
+              <span className="text-sm sm:text-base font-bold text-[#1A2F2A]">
                 Rs. {formatPrice(finalPrice)}
               </span>
-              {hasDiscount && discountPercent > 0 && !isJeans && (
-                <span className="text-[10px] sm:text-xs text-green-600 font-semibold">
-                  ({discountPercent}% off)
+              {hasDiscount && originalPrice > 0 && (
+                <span className="text-[10px] sm:text-xs text-[#8B9A95] line-through">
+                  Rs. {formatPrice(originalPrice)}
                 </span>
               )}
             </div>
@@ -297,9 +207,6 @@ const ProductCard = ({ product }) => {
   );
 };
 
-// PERFORMANCE FIX: 
-// Only re-render if the product ID changes. 
-// This prevents the "stutter" when infinite scroll adds new items.
 export default memo(ProductCard, (prev, next) => {
   return (prev.product._id || prev.product.id) === (next.product._id || next.product.id);
 });

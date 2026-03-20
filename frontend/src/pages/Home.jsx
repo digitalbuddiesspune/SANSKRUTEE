@@ -158,6 +158,7 @@ const Home = () => {
   const bannerCarouselRef = useRef(null);
   const promoBannerCarouselRef = useRef(null);
   const mobilePromoBannerCarouselRef = useRef(null);
+  const heroParallaxRef = useRef(null);
 
   // --- DATA STATE & FETCHING (Unchanged) ---
   const [freshDrops, setFreshDrops] = useState([]);
@@ -232,9 +233,7 @@ const Home = () => {
 
   // Banner carousel images
   const banners = [
-    optimizeImageUrl('https://res.cloudinary.com/de1bg8ivx/image/upload/v1766476937/Brown_Modern_New_Arrival_Leaderboard_Ad_gzs4iv.svg', 50),
-    optimizeImageUrl('https://res.cloudinary.com/de1bg8ivx/image/upload/v1766476935/Cream_Brown_Minimalist_Fashion_Sale_Leaderboard_Ad_tpvvpj.svg', 50),
-    optimizeImageUrl('https://res.cloudinary.com/de1bg8ivx/image/upload/v1766476935/Women_Fashion_Leaderboard_Ad_trr3pe.svg', 50)
+    optimizeImageUrl('https://res.cloudinary.com/de1bg8ivx/image/upload/v1766476937/Brown_Modern_New_Arrival_Leaderboard_Ad_gzs4iv.svg', 50)
   ];
 
   // Detect mobile viewport
@@ -393,6 +392,40 @@ const Home = () => {
     return () => carousel.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Subtle editorial parallax for the hero image area (requested)
+  useEffect(() => {
+    const el = heroParallaxRef.current;
+    if (!el) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let rafId = null;
+
+    const update = () => {
+      rafId = null;
+      const rect = el.getBoundingClientRect();
+      const viewportH = window.innerHeight || 1;
+      const centerY = rect.top + rect.height / 2;
+      const distance = (centerY - viewportH / 2) / viewportH;
+      const y = Math.max(-18, Math.min(18, distance * 28));
+      el.style.transform = `translate3d(0, ${-y}px, 0)`;
+    };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
   // Touch swipe handlers for mobile hero banners
   const minSwipeDistance = 50;
 
@@ -547,60 +580,37 @@ const Home = () => {
   return (
     <div className="min-h-screen font-sans text-gray-800">
       {/* MOBILE HOME PAGE - New Design */}
-      <div className="md:hidden bg-white min-h-screen">
-        {/* Desktop Banner Carousel - Original View */}
+        <div className="md:hidden bg-white min-h-screen">
+        {/* Mobile banner above search */}
         <div className="relative w-full bg-white px-4 pt-4 pb-4">
           <div className="relative w-full flex items-center justify-center mx-auto">
             <div className="relative overflow-hidden w-full rounded-3xl">
-              <div 
+              <div
                 ref={promoBannerCarouselRef}
                 className="flex overflow-x-auto scroll-smooth scrollbar-hide"
-                style={{ 
+                style={{
                   scrollSnapType: 'x mandatory',
                   scrollBehavior: 'smooth',
                   WebkitOverflowScrolling: 'touch'
                 }}
               >
-                {(() => {
-                  const promoBanners = [
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656659/Pink_and_Gold_Simple_Diwali_Skincare_Cosmetic_Beauty_Offers_Instagram_Post_1_xzglzv.png', 50),
-                      path: '/skincare'
-                    },
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656833/Purple_Women_Clothing_Promo_Instagram_Post_d2cxg9.png', 50),
-                      path: '/women'
-                    },
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656392/Brown_White_Modern_Elegant_Sale_and_Discount_Instagram_Post_frmjoo.svg', 50),
-                      path: '/sale'
-                    },
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766655996/Red_and_White_Modern_Bridal_Shower_Social_Media_Graphic_1_v9pexp.svg', 50),
-                      path: '/sale'
-                    }
-                  ];
-                  // Duplicate banners for infinite scroll
-                  return [...promoBanners, ...promoBanners].map((banner, index) => (
-                    <div
-                      key={index}
-                      className="flex-shrink-0 w-full"
-                      style={{ 
-                        scrollSnapAlign: 'start',
-                        scrollSnapStop: 'always'
-                      }}
-                      onClick={() => navigate(banner.path)}
-                    >
-                      <img
-                        src={banner.image}
-                        alt={`Promo Banner ${(index % 4) + 1}`}
-                        className="w-full h-auto object-contain cursor-pointer"
-                        loading={index < 4 ? 'eager' : 'lazy'}
-                        draggable="false"
-                      />
-                    </div>
-                  ));
-                })()}
+                <div
+                  className="flex-shrink-0 w-full"
+                  style={{
+                    scrollSnapAlign: 'start',
+                    scrollSnapStop: 'always'
+                  }}
+                >
+                  <img
+                    src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774009783/sale_products_1080_x_1080_px_qgovod.png"
+                    alt="Sale Products Banner"
+                    width={1080}
+                    height={1080}
+                    className="w-full h-auto object-contain"
+                    loading="eager"
+                    draggable="false"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -614,9 +624,9 @@ const Home = () => {
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-4 pr-14 py-3 bg-gray-100 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B4513]"
+              className="w-full pl-4 pr-14 py-3 bg-[#F5F0E8] rounded-full text-[#1A2F2A] placeholder-[#8B9A95] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A]"
             />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-[#8B4513] rounded-full">
+            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-[#2B6B5A] rounded-full">
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -640,7 +650,7 @@ const Home = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                   openDropdown === cat.id
-                    ? 'bg-[#3D2817] text-white'
+                    ? 'bg-[#1A2F2A] text-white'
                     : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -662,7 +672,7 @@ const Home = () => {
           
           {/* Subcategories Section */}
           {openDropdown && categories.find(cat => cat.id === openDropdown)?.subItems && (
-            <div className="mt-3 bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+            <div className="mt-3 bg-white border border-[#E0D8CE] rounded-lg shadow-sm p-4">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-sm font-semibold text-gray-800">
                   {categories.find(cat => cat.id === openDropdown)?.label}
@@ -682,7 +692,7 @@ const Home = () => {
                     key={index}
                     to={subItem.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-[#3D2817] hover:text-white rounded-md transition-colors text-center border border-gray-200 hover:border-[#3D2817]"
+                    className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-[#1A2F2A] hover:text-white rounded-md transition-colors text-center border border-[#E0D8CE] hover:border-[#1A2F2A]"
                   >
                     {subItem.name}
                   </Link>
@@ -714,10 +724,10 @@ const Home = () => {
                                     'product';
 
               return (
-                <div key={productId} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative">
+                <div key={productId} className="bg-white rounded-xl shadow-sm border border-[#E0D8CE] overflow-hidden relative">
                   {/* Discount Badge */}
                   {hasDiscount && discountPercent > 0 && (
-                    <div className="absolute top-2 right-2 z-10 bg-[#8B4513] text-white px-2.5 py-1 rounded-full flex items-center">
+                    <div className="absolute top-2 right-2 z-10 bg-[#C4A265] text-white px-2.5 py-1 rounded-full flex items-center">
                       <span className="text-xs font-bold">{discountPercent}% OFF</span>
                     </div>
                   )}
@@ -746,7 +756,7 @@ const Home = () => {
                     {/* Add to Cart Button */}
                     <button
                       onClick={() => handleAddToCart(product)}
-                      className="w-full bg-[#3D2817] text-white rounded-full p-2 flex items-center justify-center hover:bg-[#8B4513] transition-colors"
+                      className="w-full bg-[#1A2F2A] text-white rounded-full p-2 flex items-center justify-center hover:bg-[#2B6B5A] hover:text-[#1A2F2A] transition-colors"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -760,266 +770,29 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- HERO SECTION (Desktop: Text Left, Banners Right | Mobile: Banners Only) --- */}
-      <div className="hidden md:block relative w-full bg-[#FAF8F5]">
+      {/* --- HERO BANNER --- */}
+      <section className="w-full">
+        {/* Desktop banner */}
+        <img
+          src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774009093/sale_products_1_oaenoj.png"
+          alt="Sale Products Banner"
+          width={1921}
+          height={791}
+          className="w-full h-auto hidden md:block"
+          loading="eager"
+        />
+        {/* Mobile banner */}
         
-        {/* Desktop Hero Layout */}
-        <div className="hidden md:block relative w-full pb-8 lg:pb-12 xl:pb-16">
-          <div className="w-full max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch min-h-[500px] lg:min-h-[600px] xl:min-h-[650px]">
-              
-              {/* Left Side: Text Content - Takes 6 columns */}
-              <div className="lg:col-span-6 text-left space-y-5 lg:space-y-6 xl:space-y-8 px-6 lg:px-10 xl:px-16 flex flex-col justify-center pt-6 lg:pt-8 pb-8 lg:pb-12">
-                {/* NEW COLLECTION Label */}
-                <div>
-                  <span className="inline-block px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.15em] border border-[#3D2817]/30" style={{ backgroundColor: '#8B4513', color: '#FAF8F5' }}>
-                    NEW COLLECTION
-                  </span>
-                </div>
-                
-                {/* Main Headline */}
-                <div className="space-y-1 md:space-y-2">
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-serif font-bold leading-[1.05] tracking-tight" style={{ color: '#3D2817' }}>
-                    Discover
-                  </h1>
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-serif font-bold leading-[1.05] tracking-tight" style={{ color: '#8B4513' }}>
-                    Your Style
-                  </h1>
-                </div>
-                
-                {/* Subtitle */}
-                <div>
-                  <p className="text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed max-w-lg" style={{ color: '#3D2817', opacity: 0.85 }}>
-                    Curated fashion, beauty essentials, and lifestyle products that reflect your unique personality
-                  </p>
-                </div>
-                
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-1 md:pt-2">
-                  <Link
-                    to="/women"
-                    className="inline-flex items-center justify-center px-6 md:px-8 lg:px-10 py-2.5 md:py-3 lg:py-3.5 text-xs md:text-sm lg:text-base font-semibold text-center border border-[#3D2817]/30 transition-colors luxury-shadow rounded"
-                    style={{ backgroundColor: '#8B4513', color: '#FAF8F5' }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#3D2817';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = '#8B4513';
-                    }}
-                  >
-                    Shop Now
-                  </Link>
-                  <Link
-                    to="/sale"
-                    className="inline-flex items-center justify-center px-6 md:px-8 lg:px-10 py-2.5 md:py-3 lg:py-3.5 text-xs md:text-sm lg:text-base font-semibold text-center border border-[#3D2817]/30 transition-colors luxury-shadow rounded"
-                    style={{ backgroundColor: '#FAF8F5', color: '#3D2817' }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#3D2817';
-                      e.target.style.color = '#FAF8F5';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = '#FAF8F5';
-                      e.target.style.color = '#3D2817';
-                    }}
-                  >
-                    View Sale
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right Side: Banner Carousel - Takes 6 columns, smaller size, no borders */}
-              <div className="lg:col-span-6 relative w-full flex items-center justify-center pt-0 pb-6 lg:pb-8 xl:pb-10">
-                <div className="relative overflow-hidden w-full max-w-md lg:max-w-xl xl:max-w-2xl">
-                  <div 
-                    ref={promoBannerCarouselRef}
-                    className="flex overflow-x-hidden scroll-smooth scrollbar-hide"
-                    style={{ scrollSnapType: 'x mandatory' }}
-                  >
-                    {(() => {
-                      const promoBanners = [
-                        { 
-                          image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656659/Pink_and_Gold_Simple_Diwali_Skincare_Cosmetic_Beauty_Offers_Instagram_Post_1_xzglzv.png', 50),
-                          path: '/skincare'
-                        },
-                        { 
-                          image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656833/Purple_Women_Clothing_Promo_Instagram_Post_d2cxg9.png', 50),
-                          path: '/women'
-                        },
-                        { 
-                          image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656392/Brown_White_Modern_Elegant_Sale_and_Discount_Instagram_Post_frmjoo.svg', 50),
-                          path: '/sale'
-                        },
-                        { 
-                          image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766655996/Red_and_White_Modern_Bridal_Shower_Social_Media_Graphic_1_v9pexp.svg', 50),
-                          path: '/sale'
-                        }
-                      ];
-                      // Duplicate banners for infinite scroll
-                      return [...promoBanners, ...promoBanners].map((banner, index) => (
-                        <div
-                          key={index}
-                          className="flex-shrink-0 w-full"
-                          style={{ scrollSnapAlign: 'start' }}
-                        >
-                          <Link to={banner.path} className="block w-full">
-                            <img
-                              src={banner.image}
-                              alt={`Promo Banner ${(index % 4) + 1}`}
-                              className="w-full h-auto object-contain cursor-pointer"
-                              loading={index < 4 ? 'eager' : 'lazy'}
-                            />
-                          </Link>
-                        </div>
-                      ));
-                    })()}
-                  </div>
-                </div>
-
-                {/* Carousel Indicators */}
-                <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10 bg-[#FAF8F5]/80 backdrop-blur-sm px-2 md:px-3 py-1 md:py-1.5 rounded-full border border-[#3D2817]/30/20">
-                  {[0, 1, 2, 3].map((index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPromoBannerIndex(index)}
-                      className={`h-1.5 md:h-2 transition-all rounded-full ${
-                        index === currentPromoBannerIndex 
-                          ? 'w-6 md:w-8 bg-[#3D2817]' 
-                          : 'w-1.5 md:w-2 bg-[#3D2817]/30 hover:bg-[#3D2817]/50'
-                      }`}
-                      aria-label={`Go to banner ${index + 1}`}
-                    />
-                  ))}
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Hero Layout: Banners First, Then Text */}
-        <div className="md:hidden relative w-full bg-[#FAF8F5]">
-          {/* Mobile Promotional Banners Carousel - Above Text */}
-          <div className="relative w-full overflow-hidden bg-[#FAF8F5] border-b border-[#3D2817]/30 pt-0">
-            <div 
-              ref={mobilePromoBannerCarouselRef}
-              className="flex overflow-x-hidden scroll-smooth scrollbar-hide"
-              style={{ scrollSnapType: 'x mandatory' }}
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
-            >
-              {(() => {
-                  const promoBanners = [
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656833/Purple_Women_Clothing_Promo_Instagram_Post_d2cxg9.png', 50),
-                      path: '/women'
-                    },
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656659/Pink_and_Gold_Simple_Diwali_Skincare_Cosmetic_Beauty_Offers_Instagram_Post_1_xzglzv.png', 50),
-                      path: '/skincare'
-                    },
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766656392/Brown_White_Modern_Elegant_Sale_and_Discount_Instagram_Post_frmjoo.svg', 50),
-                      path: '/sale'
-                    },
-                    { 
-                      image: optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766655996/Red_and_White_Modern_Bridal_Shower_Social_Media_Graphic_1_v9pexp.svg', 50),
-                      path: '/sale'
-                    }
-                  ];
-                // Duplicate banners for infinite scroll
-                return [...promoBanners, ...promoBanners].map((banner, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 w-full"
-                    style={{ scrollSnapAlign: 'start' }}
-                  >
-                    <Link to={banner.path} className="block w-full">
-                      <img
-                        src={banner.image}
-                        alt={`Promo Banner ${(index % 4) + 1}`}
-                        className="w-full h-auto object-contain cursor-pointer"
-                        loading={index < 4 ? 'eager' : 'lazy'}
-                      />
-                    </Link>
-                  </div>
-                ));
-              })()}
-            </div>
-
-            {/* Carousel Indicators */}
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2 z-10 bg-[#FAF8F5]/80 backdrop-blur-sm px-2 py-1 rounded-full border border-[#3D2817]/30/20">
-              {[0, 1, 2, 3].map((index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentMobilePromoBannerIndex(index)}
-                  className={`h-1.5 transition-all rounded-full ${
-                    index === currentMobilePromoBannerIndex 
-                      ? 'w-6 bg-[#3D2817]' 
-                      : 'w-1.5 bg-[#3D2817]/30'
-                  }`}
-                  aria-label={`Go to banner ${index + 1}`}
-                />
-              ))}
-            </div>
-
-          </div>
-
-          {/* Mobile Text Content - Below Banners */}
-          <div className="px-4 py-6 space-y-4">
-            {/* NEW COLLECTION Label */}
-            <div>
-              <span className="inline-block px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] border border-[#3D2817]/30" style={{ backgroundColor: '#8B4513', color: '#FAF8F5' }}>
-                NEW COLLECTION
-              </span>
-            </div>
-            
-            {/* Main Headline */}
-            <div className="space-y-1">
-              <h1 className="text-2xl sm:text-3xl font-serif font-bold leading-tight tracking-tight" style={{ color: '#3D2817' }}>
-                Discover
-              </h1>
-              <h1 className="text-2xl sm:text-3xl font-serif font-bold leading-tight tracking-tight" style={{ color: '#8B4513' }}>
-                Your Style
-              </h1>
-            </div>
-            
-            {/* Subtitle */}
-            <div>
-              <p className="text-sm leading-relaxed" style={{ color: '#3D2817', opacity: 0.85 }}>
-                Curated fashion, beauty essentials, and lifestyle products that reflect your unique personality
-              </p>
-            </div>
-            
-            {/* CTA Buttons - In Same Row */}
-            <div className="flex flex-row gap-3 pt-2">
-              <Link
-                to="/women"
-                className="flex-1 inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-center border border-[#3D2817]/30"
-                style={{ backgroundColor: '#8B4513', color: '#FAF8F5' }}
-              >
-                Shop Now
-              </Link>
-              <Link
-                to="/sale"
-                className="flex-1 inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-center border border-[#3D2817]/30"
-                style={{ backgroundColor: '#FAF8F5', color: '#3D2817' }}
-              >
-                View Sale
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       {/* --- NEW FASHION SALE PROMOTIONAL BANNER --- */}
-      <div className="relative w-full bg-[#FAF8F5] border-t border-[#3D2817]/30 overflow-hidden">
+      <div className="relative w-full bg-white border-t border-[#E0D8CE] overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-10 lg:py-16 xl:py-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 items-stretch">
             
             {/* Left Model Section */}
             <div className="relative">
-              <div className="relative h-full sm:h-64 md:h-80 lg:h-96 xl:h-[500px] bg-[#FAF8F5] border border-[#3D2817]/30 overflow-hidden luxury-shadow">
+              <div className="relative h-full sm:h-64 md:h-80 lg:h-96 xl:h-[500px] bg-white border border-[#E0D8CE] overflow-hidden luxury-shadow">
                 <img
                   src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766657960/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_ymve41.png', 50)}
                   alt="Women Bags Promo"
@@ -1030,48 +803,48 @@ const Home = () => {
 
             {/* Central Promotional Section */}
             <div className="relative col-span-1 md:col-span-1">
-              <div className="relative bg-[#FAF8F5] p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 border border-[#3D2817]/30 min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] flex flex-col items-center justify-center luxury-shadow">
+              <div className="relative bg-white p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 border border-[#E0D8CE] min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] flex flex-col items-center justify-center luxury-shadow">
                 
                 {/* Abstract Brown Blob Shapes */}
-                <div className="absolute top-4 left-4 w-12 h-12 sm:w-16 sm:h-16 bg-[#a06a4e]/20 rounded-full blur-xl"></div>
-                <div className="absolute bottom-8 right-6 w-16 h-16 sm:w-20 sm:h-20 bg-[#a06a4e]/15 rounded-full blur-2xl"></div>
-                <div className="absolute top-1/2 left-1/4 w-10 h-10 sm:w-12 sm:h-12 bg-[#a06a4e]/10 rounded-full blur-lg"></div>
+                <div className="absolute top-4 left-4 w-12 h-12 sm:w-16 sm:h-16 bg-[#2B6B5A]/20 rounded-full blur-xl"></div>
+                <div className="absolute bottom-8 right-6 w-16 h-16 sm:w-20 sm:h-20 bg-[#2B6B5A]/15 rounded-full blur-2xl"></div>
+                <div className="absolute top-1/2 left-1/4 w-10 h-10 sm:w-12 sm:h-12 bg-[#2B6B5A]/10 rounded-full blur-lg"></div>
                 
                 {/* Black Dotted Patterns */}
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex gap-1">
-                  <div className="w-1 h-1 bg-[#3D2817] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#3D2817] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#3D2817] rounded-full"></div>
+                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
+                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
+                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
                 </div>
                 <div className="absolute bottom-8 right-6 sm:bottom-10 sm:right-8 flex gap-1">
-                  <div className="w-1 h-1 bg-[#3D2817] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#3D2817] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#3D2817] rounded-full"></div>
+                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
+                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
+                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
                 </div>
                 
                 {/* Black Starburst Icons */}
                 <div className="absolute top-6 right-6 sm:top-8 sm:right-8">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#3D2817]" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#1A2F2A]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z"/>
                   </svg>
                 </div>
                 <div className="absolute bottom-10 left-8 sm:bottom-12 sm:left-10">
-                  <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#3D2817]" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#1A2F2A]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z"/>
                   </svg>
                 </div>
                 
                 {/* Main Content */}
                 <div className="relative z-10 text-center px-2">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold uppercase tracking-tight mb-2 sm:mb-3 md:mb-4" style={{ color: '#a06a4e' }}>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold uppercase tracking-tight mb-2 sm:mb-3 md:mb-4" style={{ color: '#2B6B5A' }}>
                     NEW FASHION SALE
                   </h2>
-                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium uppercase tracking-wide mb-4 sm:mb-6 md:mb-8" style={{ color: '#a06a4e', opacity: 0.8 }}>
+                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium uppercase tracking-wide mb-4 sm:mb-6 md:mb-8" style={{ color: '#2B6B5A', opacity: 0.8 }}>
                     SAVE UP TO 50% OFF
                   </p>
                   <Link
                     to="/sale"
-                    className="inline-block px-5 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold border border-[#3D2817]/30 bg-[#3D2817] text-white hover:bg-[#FAF8F5] hover:text-[#3D2817] transition-colors"
+                    className="inline-block px-5 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold border border-[#E0D8CE] bg-[#1A2F2A] text-white hover:bg-white hover:text-[#1A2F2A] transition-colors"
                   >
                     Shop Now
                   </Link>
@@ -1079,15 +852,15 @@ const Home = () => {
                 
                 {/* Pagination Dots */}
                 <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
-                  <div className="w-2 h-2 bg-[#3D2817]"></div>
-                  <div className="w-2 h-2 bg-[#3D2817]/30"></div>
+                  <div className="w-2 h-2 bg-[#1A2F2A]"></div>
+                  <div className="w-2 h-2 bg-[#1A2F2A]/30"></div>
                 </div>
               </div>
             </div>
 
             {/* Right Model Section */}
             <div className="relative">
-              <div className="relative h-full sm:h-64 md:h-80 lg:h-96 xl:h-[500px] bg-[#FAF8F5] border border-[#3D2817]/30 overflow-hidden luxury-shadow">
+              <div className="relative h-full sm:h-64 md:h-80 lg:h-96 xl:h-[500px] bg-white border border-[#E0D8CE] overflow-hidden luxury-shadow">
                 <img
                   src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766658151/Beige_Modern_Minimalist_Fashion_Clothing_Sale_Promotional_Instagram_Post_q8geu5.png', 50)}
                   alt="Fashion Sale Promo"
@@ -1101,13 +874,19 @@ const Home = () => {
       </div>
 
       {/* --- SHOP BY CATEGORY SECTION --- */}
-      <div className="py-8 sm:py-12 lg:py-16 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-              Categories
-            </h2>
+      <div className="py-10 sm:py-14 lg:py-20 bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+          {/* Section Header — COLLUSION style */}
+          <div className="mb-8 sm:mb-10 flex items-end justify-between">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B9A95] mb-2">Browse</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1A2F2A] tracking-tight">
+                Catalog
+              </h2>
+            </div>
+            <Link to="/women" className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-[0.12em] text-[#1A2F2A] border-b-2 border-[#1A2F2A] pb-0.5 hover:border-[#C4A265] transition-colors">
+              View All
+            </Link>
           </div>
 
           {/* Category Carousel - Horizontal Scroll */}
@@ -1118,183 +897,88 @@ const Home = () => {
                 {/* Category 1 - Women's Fashion */}
                 <Link 
                   to="/women" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
+                  className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden"
                 >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
                     <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=400&fit=crop', 50)}
+                      src={optimizeImageUrl('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop', 50)}
                       alt="Fashion"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Fashion';
-                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Fashion'; }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Fashion
-                      </h3>
-                      <p className="text-xs text-white/90">
-                        Women's
-                      </p>
-                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Fashion</h3>
                   </div>
                 </Link>
 
                 {/* Category 2 - Sale */}
                 <Link 
                   to="/sale" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border-2 border-red-200 rounded-lg overflow-hidden hover:border-red-400 hover:shadow-lg transition-all duration-200"
+                  className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden"
                 >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
                     <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=400&fit=crop', 50)}
+                      src={optimizeImageUrl('https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=500&fit=crop', 50)}
                       alt="Sale"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Sale';
-                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Sale'; }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-red-900/70 via-red-500/30 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Sale
-                      </h3>
-                      <p className="text-xs text-white/90 font-medium">
-                        Up to 60% OFF
-                      </p>
-                    </div>
+                    <span className="absolute top-2 left-2 bg-[#2B6B5A] text-[#1A2F2A] text-[9px] font-bold uppercase tracking-wider px-2 py-1">Sale</span>
+                  </div>
+                  <div className="mt-3">
+                    <h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Sale</h3>
                   </div>
                 </Link>
 
                 {/* Category 3 - Shoes */}
-                <Link 
-                  to="/shoes" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
-                >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
-                    <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop', 50)}
-                      alt="Shoes"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Shoes';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Shoes
-                      </h3>
-                      <p className="text-xs text-white/90">
-                        Footwear
-                      </p>
-                    </div>
+                <Link to="/shoes" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                    <img src={optimizeImageUrl('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop', 50)} alt="Shoes"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Shoes'; }} />
                   </div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Shoes</h3></div>
                 </Link>
 
                 {/* Category 4 - Watches */}
-                <Link 
-                  to="/watches" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
-                >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
-                    <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop', 50)}
-                      alt="Watches"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Watches';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Watches
-                      </h3>
-                      <p className="text-xs text-white/90">
-                        Timepieces
-                      </p>
-                    </div>
+                <Link to="/watches" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                    <img src={optimizeImageUrl('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=500&fit=crop', 50)} alt="Watches"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Watches'; }} />
                   </div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Watches</h3></div>
                 </Link>
 
                 {/* Category 5 - Eyewear */}
-                <Link 
-                  to="/lenses" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
-                >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
-                    <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop', 50)}
-                      alt="Eyewear"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Eyewear';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Eyewear
-                      </h3>
-                      <p className="text-xs text-white/90">
-                        Lenses
-                      </p>
-                    </div>
+                <Link to="/lenses" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                    <img src={optimizeImageUrl('https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=500&fit=crop', 50)} alt="Eyewear"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Eyewear'; }} />
                   </div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Eyewear</h3></div>
                 </Link>
 
                 {/* Category 6 - Skincare */}
-                <Link 
-                  to="/skincare" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
-                >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
-                    <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop', 50)}
-                      alt="Skincare"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Skincare';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Skincare
-                      </h3>
-                      <p className="text-xs text-white/90">
-                        Beauty
-                      </p>
-                    </div>
+                <Link to="/skincare" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                    <img src={optimizeImageUrl('https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=500&fit=crop', 50)} alt="Skincare"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Skincare'; }} />
                   </div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Skincare</h3></div>
                 </Link>
 
                 {/* Category 7 - Earrings */}
-                <Link 
-                  to="/accessories?subCategory=earrings" 
-                  className="group relative flex-shrink-0 w-32 sm:w-40 lg:w-48 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-[#3D2817] hover:shadow-lg transition-all duration-200"
-                >
-                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
-                    <img
-                      src={optimizeImageUrl('https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop', 50)}
-                      alt="Earrings"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Earrings';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">
-                        Earrings
-                      </h3>
-                      <p className="text-xs text-white/90">
-                        Essentials
-                      </p>
-                    </div>
+                <Link to="/accessories?subCategory=earrings" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
+                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                    <img src={optimizeImageUrl('https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=500&fit=crop', 50)} alt="Earrings"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Earrings'; }} />
                   </div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Earrings</h3></div>
                 </Link>
               </div>
             </div>
@@ -1302,8 +986,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- THREE BANNERS CAROUSEL (Visible on all devices) --- */}
-      <div className="relative w-full bg-[#FAF8F5] border-t border-[#3D2817]/30 overflow-hidden">
+      {/* --- BANNERS CAROUSEL --- */}
+      <div className="relative w-full bg-white border-t border-[#E0D8CE] overflow-hidden">
         <div className="relative w-full">
           <div 
             ref={bannerCarouselRef}
@@ -1311,17 +995,8 @@ const Home = () => {
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {banners.map((banner, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-full"
-                style={{ scrollSnapAlign: 'start' }}
-              >
-                <img
-                  src={banner}
-                  alt={`Banner ${index + 1}`}
-                  className="w-full h-auto object-contain"
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                />
+              <div key={index} className="flex-shrink-0 w-full" style={{ scrollSnapAlign: 'start' }}>
+                <img src={banner} alt={`Banner ${index + 1}`} className="w-full h-auto object-contain" loading={index === 0 ? 'eager' : 'lazy'} />
               </div>
             ))}
           </div>
@@ -1329,22 +1004,22 @@ const Home = () => {
       </div>
 
       {/* --- THREE COLUMN PRODUCT SECTIONS --- */}
-      <div className="relative w-full bg-[#FAF8F5] border-t border-[#3D2817]/30">
+      <div className="relative w-full bg-white border-t border-[#E0D8CE]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {/* Column 1: Women's Fashion */}
-            <Link to="/women" className="relative group overflow-hidden bg-[#FAF8F5] border border-[#3D2817]/30 luxury-shadow transition-all duration-300">
+            <Link to="/women" className="relative group overflow-hidden bg-white border border-[#E0D8CE] luxury-shadow transition-all duration-300">
               {/* Content */}
               <div className="relative z-10 p-4 sm:p-5 lg:p-6">
                 {/* Brand/Logo */}
                 <div className="mb-4 bg-transparent">
                   <img 
-                    src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png', 50)}
-                    alt="Shopzy Logo"
+                    src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png', 50)}
+                    alt="Sanskrutee Logo"
                     className="h-8 sm:h-10 w-auto object-contain mb-2"
                     style={{ backgroundColor: 'transparent', background: 'transparent' }}
                   />
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#3D2817' }}>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#1A2F2A' }}>
                     Women's Fashion
                   </h2>
                 </div>
@@ -1368,10 +1043,10 @@ const Home = () => {
                     }
                     
                     return (
-                      <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#3D2817]/20 hover:border-[#3D2817]/40 transition-colors" style={{ backgroundColor: '#FAF8F5' }}>
+                      <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#1A2F2A]/20 hover:border-[#1A2F2A]/40 transition-colors" style={{ backgroundColor: '#FAF6F0' }}>
                         {/* Red accent line */}
-                        <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#8B4513' }}></div>
-                        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#3D2817]/20">
+                        <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#2B6B5A' }}></div>
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#1A2F2A]/20">
                           {imageUrl ? (
                             <img
                               src={optimizeImageUrl(imageUrl, 50)}
@@ -1383,15 +1058,15 @@ const Home = () => {
                               }}
                             />
                           ) : null}
-                          <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: imageUrl ? 'none' : 'flex', backgroundColor: '#FAF8F5', color: '#3D2817' }}>
+                          <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: imageUrl ? 'none' : 'flex', backgroundColor: '#FAF6F0', color: '#1A2F2A' }}>
                             No Image
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#3D2817' }}>
+                          <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#1A2F2A' }}>
                             {product.name || product.productName || 'Product'}
                           </p>
-                          <p className="text-sm sm:text-base font-bold" style={{ color: '#8B4513' }}>
+                          <p className="text-sm sm:text-base font-bold" style={{ color: '#2B6B5A' }}>
                             ₹{product.finalPrice || product.price || '0'}
                           </p>
                         </div>
@@ -1401,8 +1076,8 @@ const Home = () => {
                 </div>
                 
                 {/* CTA */}
-                <div className="mt-4 pt-3 border-t border-[#3D2817]/20">
-                  <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#3D2817' }}>
+                <div className="mt-4 pt-3 border-t border-[#1A2F2A]/20">
+                  <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#1A2F2A' }}>
                     Shop Now →
                   </span>
                 </div>
@@ -1410,30 +1085,30 @@ const Home = () => {
             </Link>
 
           {/* Column 2: Skincare */}
-          <Link to="/skincare" className="relative group overflow-hidden bg-[#FAF8F5] border border-[#3D2817]/30 luxury-shadow transition-all duration-300">
+          <Link to="/skincare" className="relative group overflow-hidden bg-white border border-[#E0D8CE] luxury-shadow transition-all duration-300">
             {/* Content */}
             <div className="relative z-10 p-4 sm:p-5 lg:p-6">
               {/* Brand/Logo */}
               <div className="mb-4 bg-transparent">
                 <img 
-                  src="https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png"
-                  alt="Shopzy Logo"
+                  src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
+                  alt="Sanskrutee Logo"
                   className="h-8 sm:h-10 w-auto object-contain mb-2"
                   style={{ backgroundColor: 'transparent', background: 'transparent' }}
                 />
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#3D2817' }}>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#1A2F2A' }}>
                   Skincare Essentials
                 </h2>
-                <p className="text-xs sm:text-sm mt-1" style={{ color: '#3D2817', opacity: 0.7 }}>Nourish & Glow</p>
+                <p className="text-xs sm:text-sm mt-1" style={{ color: '#1A2F2A', opacity: 0.7 }}>Nourish & Glow</p>
               </div>
               
               {/* Products Display */}
               <div className="space-y-2.5 sm:space-y-3">
                 {skincareProducts.slice(0, isMobile ? 2 : 4).map((product, idx) => (
-                  <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#3D2817]/20 hover:border-[#3D2817]/40 transition-colors" style={{ backgroundColor: '#FAF8F5' }}>
+                  <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#1A2F2A]/20 hover:border-[#1A2F2A]/40 transition-colors" style={{ backgroundColor: '#FAF6F0' }}>
                     {/* Red accent line */}
-                    <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#8B4513' }}></div>
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#3D2817]/20">
+                    <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#2B6B5A' }}></div>
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#1A2F2A]/20">
                       <img
                         src={product.image || product.imageUrl || 'https://via.placeholder.com/80'}
                         alt={product.name || product.productName || 'Product'}
@@ -1443,15 +1118,15 @@ const Home = () => {
                           e.target.nextSibling.style.display = 'flex';
                         }}
                       />
-                      <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: 'none', backgroundColor: '#FAF8F5', color: '#3D2817' }}>
+                      <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: 'none', backgroundColor: '#FAF6F0', color: '#1A2F2A' }}>
                         No Image
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#3D2817' }}>
+                      <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#1A2F2A' }}>
                         {product.name || product.productName || 'Product'}
                       </p>
-                      <p className="text-sm sm:text-base font-bold" style={{ color: '#8B4513' }}>
+                      <p className="text-sm sm:text-base font-bold" style={{ color: '#2B6B5A' }}>
                         ₹{product.finalPrice || product.price || '0'}
                       </p>
                     </div>
@@ -1460,8 +1135,8 @@ const Home = () => {
           </div>
               
               {/* CTA */}
-              <div className="mt-4 pt-3 border-t border-[#3D2817]/20">
-                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#3D2817' }}>
+              <div className="mt-4 pt-3 border-t border-[#1A2F2A]/20">
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#1A2F2A' }}>
                   Explore →
                 </span>
         </div>
@@ -1469,21 +1144,21 @@ const Home = () => {
           </Link>
 
           {/* Column 3: Earrings & Watches */}
-          <Link to="/accessories?subCategory=earrings" className="relative group overflow-hidden bg-[#FAF8F5] border border-[#3D2817]/30 luxury-shadow transition-all duration-300">
+          <Link to="/accessories?subCategory=earrings" className="relative group overflow-hidden bg-white border border-[#E0D8CE] luxury-shadow transition-all duration-300">
             {/* Content */}
             <div className="relative z-10 p-4 sm:p-5 lg:p-6">
               {/* Brand/Logo */}
               <div className="mb-4 bg-transparent">
                 <img 
-                  src="https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766755411/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_1_xytoa9.png"
-                  alt="Shopzy Logo"
+                  src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
+                  alt="Sanskrutee Logo"
                   className="h-8 sm:h-10 w-auto object-contain mb-2"
                   style={{ backgroundColor: 'transparent', background: 'transparent' }}
                 />
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#3D2817' }}>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#1A2F2A' }}>
                   Earrings
                 </h2>
-                <p className="text-xs sm:text-sm mt-1" style={{ color: '#3D2817', opacity: 0.7 }}>Elegant Earrings</p>
+                <p className="text-xs sm:text-sm mt-1" style={{ color: '#1A2F2A', opacity: 0.7 }}>Elegant Earrings</p>
       </div>
               
               {/* Products Display */}
@@ -1508,10 +1183,10 @@ const Home = () => {
                   }
                   
                   return (
-                    <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#3D2817]/20 hover:border-[#3D2817]/40 transition-colors" style={{ backgroundColor: '#FAF8F5' }}>
+                    <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#1A2F2A]/20 hover:border-[#1A2F2A]/40 transition-colors" style={{ backgroundColor: '#FAF6F0' }}>
                       {/* Red accent line */}
-                      <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#8B4513' }}></div>
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#3D2817]/20">
+                      <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#2B6B5A' }}></div>
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#1A2F2A]/20">
                         {imageUrl ? (
                           <img
                             src={imageUrl}
@@ -1523,15 +1198,15 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: imageUrl ? 'none' : 'flex', backgroundColor: '#FAF8F5', color: '#3D2817' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: imageUrl ? 'none' : 'flex', backgroundColor: '#FAF6F0', color: '#1A2F2A' }}>
                           No Image
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#3D2817' }}>
+                        <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#1A2F2A' }}>
                           {product.name || product.productName || 'Product'}
                         </p>
-                        <p className="text-sm sm:text-base font-bold" style={{ color: '#8B4513' }}>
+                        <p className="text-sm sm:text-base font-bold" style={{ color: '#2B6B5A' }}>
                           ₹{product.finalPrice || product.price || '0'}
                         </p>
                       </div>
@@ -1541,8 +1216,8 @@ const Home = () => {
               </div>
               
               {/* CTA */}
-              <div className="mt-4 pt-3 border-t border-[#3D2817]/20">
-                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#3D2817' }}>
+              <div className="mt-4 pt-3 border-t border-[#1A2F2A]/20">
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#1A2F2A' }}>
                   Discover →
                 </span>
               </div>
@@ -1553,7 +1228,7 @@ const Home = () => {
       </div>
 
       {/* --- BANNER IMAGES SECTION --- */}
-      <div className="w-full bg-[#FAF8F5] border-t border-[#3D2817]/30">
+      <div className="w-full bg-white border-t border-[#E0D8CE]">
         <div className="flex flex-col md:flex-row gap-0">
           {/* First Banner - Sale */}
           <Link 
@@ -1582,12 +1257,12 @@ const Home = () => {
       </div>
 
       {/* --- THE BEST OF SKINCARE SECTION (Luxury Style) --- */}
-      <div className="bg-[#FAF8F5] py-8 sm:py-10 lg:py-12 xl:py-14 border-t border-[#3D2817]/30">
+      <div className="bg-white py-8 sm:py-10 lg:py-12 xl:py-14 border-t border-[#E0D8CE]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           {/* Section Header */}
           <div className="text-center mb-6 sm:mb-8 lg:mb-10">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2" style={{ color: '#3D2817' }}>THE BEST OF SKINCARE</h2>
-            <p className="text-xs sm:text-sm lg:text-base" style={{ color: '#3D2817', opacity: 0.7 }}>Curated premium skincare collection</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2" style={{ color: '#1A2F2A' }}>THE BEST OF SKINCARE</h2>
+            <p className="text-xs sm:text-sm lg:text-base" style={{ color: '#1A2F2A', opacity: 0.7 }}>Curated premium skincare collection</p>
           </div>
 
           {/* Skincare Products Grid */}
@@ -1607,23 +1282,23 @@ const Home = () => {
                 
                 // Luxury background styles
                 const bgStyles = [
-                  'bg-gradient-to-br from-[#FAF8F5] via-[#F5F1EB] to-[#FAF8F5]',
-                  'bg-gradient-to-br from-[#F5F1EB] via-[#FAF8F5] to-[#E8E0D6]',
-                  'bg-gradient-to-br from-[#FAF8F5] via-[#E8E0D6] to-[#F5F1EB]',
-                  'bg-gradient-to-br from-[#E8E0D6] via-[#FAF8F5] to-[#F5F1EB]',
-                  'bg-gradient-to-br from-[#F5F1EB] via-[#E8E0D6] to-[#FAF8F5]',
+                  'bg-gradient-to-br from-[#FAF6F0] via-[#F5F0E8] to-[#FAF6F0]',
+                  'bg-gradient-to-br from-[#F5F0E8] via-[#FAF6F0] to-[#E0D8CE]',
+                  'bg-gradient-to-br from-[#FAF6F0] via-[#E0D8CE] to-[#F5F0E8]',
+                  'bg-gradient-to-br from-[#E0D8CE] via-[#FAF6F0] to-[#F5F0E8]',
+                  'bg-gradient-to-br from-[#F5F0E8] via-[#E0D8CE] to-[#FAF6F0]',
                 ];
                 const bgStyle = bgStyles[index % bgStyles.length];
 
                 return (
                   <div
                     key={product.id || product._id || index}
-                    className="group relative overflow-hidden rounded border border-[#3D2817]/30 luxury-shadow transition-all duration-300 bg-[#FAF8F5]"
+                    className="group relative overflow-hidden rounded border border-[#E0D8CE] luxury-shadow transition-all duration-300 bg-white"
                   >
                     {/* Card Background with Gradient */}
                     <div className={`relative ${bgStyle} p-3 sm:p-4 flex flex-col h-full`}>
                       {/* Brand Badge */}
-                      <div className="absolute top-2 left-2 bg-[#FAF8F5]/95 backdrop-blur-sm px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide z-10 border border-[#3D2817]/20" style={{ color: '#3D2817' }}>
+                      <div className="absolute top-2 left-2 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide z-10 border border-[#1A2F2A]/20" style={{ color: '#1A2F2A' }}>
                         {brandName.length > 12 ? brandName.substring(0, 12) + '...' : brandName}
                       </div>
 
@@ -1645,10 +1320,10 @@ const Home = () => {
                         to={`/skincare/${product.id || product._id}`}
                         className="mt-auto space-y-1"
                       >
-                        <p className="text-xs sm:text-sm font-semibold line-clamp-2 min-h-[2.5em]" style={{ color: '#3D2817' }}>
+                        <p className="text-xs sm:text-sm font-semibold line-clamp-2 min-h-[2.5em]" style={{ color: '#1A2F2A' }}>
                           {product.name || product.productName}
                         </p>
-                        <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-wide" style={{ color: '#8B4513' }}>
+                        <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-wide" style={{ color: '#2B6B5A' }}>
                           {offerText}
                         </p>
                       </Link>
@@ -1662,14 +1337,14 @@ const Home = () => {
                         }}
                         className="mt-2 w-full py-1.5 sm:py-2 px-2 sm:px-3 text-[9px] sm:text-[10px] font-semibold rounded transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5"
                         style={{ 
-                          backgroundColor: '#8B4513', 
-                          color: '#FAF8F5' 
+                          backgroundColor: '#2B6B5A', 
+                          color: '#FAF6F0' 
                         }}
                         onMouseEnter={(e) => {
-                          e.target.style.backgroundColor = '#3D2817';
+                          e.target.style.backgroundColor = '#1A2F2A';
                         }}
                         onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = '#8B4513';
+                          e.target.style.backgroundColor = '#2B6B5A';
                         }}
                       >
                         <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1695,13 +1370,13 @@ const Home = () => {
             <div className="text-center mt-6 sm:mt-8 lg:mt-10">
               <Link
                 to="/skincare"
-                className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#3D2817]/30 text-sm font-semibold transition-colors luxury-shadow"
-                style={{ backgroundColor: '#8B4513', color: '#FAF8F5' }}
+                className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#E0D8CE] text-sm font-semibold transition-colors luxury-shadow"
+                style={{ backgroundColor: '#2B6B5A', color: '#FAF6F0' }}
                 onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#3D2817';
+                  e.target.style.backgroundColor = '#1A2F2A';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#8B4513';
+                  e.target.style.backgroundColor = '#2B6B5A';
                 }}
               >
                 View All Skincare
@@ -1717,12 +1392,12 @@ const Home = () => {
       
 
       {/* --- PROFESSIONAL SKINCARE SECTIONS (Legends, Hot Sellers, Combos) --- */}
-      <section className="relative py-8 sm:py-10 bg-[#FAF8F5] border-t border-[#3D2817]/20">
+      <section className="relative py-8 sm:py-10 bg-white border-t border-[#1A2F2A]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             
             {/* Left Section: SKINCARE LEGENDS */}
-            <div className="relative bg-white border border-[#3D2817]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
               {/* Badge */}
               <div className="mb-3">
                 <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wide bg-pink-500 text-white rounded-full">
@@ -1730,7 +1405,7 @@ const Home = () => {
                 </span>
               </div>
 
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#3D2817]">
+              <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#1A2F2A]">
                 Introducing the SKINCARE LEGENDS!
               </h2>
               
@@ -1738,13 +1413,13 @@ const Home = () => {
               <div className="grid grid-cols-2 gap-2 mb-4">
                 <Link 
                   to="/skincare?category=serum" 
-                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] hover:bg-[#8B4513] hover:text-white transition-colors text-center rounded"
+                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors text-center rounded"
                 >
                   Pigmentation Specialist
                 </Link>
                 <Link 
                   to="/skincare?category=serum" 
-                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] hover:bg-[#8B4513] hover:text-white transition-colors text-center rounded"
+                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors text-center rounded"
                 >
                   Acne Fighter
                 </Link>
@@ -1754,7 +1429,7 @@ const Home = () => {
               <div className="mb-4">
                 <Link 
                   to="/skincare?category=moisturizer"
-                  className="block w-full px-3 py-2 text-xs sm:text-sm font-semibold border border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] hover:bg-[#8B4513] hover:text-white transition-colors text-center rounded"
+                  className="block w-full px-3 py-2 text-xs sm:text-sm font-semibold border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors text-center rounded"
                 >
                   Moisturizer - Skincare
                 </Link>
@@ -1762,7 +1437,7 @@ const Home = () => {
               
               {/* Skincare Products */}
               <div className="mb-4">
-                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#3D2817]">
+                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#1A2F2A]">
                   Premium Skincare Serums
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -1772,7 +1447,7 @@ const Home = () => {
                       <Link
                         key={product._id || product.id || idx}
                         to={`/skincare/${product._id || product.id}`}
-                        className="w-full h-16 sm:h-20 bg-[#FAF8F5] border border-[#3D2817]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#8B4513] transition-colors"
+                        className="w-full h-16 sm:h-20 bg-white border border-[#1A2F2A]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#2B6B5A] transition-colors"
                       >
                         {imageUrl ? (
                           <img
@@ -1785,7 +1460,7 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#3D2817] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#1A2F2A] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
                           {product.name || product.productName || 'Product'}
                         </div>
                       </Link>
@@ -1797,14 +1472,14 @@ const Home = () => {
               {/* CTA Button */}
               <Link
                 to="/skincare"
-                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] hover:bg-[#8B4513] hover:text-white transition-colors rounded"
+                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded"
               >
                 NEW LAUNCH
               </Link>
             </div>
 
             {/* Middle Section: HOT SELLERS */}
-            <div className="relative bg-white border border-[#3D2817]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
               {/* Badge */}
               <div className="mb-3">
                 <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wide bg-orange-500 text-white rounded-full">
@@ -1812,16 +1487,16 @@ const Home = () => {
                 </span>
               </div>
 
-              <h2 className="text-lg sm:text-xl font-bold mb-2 text-[#3D2817]">
+              <h2 className="text-lg sm:text-xl font-bold mb-2 text-[#1A2F2A]">
                 HOT SELLERS
               </h2>
-              <p className="text-xs sm:text-sm mb-4 text-[#3D2817]/70">
+              <p className="text-xs sm:text-sm mb-4 text-[#1A2F2A]/70">
                 High In Demand Secure Yours Now!
               </p>
               
               {/* Hot Sellers Skincare Products */}
               <div className="mb-4">
-                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#3D2817]">
+                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#1A2F2A]">
                   Best Selling Products
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -1831,7 +1506,7 @@ const Home = () => {
                       <Link
                         key={product._id || product.id || idx}
                         to={`/skincare/${product._id || product.id}`}
-                        className="w-full h-16 sm:h-20 bg-[#FAF8F5] border border-[#3D2817]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#8B4513] transition-colors"
+                        className="w-full h-16 sm:h-20 bg-white border border-[#1A2F2A]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#2B6B5A] transition-colors"
                       >
                         {imageUrl ? (
                           <img
@@ -1844,7 +1519,7 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#3D2817] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#1A2F2A] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
                           {product.name || product.productName || 'Product'}
                         </div>
                       </Link>
@@ -1856,28 +1531,28 @@ const Home = () => {
               {/* CTA Button */}
               <Link
                 to="/sale"
-                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] hover:bg-[#8B4513] hover:text-white transition-colors rounded"
+                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded"
               >
                 Hot Sellers
               </Link>
             </div>
 
             {/* Right Section: Greatest Combos */}
-            <div className="relative bg-white border border-[#3D2817]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
               {/* Discount Badge */}
               <div className="relative mb-3">
-                <div className="absolute -left-2 -top-2 bg-[#8B4513] border border-white shadow-lg px-3 py-1.5 transform rotate-[-12deg] z-10 rounded">
+                <div className="absolute -left-2 -top-2 bg-[#2B6B5A] border border-white shadow-lg px-3 py-1.5 transform rotate-[-12deg] z-10 rounded">
                   <span className="text-[10px] sm:text-xs font-bold text-white">UP TO 60% OFF</span>
                 </div>
               </div>
               
-              <h2 className="text-base sm:text-lg font-bold mb-3 text-[#3D2817] mt-4">
+              <h2 className="text-base sm:text-lg font-bold mb-3 text-[#1A2F2A] mt-4">
                 Grab your Biggest Savings with our Greatest Combos!
               </h2>
               
               {/* Combo Skincare Products */}
               <div className="mb-4">
-                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#3D2817]">
+                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#1A2F2A]">
                   Combo Products
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -1887,7 +1562,7 @@ const Home = () => {
                       <Link
                         key={product._id || product.id || idx}
                         to={`/skincare/${product._id || product.id}`}
-                        className="w-full h-14 sm:h-16 bg-[#FAF8F5] border border-[#3D2817]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#8B4513] transition-colors"
+                        className="w-full h-14 sm:h-16 bg-white border border-[#1A2F2A]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#2B6B5A] transition-colors"
                       >
                         {imageUrl ? (
                           <img
@@ -1900,7 +1575,7 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[8px] text-[#3D2817] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[8px] text-[#1A2F2A] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
                           {product.name || product.productName || 'Product'}
                         </div>
                       </Link>
@@ -1912,7 +1587,7 @@ const Home = () => {
               {/* CTA Button */}
               <Link
                 to="/sale"
-                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#3D2817]/30 bg-[#FAF8F5] text-[#3D2817] hover:bg-[#8B4513] hover:text-white transition-colors rounded"
+                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded"
               >
                 Combos
               </Link>
@@ -1961,26 +1636,25 @@ const Home = () => {
       /> */}
 
       {/* 3. Women - Enhanced "For Her" Section */}
-      <div className="relative w-full bg-gradient-to-br from-[#FAF8F5] via-[#FFF8F0] to-[#FAF8F5] py-12 sm:py-16 lg:py-20 overflow-hidden">
+      <div className="relative w-full bg-gradient-to-br from-[#FAF6F0] via-[#F5F0E8] to-[#FAF6F0] py-12 sm:py-16 lg:py-20 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-200/20 to-rose-200/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-rose-100/10 to-pink-100/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#2B6B5A]/10 to-[#C4A265]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#C4A265]/10 to-[#2B6B5A]/10 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-8 sm:mb-12">
             <div className="inline-block mb-4">
-              <span className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full shadow-lg">
-                ✨ Exclusive Collection
+              <span className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#2B6B5A] text-white rounded-full shadow-lg">
+                Exclusive Collection
               </span>
             </div>
-            <h2 className="text-2xl sm:text-5xl lg:text-4xl font-serif font-bold mb-4 bg-gradient-to-r from-pink-600 via-rose-600 to-pink-600 bg-clip-text text-transparent">
+            <h2 className="text-2xl sm:text-5xl lg:text-4xl font-serif font-bold mb-4 text-[#1A2F2A]">
               For Her
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-[#8B9A95] max-w-2xl mx-auto leading-relaxed">
               Discover our curated collection of women's fashion, designed to elevate your style and celebrate your unique beauty
             </p>
           </div>
@@ -2001,8 +1675,7 @@ const Home = () => {
                     className="group relative transform transition-all duration-500 hover:-translate-y-2"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    {/* Decorative Border on Hover */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-[#2B6B5A] via-[#C4A265] to-[#2B6B5A] rounded-2xl opacity-0 group-hover:opacity-15 blur-xl transition-opacity duration-500"></div>
                     <div className="relative">
                       <ProductCard product={p} />
                     </div>
@@ -2017,17 +1690,7 @@ const Home = () => {
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               <Link
                 to="/women"
-                className="group relative px-8 py-4 text-sm sm:text-base font-bold text-white rounded-full overflow-hidden shadow-2xl transition-all duration-300 hover:shadow-pink-500/50"
-                style={{
-                  background: 'linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #ec4899 100%)',
-                  backgroundSize: '200% 200%',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundPosition = 'right center';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundPosition = 'left center';
-                }}
+                className="group relative px-8 py-4 text-sm sm:text-base font-bold text-white rounded-full overflow-hidden shadow-2xl transition-all duration-300 hover:shadow-[#2B6B5A]/30 bg-[#2B6B5A] hover:bg-[#1A4D3F]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <span>Shop Women's Collection</span>
@@ -2035,24 +1698,23 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </span>
-                <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
               </Link>
               
               <Link
                 to="/women"
-                className="px-6 py-3 text-sm sm:text-base font-semibold text-pink-600 hover:text-rose-600 transition-colors border-2 border-pink-300 hover:border-rose-400 rounded-full hover:bg-pink-50"
+                className="px-6 py-3 text-sm sm:text-base font-semibold text-[#2B6B5A] hover:text-[#1A4D3F] transition-colors border-2 border-[#2B6B5A]/30 hover:border-[#2B6B5A] rounded-full hover:bg-[#2B6B5A]/5"
               >
                 View All →
               </Link>
             </div>
 
             {/* Decorative Elements */}
-            <div className="mt-8 flex items-center justify-center gap-2 text-gray-400">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-pink-300 to-transparent"></div>
-              <svg className="w-5 h-5 text-pink-400" fill="currentColor" viewBox="0 0 20 20">
+            <div className="mt-8 flex items-center justify-center gap-2 text-[#C4A265]">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#C4A265] to-transparent"></div>
+              <svg className="w-5 h-5 text-[#C4A265]" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-pink-300 to-transparent"></div>
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#C4A265] to-transparent"></div>
             </div>
           </div>
         </div>
@@ -2105,7 +1767,7 @@ const ProductSection = ({ title, subtitle, products, viewAllLink, bgColor = 'bg-
   return (
     <section className={`py-8 sm:py-12 md:py-16 ${bgColor}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 border-b pb-3 sm:pb-4 border-gray-200">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 border-b pb-3 sm:pb-4 border-[#E0D8CE]">
           <div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{title}</h2>
             {subtitle && <p className="text-sm sm:text-base text-gray-500 mt-1">{subtitle}</p>}

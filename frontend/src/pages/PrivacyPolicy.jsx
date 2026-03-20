@@ -219,7 +219,7 @@ const PrivacyPolicy = () => {
               <p className="text-gray-700 mb-2"><strong>Grievance Officer:</strong></p>
               <p className="text-gray-700 ml-4">• Prem Kumar Yelubandi (Director, Andhra Pradesh)</p>
               <p className="text-gray-700 ml-4">• Sai Durga Prasad Sundrapalli (Director, Andhra Pradesh)</p>
-              <p className="text-gray-700 mt-3"><strong>Email:</strong> support@shopzyfashion.in</p>
+              <p className="text-gray-700 mt-3"><strong>Email:</strong> support@sanskruteefashion.in</p>
             </div>
           </section>
 
@@ -237,7 +237,7 @@ const PrivacyPolicy = () => {
             </p>
             <div className="mt-4 p-4 bg-gray-50 rounded-lg">
               <p className="text-gray-700 font-semibold mb-2"><strong>STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED</strong></p>
-              <p className="text-gray-700"><strong>Email:</strong> support@shopzyfashion.in</p>
+              <p className="text-gray-700"><strong>Email:</strong> support@sanskruteefashion.in</p>
               <div className="text-gray-700">
                 <p className="font-semibold mb-2">Address:</p>
                 <p className="ml-4"><strong>Floor No.:</strong> 4th floor</p>

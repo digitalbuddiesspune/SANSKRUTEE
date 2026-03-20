@@ -50,10 +50,10 @@ const ContactUs = () => {
               <div className="flex-1 min-w-0">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Email</h3>
                 <a 
-                  href="mailto:support@shopzyfashion.in" 
+                  href="mailto:support@sanskruteefashion.in" 
                   className="text-sm sm:text-base text-gray-600 hover:text-blue-600 transition-colors break-all"
                 >
-                  support@shopzyfashion.in
+                  support@sanskruteefashion.in
                 </a>
               </div>
             </div>
