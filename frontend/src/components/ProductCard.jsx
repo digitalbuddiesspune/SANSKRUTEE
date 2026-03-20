@@ -137,22 +137,27 @@ const ProductCard = ({ product }) => {
               </span>
             )}
             {!isBestseller && hasDiscount && (
-              <span className="absolute top-2 left-2 z-20 bg-[#C4A265] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
+              <span className="absolute top-2 left-2 z-20 bg-[#D91C1C] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider border border-white/70">
                 Sale
               </span>
             )}
 
-            {/* Quick-add button — appears on hover, bottom of image */}
+            {/* Quick-add button — appears on hover, bottom-right of image */}
             <button
               type="button"
               onClick={handleAddClick}
               disabled={isAdding || isSoldOut}
-              className={`absolute bottom-0 left-0 right-0 z-30 bg-[#2B6B5A] text-white text-[10px] font-bold uppercase tracking-[0.1em] py-3 text-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${
+              className={`absolute bottom-2 right-2 z-30 w-10 h-10 rounded-full bg-[#2B6B5A] text-white flex items-center justify-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${
                 isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
               }`}
               aria-label="Add to cart"
             >
-              {isAdding ? 'Adding...' : isSoldOut ? 'Sold Out' : 'Quick Add +'}
+              <span className="sr-only">
+                {isAdding ? 'Adding...' : isSoldOut ? 'Sold Out' : 'Quick Add'}
+              </span>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
             </button>
 
             {/* Base Image */}

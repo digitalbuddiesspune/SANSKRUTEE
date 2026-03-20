@@ -892,7 +892,7 @@ const ProductDetail = () => {
                 {originalPrice > finalPrice && (
                   <>
                     <span className="text-lg text-[#8B9A95] line-through">₹{formatPrice(originalPrice)}</span>
-                    <span className="text-sm font-semibold bg-[#C4A265] text-white border border-[#C4A265]/40 px-2 py-1 rounded">
+                    <span className="text-sm font-semibold bg-[#D91C1C] text-white border border-white/70 px-2 py-1 rounded">
                       {Math.round(((originalPrice - finalPrice) / originalPrice) * 100)}% OFF
                     </span>
                   </>

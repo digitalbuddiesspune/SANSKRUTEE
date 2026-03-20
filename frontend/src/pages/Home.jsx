@@ -555,6 +555,89 @@ const Home = () => {
     },
   ];
 
+  const getSubItemImage = (subItem) => {
+    const name = (subItem?.name || '').toLowerCase();
+    const path = subItem?.path || '';
+
+    // Fashion
+    if (name.includes('shirt') || name.includes('t-shirt') || name.includes('tees')) {
+      return 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1767171505/Mobile_Banner_resize_6_ybv1ud.jpg';
+    }
+    if (name.includes('jeans') || name.includes('trouser') || name.includes('saree')) {
+      return 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop';
+    }
+
+    // Shoes
+    if (name.includes('heel') || name.includes('flat') || name.includes('boot') || name.includes('sandals')) {
+      return 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop';
+    }
+
+    // Watches / Lens / Eyewear
+    if (name.includes('eyewear') || name.includes('lenses')) {
+      return 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=500&fit=crop';
+    }
+
+    // Skincare
+    if (name.includes('serum') || name.includes('facewash') || name.includes('sunscreen') || name.includes('moisturizer') || name.includes('cleanser')) {
+      return 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=500&fit=crop';
+    }
+
+    // Earrings
+    if (path.includes('subCategory=earrings') || name.includes('earring')) {
+      return 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=500&fit=crop';
+    }
+
+    // Fallback
+    return 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop';
+  };
+
+  const getSubItemSubtitle = (subItem) => {
+    const name = (subItem?.name || '').toLowerCase();
+
+    if (!name) return '';
+
+    // Fashion (women's)
+    if (name.includes('shirt') || name.includes('t-shirt') || name.includes('tshirt') || name.includes('tee') || name.includes('jean') || name.includes('trouser') || name.includes('saree')) {
+      return "Women's";
+    }
+
+    // Shoes
+    if (name.includes('heel') || name.includes('flat') || name.includes('boot') || name.includes('sandals')) {
+      return 'Shoes';
+    }
+
+    // Skincare
+    if (name.includes('serum') || name.includes('facewash') || name.includes('sunscreen') || name.includes('moisturizer') || name.includes('cleanser')) {
+      return 'Skincare';
+    }
+
+    // Eyewear / lenses
+    if (name.includes('eyewear') || name.includes('lens')) {
+      return 'Lenses';
+    }
+
+    return '';
+  };
+
+  const getActiveCategoryTitle = () => {
+    switch (openDropdown) {
+      case 'women':
+        return "Women's Fashion";
+      case 'shoes':
+        return 'Shoes';
+      case 'watches':
+        return 'Watches';
+      case 'lenses':
+        return 'Eyewear';
+      case 'skincare':
+        return 'Skincare';
+      case 'accessories':
+        return 'Earrings';
+      default:
+        return 'New Arrivals';
+    }
+  };
+
   // Helper function to filter products by search query
   const filterProductsBySearch = (products) => {
     if (!searchQuery.trim()) return products;
@@ -581,7 +664,7 @@ const Home = () => {
     <div className="min-h-screen font-sans text-gray-800">
       {/* MOBILE HOME PAGE - New Design */}
         <div className="md:hidden bg-white min-h-screen">
-        {/* Mobile banner above search */}
+        {/* Mobile hero banner (above search) */}
         <div className="relative w-full bg-white px-4 pt-4 pb-4">
           <div className="relative w-full flex items-center justify-center mx-auto">
             <div className="relative overflow-hidden w-full rounded-3xl">
@@ -642,11 +725,22 @@ const Home = () => {
               <button
                 key={cat.id}
                 onClick={() => {
+                  // "All" on mobile should go to New Arrivals
                   if (cat.id === 'All') {
                     setOpenDropdown(null);
-                  } else {
-                    setOpenDropdown(openDropdown === cat.id ? null : cat.id);
+                    navigate('/new-arrival');
+                    return;
                   }
+
+                  // If the category doesn't have subitems (e.g. Earrings), navigate directly
+                  if (!cat.subItems?.length) {
+                    setOpenDropdown(null);
+                    navigate(cat.path);
+                    return;
+                  }
+
+                  // Otherwise toggle the dropdown
+                  setOpenDropdown(openDropdown === cat.id ? null : cat.id);
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                   openDropdown === cat.id
@@ -655,7 +749,7 @@ const Home = () => {
                 }`}
               >
                 {cat.label}
-                {cat.id !== 'All' && (
+                {cat.subItems?.length && (
                   <svg 
                     className={`w-3.5 h-3.5 transition-transform ${openDropdown === cat.id ? 'rotate-180' : ''}`}
                     fill="none" 
@@ -686,20 +780,47 @@ const Home = () => {
                   </svg>
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {categories.find(cat => cat.id === openDropdown)?.subItems.map((subItem, index) => (
                   <Link
                     key={index}
                     to={subItem.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-[#1A2F2A] hover:text-white rounded-md transition-colors text-center border border-[#E0D8CE] hover:border-[#1A2F2A]"
+                    className="group relative overflow-hidden rounded-xl border border-[#E0D8CE] bg-white/60 hover:border-[#2B6B5A] transition-colors shadow-sm"
                   >
-                    {subItem.name}
+                    <div className="relative w-full aspect-[4/3] bg-[#F5F0E8]">
+                      <img
+                        src={optimizeImageUrl(getSubItemImage(subItem), 50)}
+                        alt={subItem.name}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = `https://via.placeholder.com/400x300?text=${encodeURIComponent(subItem.name || 'Category')}`;
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-3">
+                        <div className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-[0.06em] line-clamp-1">
+                          {subItem.name}
+                        </div>
+                        {getSubItemSubtitle(subItem) ? (
+                          <div className="text-[10px] text-white/80 mt-0.5 line-clamp-1">
+                            {getSubItemSubtitle(subItem)}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </div>
             </div>
           )}
+        </div>
+
+        <div className="px-4 -mb-2 mt-2">
+          <h3 className="text-lg font-semibold text-gray-800">
+            {getActiveCategoryTitle()}
+          </h3>
         </div>
 
         {/* Products Grid - Mixed T-Shirts, Watches, Eyewear, and Accessories */}
@@ -727,7 +848,7 @@ const Home = () => {
                 <div key={productId} className="bg-white rounded-xl shadow-sm border border-[#E0D8CE] overflow-hidden relative">
                   {/* Discount Badge */}
                   {hasDiscount && discountPercent > 0 && (
-                    <div className="absolute top-2 right-2 z-10 bg-[#C4A265] text-white px-2.5 py-1 rounded-full flex items-center">
+                    <div className="absolute top-2 right-2 z-10 bg-[#D91C1C] text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
                       <span className="text-xs font-bold">{discountPercent}% OFF</span>
                     </div>
                   )}
@@ -747,16 +868,17 @@ const Home = () => {
                   </Link>
 
                   {/* Product Info */}
-                  <div className="p-3">
+                  <div className="p-3 pr-12">
                     <Link to={`/product/${productCategory}/${productId}`}>
                       <h4 className="text-sm font-semibold text-gray-800 mb-1 line-clamp-1">{productName}</h4>
                     </Link>
                     <p className="text-base font-bold text-gray-900 mb-3">{formatPriceWithCurrency(productPrice)}</p>
 
-                    {/* Add to Cart Button */}
+                    {/* Add to Cart (icon, bottom-right) */}
                     <button
                       onClick={() => handleAddToCart(product)}
-                      className="w-full bg-[#1A2F2A] text-white rounded-full p-2 flex items-center justify-center hover:bg-[#2B6B5A] hover:text-[#1A2F2A] transition-colors"
+                      aria-label={`Add ${productName} to cart`}
+                      className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#1A2F2A] text-white flex items-center justify-center hover:bg-[#2B6B5A] hover:text-[#1A2F2A] transition-colors shadow-sm"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -785,96 +907,201 @@ const Home = () => {
         
       </section>
 
-      {/* --- NEW FASHION SALE PROMOTIONAL BANNER --- */}
-      <div className="relative w-full bg-white border-t border-[#E0D8CE] overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-10 lg:py-16 xl:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 items-stretch">
-            
-            {/* Left Model Section */}
-            <div className="relative">
-              <div className="relative h-full sm:h-64 md:h-80 lg:h-96 xl:h-[500px] bg-white border border-[#E0D8CE] overflow-hidden luxury-shadow">
-                <img
-                  src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766657960/White_and_Beige_Neutral_Clean_Women_Bags_Instagram_Post_ymve41.png', 50)}
-                  alt="Women Bags Promo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+      {/* --- DESKTOP: Search + Categories Dropdown + Products (like mobile view) --- */}
+      <div className="hidden md:block bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
+          {/* Search Bar */}
+          <div className="relative mb-6">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-4 pr-14 py-3 bg-[#F5F0E8] rounded-full text-[#1A2F2A] placeholder-[#8B9A95] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A]"
+            />
+            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-[#2B6B5A] rounded-full">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Categories Section */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">Categories</h3>
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    if (cat.id === 'All') {
+                      setOpenDropdown(null);
+                      navigate('/new-arrival');
+                      return;
+                    }
+
+                    if (!cat.subItems?.length) {
+                      setOpenDropdown(null);
+                      navigate(cat.path);
+                      return;
+                    }
+
+                    setOpenDropdown(openDropdown === cat.id ? null : cat.id);
+                  }}
+                  className={`flex-shrink-0 px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+                    openDropdown === cat.id
+                      ? 'bg-[#1A2F2A] text-white'
+                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {cat.label}
+                  {cat.subItems?.length && (
+                    <svg
+                      className={`w-3.5 h-3.5 transition-transform ${openDropdown === cat.id ? 'rotate-180' : ''}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  )}
+                </button>
+              ))}
             </div>
 
-            {/* Central Promotional Section */}
-            <div className="relative col-span-1 md:col-span-1">
-              <div className="relative bg-white p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 border border-[#E0D8CE] min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] flex flex-col items-center justify-center luxury-shadow">
-                
-                {/* Abstract Brown Blob Shapes */}
-                <div className="absolute top-4 left-4 w-12 h-12 sm:w-16 sm:h-16 bg-[#2B6B5A]/20 rounded-full blur-xl"></div>
-                <div className="absolute bottom-8 right-6 w-16 h-16 sm:w-20 sm:h-20 bg-[#2B6B5A]/15 rounded-full blur-2xl"></div>
-                <div className="absolute top-1/2 left-1/4 w-10 h-10 sm:w-12 sm:h-12 bg-[#2B6B5A]/10 rounded-full blur-lg"></div>
-                
-                {/* Black Dotted Patterns */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex gap-1">
-                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
-                </div>
-                <div className="absolute bottom-8 right-6 sm:bottom-10 sm:right-8 flex gap-1">
-                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
-                  <div className="w-1 h-1 bg-[#1A2F2A] rounded-full"></div>
-                </div>
-                
-                {/* Black Starburst Icons */}
-                <div className="absolute top-6 right-6 sm:top-8 sm:right-8">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#1A2F2A]" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z"/>
-                  </svg>
-                </div>
-                <div className="absolute bottom-10 left-8 sm:bottom-12 sm:left-10">
-                  <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#1A2F2A]" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z"/>
-                  </svg>
-                </div>
-                
-                {/* Main Content */}
-                <div className="relative z-10 text-center px-2">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold uppercase tracking-tight mb-2 sm:mb-3 md:mb-4" style={{ color: '#2B6B5A' }}>
-                    NEW FASHION SALE
-                  </h2>
-                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium uppercase tracking-wide mb-4 sm:mb-6 md:mb-8" style={{ color: '#2B6B5A', opacity: 0.8 }}>
-                    SAVE UP TO 50% OFF
-                  </p>
-                  <Link
-                    to="/sale"
-                    className="inline-block px-5 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold border border-[#E0D8CE] bg-[#1A2F2A] text-white hover:bg-white hover:text-[#1A2F2A] transition-colors"
+            {/* Subcategories Section */}
+            {openDropdown && categories.find(cat => cat.id === openDropdown)?.subItems && (
+              <div className="mt-3 bg-white border border-[#E0D8CE] rounded-lg shadow-sm p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-sm font-semibold text-gray-800">
+                    {categories.find(cat => cat.id === openDropdown)?.label}
+                  </h4>
+                  <button
+                    onClick={() => setOpenDropdown(null)}
+                    className="text-gray-400 hover:text-gray-600"
                   >
-                    Shop Now
-                  </Link>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                 </div>
-                
-                {/* Pagination Dots */}
-                <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
-                  <div className="w-2 h-2 bg-[#1A2F2A]"></div>
-                  <div className="w-2 h-2 bg-[#1A2F2A]/30"></div>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  {categories
+                    .find(cat => cat.id === openDropdown)
+                    ?.subItems.map((subItem, index) => (
+                      <Link
+                        key={index}
+                        to={subItem.path}
+                        onClick={() => setOpenDropdown(null)}
+                        className="group relative overflow-hidden rounded-xl border border-[#E0D8CE] bg-white/60 hover:border-[#2B6B5A] transition-colors shadow-sm"
+                      >
+                        <div className="relative w-full aspect-[4/3] bg-[#F5F0E8]">
+                          <img
+                            src={optimizeImageUrl(getSubItemImage(subItem), 50)}
+                            alt={subItem.name}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.src = `https://via.placeholder.com/400x300?text=${encodeURIComponent(subItem.name || 'Category')}`;
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-3">
+                            <div className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-[0.06em] line-clamp-1">
+                              {subItem.name}
+                            </div>
+                            {getSubItemSubtitle(subItem) ? (
+                              <div className="text-[10px] text-white/80 mt-0.5 line-clamp-1">
+                                {getSubItemSubtitle(subItem)}
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                 </div>
               </div>
-            </div>
+            )}
+          </div>
 
-            {/* Right Model Section */}
-            <div className="relative">
-              <div className="relative h-full sm:h-64 md:h-80 lg:h-96 xl:h-[500px] bg-white border border-[#E0D8CE] overflow-hidden luxury-shadow">
-                <img
-                  src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1766658151/Beige_Modern_Minimalist_Fashion_Clothing_Sale_Promotional_Instagram_Post_q8geu5.png', 50)}
-                  alt="Fashion Sale Promo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+          <div className="px-4 -mb-2 mt-2">
+            <h3 className="text-lg font-semibold text-gray-800">
+              {getActiveCategoryTitle()}
+            </h3>
+          </div>
 
+          {/* Products Grid */}
+          <div className="pb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filterProductsBySearch([...tshirts, ...watchesMobile, ...eyewear, ...accessoriesMobile]).map((product) => {
+                const productId = product._id || product.id;
+                const productImage = product.image || product.images?.[0] || product.thumbnail || 'https://via.placeholder.com/200';
+                const productName = product.name || product.productName || 'Product';
+                const productPrice = product.finalPrice || product.price || 0;
+                const originalPrice = product.originalPrice || product.mrp || product.price || 0;
+                const hasDiscount = originalPrice > productPrice && productPrice > 0;
+                const discountPercent = hasDiscount && originalPrice > 0
+                  ? Math.round(((originalPrice - productPrice) / originalPrice) * 100)
+                  : 0;
+
+                // Determine product category for routing
+                const productCategory = product.category?.toLowerCase().includes('watch') ? 'watches' :
+                  product.category?.toLowerCase().includes('lens') ? 'lenses' :
+                    product.category?.toLowerCase().includes('accessor') ? 'accessories' :
+                      product.category?.toLowerCase().includes('tshirt') || product.subCategory === 'tshirt' ? 'women' :
+                        'product';
+
+                return (
+                  <div key={productId} className="bg-white rounded-xl shadow-sm border border-[#E0D8CE] overflow-hidden relative">
+                    {hasDiscount && discountPercent > 0 && (
+                      <div className="absolute top-2 right-2 z-10 bg-[#D91C1C] text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
+                        <span className="text-xs font-bold">{discountPercent}% OFF</span>
+                      </div>
+                    )}
+
+                    <Link to={`/product/${productCategory}/${productId}`}>
+                      <div className="w-full aspect-square bg-gray-100 overflow-hidden">
+                        <img
+                          src={optimizeImageUrl(productImage, 50)}
+                          alt={productName}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/200';
+                          }}
+                        />
+                      </div>
+                    </Link>
+
+                    <div className="p-3 pr-12">
+                      <Link to={`/product/${productCategory}/${productId}`}>
+                        <h4 className="text-sm font-semibold text-gray-800 mb-1 line-clamp-1">{productName}</h4>
+                      </Link>
+                      <p className="text-base font-bold text-gray-900 mb-3">{formatPriceWithCurrency(productPrice)}</p>
+
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        aria-label={`Add ${productName} to cart`}
+                        className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#1A2F2A] text-white flex items-center justify-center hover:bg-[#2B6B5A] hover:text-[#1A2F2A] transition-colors shadow-sm"
+                      >
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
+      {/* --- NEW FASHION SALE PROMOTIONAL BANNER --- */}
+      
+
       {/* --- SHOP BY CATEGORY SECTION --- */}
-      <div className="py-10 sm:py-14 lg:py-20 bg-white">
+      <div className="py-10 sm:py-14 lg:py-20 bg-white md:hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           {/* Section Header — COLLUSION style */}
           <div className="mb-8 sm:mb-10 flex items-end justify-between">
@@ -982,23 +1209,6 @@ const Home = () => {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* --- BANNERS CAROUSEL --- */}
-      <div className="relative w-full bg-white border-t border-[#E0D8CE] overflow-hidden">
-        <div className="relative w-full">
-          <div 
-            ref={bannerCarouselRef}
-            className="flex overflow-x-hidden scroll-smooth scrollbar-hide"
-            style={{ scrollSnapType: 'x mandatory' }}
-          >
-            {banners.map((banner, index) => (
-              <div key={index} className="flex-shrink-0 w-full" style={{ scrollSnapAlign: 'start' }}>
-                <img src={banner} alt={`Banner ${index + 1}`} className="w-full h-auto object-contain" loading={index === 0 ? 'eager' : 'lazy'} />
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -1541,7 +1751,7 @@ const Home = () => {
             <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
               {/* Discount Badge */}
               <div className="relative mb-3">
-                <div className="absolute -left-2 -top-2 bg-[#2B6B5A] border border-white shadow-lg px-3 py-1.5 transform rotate-[-12deg] z-10 rounded">
+                <div className="absolute -left-2 -top-2 bg-[#D91C1C] border border-white shadow-lg px-3 py-1.5 transform rotate-[-12deg] z-10 rounded">
                   <span className="text-[10px] sm:text-xs font-bold text-white">UP TO 60% OFF</span>
                 </div>
               </div>
