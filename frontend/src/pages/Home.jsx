@@ -559,36 +559,66 @@ const Home = () => {
     const name = (subItem?.name || '').toLowerCase();
     const path = subItem?.path || '';
 
-    // Fashion
-    if (name.includes('shirt') || name.includes('t-shirt') || name.includes('tees')) {
-      return 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1767171505/Mobile_Banner_resize_6_ybv1ud.jpg';
+    // Shoes (Heels / Flats / Boots / Sandals)
+    if (name.includes('heels')) {
+      return 'https://images.unsplash.com/photo-1543163521-1bf539c55dd6?w=600&h=600&fit=crop';
     }
-    if (name.includes('jeans') || name.includes('trouser') || name.includes('saree')) {
-      return 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop';
+    if (name.includes('flats')) {
+      return 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop';
+    }
+    if (name.includes('boots')) {
+      return 'https://images.unsplash.com/photo-1528701800489-20be3c7c8f70?w=600&h=600&fit=crop';
+    }
+    if (name.includes('sandals')) {
+      return 'https://images.unsplash.com/photo-1519744346363-2d67b9d5d8b9?w=600&h=600&fit=crop';
     }
 
-    // Shoes
-    if (name.includes('heel') || name.includes('flat') || name.includes('boot') || name.includes('sandals')) {
-      return 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop';
+    // Fashion (Shirts / T-Shirts / Jeans / Trousers / Saree)
+    if (name.includes('shirt') && !name.includes('t-')) {
+      return 'https://images.unsplash.com/photo-1520975916090-3105956dac38?w=600&h=600&fit=crop';
+    }
+    if (name.includes('t-shirt') || name.includes('tshirts') || name.includes('tees') || name.includes('t shirts')) {
+      return 'https://images.unsplash.com/photo-1520975682031-a6c3a3b9d7f3?w=600&h=600&fit=crop';
+    }
+    if (name.includes('jeans')) {
+      return 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&h=600&fit=crop';
+    }
+    if (name.includes('trouser')) {
+      return 'https://images.unsplash.com/photo-1520975682031-b0e4b0a9c3b3?w=600&h=600&fit=crop';
+    }
+    if (name.includes('saree')) {
+      return 'https://images.unsplash.com/photo-1541711688362-3b0f1f4f1bcb?w=600&h=600&fit=crop';
     }
 
-    // Watches / Lens / Eyewear
-    if (name.includes('eyewear') || name.includes('lenses')) {
-      return 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=500&fit=crop';
+    // Eyewear / Lenses
+    if (name.includes('eyewear') || name.includes('lens') || name.includes('lenses')) {
+      return 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop';
     }
 
     // Skincare
-    if (name.includes('serum') || name.includes('facewash') || name.includes('sunscreen') || name.includes('moisturizer') || name.includes('cleanser')) {
-      return 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=500&fit=crop';
+    if (name.includes('serum')) {
+      return 'https://images.unsplash.com/photo-1611930021679-e4f67c5f2c3e?w=600&h=600&fit=crop';
+    }
+    if (name.includes('facewash')) {
+      return 'https://images.unsplash.com/photo-1585232351009-4b1d3ad2c8f2?w=600&h=600&fit=crop';
+    }
+    if (name.includes('sunscreen')) {
+      return 'https://images.unsplash.com/photo-1611930021404-7f2a6d9c6b12?w=600&h=600&fit=crop';
+    }
+    if (name.includes('moisturizer')) {
+      return 'https://images.unsplash.com/photo-1611930021679-f1d2cc8b1a34?w=600&h=600&fit=crop';
+    }
+    if (name.includes('cleanser')) {
+      return 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=600&fit=crop';
     }
 
-    // Earrings
-    if (path.includes('subCategory=earrings') || name.includes('earring')) {
-      return 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=500&fit=crop';
+    // Earrings (not expected in dropdown subitems, but safe)
+    if (path.toLowerCase().includes('subcategory=earrings') || name.includes('earring')) {
+      return 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&h=600&fit=crop';
     }
 
     // Fallback
-    return 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop';
+    return 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=600&fit=crop';
   };
 
   const getSubItemSubtitle = (subItem) => {
@@ -634,7 +664,7 @@ const Home = () => {
       case 'accessories':
         return 'Earrings';
       default:
-        return 'New Arrivals';
+        return '';
     }
   };
 
@@ -817,10 +847,16 @@ const Home = () => {
           )}
         </div>
 
-        <div className="px-4 -mb-2 mt-2">
-          <h3 className="text-lg font-semibold text-gray-800">
+        <div className="px-4 mt-3 mb-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B9A95] mb-2">
+            Browse
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-black text-[#1A2F2A] tracking-tight leading-tight">
+            Catalog
+          </h2>
+          <p className="text-xs sm:text-sm mt-1 text-[#1A2F2A]/70">
             {getActiveCategoryTitle()}
-          </h3>
+          </p>
         </div>
 
         {/* Products Grid - Mixed T-Shirts, Watches, Eyewear, and Accessories */}
@@ -1025,10 +1061,16 @@ const Home = () => {
             )}
           </div>
 
-          <div className="px-4 -mb-2 mt-2">
-            <h3 className="text-lg font-semibold text-gray-800">
+          <div className="px-4 mt-3 mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B9A95] mb-2">
+              Browse
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#1A2F2A] tracking-tight leading-tight">
+              Catalog
+            </h2>
+            <p className="text-xs sm:text-sm mt-1 text-[#1A2F2A]/70">
               {getActiveCategoryTitle()}
-            </h3>
+            </p>
           </div>
 
           {/* Products Grid */}
@@ -1101,7 +1143,7 @@ const Home = () => {
       
 
       {/* --- SHOP BY CATEGORY SECTION --- */}
-      <div className="py-10 sm:py-14 lg:py-20 bg-white md:hidden">
+      <div className="py-10 sm:py-14 lg:py-20 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           {/* Section Header — COLLUSION style */}
           <div className="mb-8 sm:mb-10 flex items-end justify-between">
