@@ -1059,8 +1059,16 @@ const Home = () => {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-5 sm:py-7">
           <div className="mb-4 sm:mb-6 flex items-end justify-between gap-4">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0F1012] mb-1.5">Shop by</p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0F1012] tracking-tight">Category</h2>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#FE1157]/35 bg-[#FE1157]/8 px-3 py-1 mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FE1157]" />
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#FE1157]">Discover</p>
+              </div>
+              <h2 className="text-[1.7rem] sm:text-3xl lg:text-4xl font-black text-[#0F1012] tracking-tight leading-none">
+                Shop by <span className="text-[#FE1157]">Category</span>
+              </h2>
+              <p className="mt-1.5 text-[11px] sm:text-xs font-medium uppercase tracking-[0.1em] text-[#0F1012]/65">
+                Curated picks for your style
+              </p>
             </div>
             <Link to="/women" className="shrink-0 text-[10px] font-bold uppercase tracking-[0.12em] text-[#0F1012] border-b-2 border-[#0F1012] pb-0.5 hover:text-[#FE1157] hover:border-[#FE1157] transition-colors">
               View All

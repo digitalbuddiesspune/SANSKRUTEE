@@ -80,6 +80,7 @@ const Navbar = () => {
   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const searchCacheRef = useRef({});
   const allProductsRef = useRef(null);
   const desktopSearchRef = useRef(null);
@@ -93,6 +94,8 @@ const Navbar = () => {
     else if (foundLink) setActiveCategory(foundLink.id);
     else setActiveCategory('');
     setIsMobileMenuOpen(false);
+    setIsMobileSearchOpen(false);
+    setShowSuggestions(false);
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -223,6 +226,7 @@ const Navbar = () => {
       const mobileContains = mobileSearchRef.current?.contains(event.target);
       if (!desktopContains && !mobileContains) {
         setShowSuggestions(false);
+        setIsMobileSearchOpen(false);
       }
     };
 
@@ -406,10 +410,29 @@ const Navbar = () => {
                   </Link>
                 )}
 
+                {/* Mobile Search Icon */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileSearchOpen((prev) => !prev);
+                    setShowSuggestions(false);
+                  }}
+                  title="Search"
+                  className="md:hidden w-10 h-10 flex items-center justify-center rounded-full text-[#0F1012] transition-all duration-200 ease-out hover:bg-[#FE1157]/10 hover:text-[#FE1157] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]"
+                >
+                  <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </button>
+
                 {/* Cart */}
                 <button 
                   type="button"
-                  onClick={() => setIsCartSidebarOpen(true)}
+                  onClick={() => {
+                    setIsCartSidebarOpen(true);
+                    setIsMobileSearchOpen(false);
+                    setShowSuggestions(false);
+                  }}
                   title="Cart"
                   className="group relative w-10 h-10 flex items-center justify-center rounded-full text-[#0F1012] transition-all duration-200 ease-out hover:bg-[#FE1157]/10 hover:text-[#FE1157] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]"
                 >
@@ -426,7 +449,11 @@ const Navbar = () => {
                 {/* Hamburger */}
                 <button 
                   type="button"
-                  onClick={() => setIsMobileMenuOpen(true)}
+                  onClick={() => {
+                    setIsMobileMenuOpen(true);
+                    setIsMobileSearchOpen(false);
+                    setShowSuggestions(false);
+                  }}
                   title="Menu"
                   className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full text-[#0F1012] transition-all duration-200 ease-out hover:bg-[#FE1157]/10 hover:text-[#FE1157] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]"
                 >
@@ -439,83 +466,100 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Mobile inline search for better navbar balance */}
-            <form
-              onSubmit={handleSearch}
-              className="md:hidden pb-3"
-            >
-              <div ref={mobileSearchRef} className="relative">
-                <div className="flex items-center rounded-full border border-[#FE1157]/40 bg-white overflow-hidden px-2.5">
-                  <button
-                    type="submit"
-                    title="Search"
-                    className="w-9 h-9 flex items-center justify-center text-[#0F1012] hover:text-[#FE1157] transition-colors shrink-0"
-                  >
-                    <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </button>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onFocus={() => setShowSuggestions(true)}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setShowSuggestions(true);
-                    }}
-                    placeholder="Search Sanskrutee..."
-                    className="w-full bg-transparent text-sm text-[#0F1012] placeholder-[#0F1012]/50 outline-none pr-2"
-                  />
-                </div>
-
-                {showSuggestions && searchQuery.trim().length >= 2 && (
-                  <div className="absolute top-[calc(100%+8px)] left-0 right-0 rounded-xl border border-[#FE1157]/25 bg-white shadow-lg z-[70] max-h-[340px] overflow-y-auto">
-                    {isSearching ? (
-                      <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">Searching...</div>
-                    ) : suggestions.length > 0 ? (
-                      <>
-                        {suggestions.map((item) => {
-                          const itemId = item?._id || item?.id;
-                          const image = item?.image || item?.images?.[0] || item?.thumbnail || '';
-                          return (
-                            <button
-                              key={itemId}
-                              type="button"
-                              onClick={() => handleSuggestionClick(item)}
-                              className="w-full px-3 py-2.5 flex items-center gap-2.5 hover:bg-[#FE1157]/8 transition-colors text-left"
-                            >
-                              <div className="w-9 h-9 rounded-md overflow-hidden bg-[#FFFFFF] border border-[#0F1012]/10 shrink-0">
-                                {image ? (
-                                  <img src={image} alt={item?.name || item?.productName || 'Product'} className="w-full h-full object-cover" />
-                                ) : null}
-                              </div>
-                              <div className="min-w-0">
-                                <p className="text-xs font-semibold text-[#0F1012] line-clamp-1">{item?.name || item?.productName || 'Product'}</p>
-                                <p className="text-[11px] text-[#0F1012]/70 line-clamp-1">{item?.category || item?.subCategory || ''}</p>
-                              </div>
-                            </button>
-                          );
-                        })}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (searchQuery.trim()) {
-                              navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-                              setShowSuggestions(false);
-                            }
-                          }}
-                          className="w-full border-t border-[#FE1157]/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[#FE1157] hover:bg-[#FE1157]/8 transition-colors"
-                        >
-                          View all results
-                        </button>
-                      </>
-                    ) : (
-                      <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">No products found</div>
-                    )}
+            {/* Mobile search popup (opens from icon) */}
+            {isMobileSearchOpen && (
+              <div ref={mobileSearchRef} className="md:hidden pb-3">
+                <form onSubmit={handleSearch} className="relative">
+                  <div className="flex items-center rounded-full border border-[#FE1157]/40 bg-white overflow-hidden px-2.5">
+                    <button
+                      type="submit"
+                      title="Search"
+                      className="w-9 h-9 flex items-center justify-center text-[#0F1012] hover:text-[#FE1157] transition-colors shrink-0"
+                    >
+                      <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </button>
+                    <input
+                      type="text"
+                      autoFocus
+                      value={searchQuery}
+                      onFocus={() => setShowSuggestions(true)}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setShowSuggestions(true);
+                      }}
+                      placeholder="Search Sanskrutee..."
+                      className="w-full bg-transparent text-sm text-[#0F1012] placeholder-[#0F1012]/50 outline-none pr-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileSearchOpen(false);
+                        setShowSuggestions(false);
+                      }}
+                      className="w-8 h-8 flex items-center justify-center text-[#0F1012]/60 hover:text-[#FE1157] transition-colors"
+                      title="Close Search"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                   </div>
-                )}
+
+                  {showSuggestions && searchQuery.trim().length >= 2 && (
+                    <div className="absolute top-[calc(100%+8px)] left-0 right-0 rounded-xl border border-[#FE1157]/25 bg-white shadow-lg z-[70] max-h-[340px] overflow-y-auto">
+                      {isSearching ? (
+                        <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">Searching...</div>
+                      ) : suggestions.length > 0 ? (
+                        <>
+                          {suggestions.map((item) => {
+                            const itemId = item?._id || item?.id;
+                            const image = item?.image || item?.images?.[0] || item?.thumbnail || '';
+                            return (
+                              <button
+                                key={itemId}
+                                type="button"
+                                onClick={() => {
+                                  handleSuggestionClick(item);
+                                  setIsMobileSearchOpen(false);
+                                }}
+                                className="w-full px-3 py-2.5 flex items-center gap-2.5 hover:bg-[#FE1157]/8 transition-colors text-left"
+                              >
+                                <div className="w-9 h-9 rounded-md overflow-hidden bg-[#FFFFFF] border border-[#0F1012]/10 shrink-0">
+                                  {image ? (
+                                    <img src={image} alt={item?.name || item?.productName || 'Product'} className="w-full h-full object-cover" />
+                                  ) : null}
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-xs font-semibold text-[#0F1012] line-clamp-1">{item?.name || item?.productName || 'Product'}</p>
+                                  <p className="text-[11px] text-[#0F1012]/70 line-clamp-1">{item?.category || item?.subCategory || ''}</p>
+                                </div>
+                              </button>
+                            );
+                          })}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (searchQuery.trim()) {
+                                navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                                setShowSuggestions(false);
+                                setIsMobileSearchOpen(false);
+                              }
+                            }}
+                            className="w-full border-t border-[#FE1157]/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[#FE1157] hover:bg-[#FE1157]/8 transition-colors"
+                          >
+                            View all results
+                          </button>
+                        </>
+                      ) : (
+                        <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">No products found</div>
+                      )}
+                    </div>
+                  )}
+                </form>
               </div>
-            </form>
+            )}
           </div>
         </div>
       </nav>
