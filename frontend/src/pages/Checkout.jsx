@@ -275,7 +275,7 @@ const Checkout = () => {
           address: `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state}`,
         },
         theme: {
-          color: '#2B6B5A',
+          color: '#FE1157',
         },
         modal: {
           ondismiss: function () {
@@ -306,7 +306,7 @@ const Checkout = () => {
 
   return (
     <div 
-      className="min-h-screen bg-[#F5F0E8] transition-opacity duration-300"
+      className="min-h-screen bg-[#FFFFFF] transition-opacity duration-300"
       style={{
         opacity: showSuccessModal ? 0.3 : 1,
         pointerEvents: showSuccessModal ? 'none' : 'auto',
@@ -314,15 +314,15 @@ const Checkout = () => {
       }}
     >
       {/* Professional Header */}
-      <div className="bg-[#F5F0E8] border-b-2 border-[#1A2F2A]/30 sticky top-0 z-20">
+      <div className="bg-[#FFFFFF] border-b-2 border-[#0F1012]/30 sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 h-12 sm:h-14 flex items-center justify-between">
           <div>
-            <h1 className="text-base sm:text-lg font-semibold text-[#1A2F2A]">Checkout</h1>
-            <p className="text-[10px] sm:text-xs text-[#1A2F2A]/60 mt-0.5">{cart.length} {cart.length === 1 ? 'item' : 'items'}</p>
+            <h1 className="text-base sm:text-lg font-semibold text-[#0F1012]">Checkout</h1>
+            <p className="text-[10px] sm:text-xs text-[#0F1012]/60 mt-0.5">{cart.length} {cart.length === 1 ? 'item' : 'items'}</p>
           </div>
           <button
             onClick={() => navigate('/cart')}
-            className="text-xs sm:text-sm text-[#1A2F2A] hover:opacity-70 font-medium transition-opacity"
+            className="text-xs sm:text-sm text-[#0F1012] hover:opacity-70 font-medium transition-opacity"
           >
             <span className="hidden sm:inline">← Back to Cart</span>
             <span className="sm:hidden">← Back</span>
@@ -335,7 +335,7 @@ const Checkout = () => {
         {/* Success Modal with Smooth Animations */}
         {showSuccessModal && (
           <div 
-            className="fixed inset-0 bg-[#1A2F2A] bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm"
+            className="fixed inset-0 bg-[#0F1012] bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm"
             style={{
               animation: 'fadeIn 0.3s ease-out'
             }}
@@ -353,13 +353,13 @@ const Checkout = () => {
             >
               <div className="flex justify-center mb-4">
                 <div 
-                  className="w-20 h-20 bg-[#2B6B5A]/15 rounded-full flex items-center justify-center transform transition-all duration-500"
+                  className="w-20 h-20 bg-[#FE1157]/15 rounded-full flex items-center justify-center transform transition-all duration-500"
                   style={{
                     animation: 'scaleIn 0.5s ease-out, pulse 2s ease-in-out infinite'
                   }}
                 >
                   <Check 
-                    className="w-12 h-12 text-[#2B6B5A] transform transition-all duration-500"
+                    className="w-12 h-12 text-[#FE1157] transform transition-all duration-500"
                     style={{
                       animation: 'checkmark 0.6s ease-out 0.3s both'
                     }}
@@ -367,7 +367,7 @@ const Checkout = () => {
                 </div>
               </div>
               <h2 
-                className="text-xl sm:text-2xl font-bold text-[#1A2F2A] mb-2 transform transition-all duration-500"
+                className="text-xl sm:text-2xl font-bold text-[#0F1012] mb-2 transform transition-all duration-500"
                 style={{
                   animation: 'fadeInUp 0.5s ease-out 0.2s both'
                 }}
@@ -375,7 +375,7 @@ const Checkout = () => {
                 Order Placed Successfully!
               </h2>
               <p 
-                className="text-[#8B9A95] mb-6 transform transition-all duration-500"
+                className="text-[#0F1012] mb-6 transform transition-all duration-500"
                 style={{
                   animation: 'fadeInUp 0.5s ease-out 0.3s both'
                 }}
@@ -383,7 +383,7 @@ const Checkout = () => {
                 Your order has been confirmed. Redirecting to order details...
               </p>
               <div className="flex justify-center">
-                <div className="w-8 h-8 border-4 border-[#E0D8CE] border-t-[#2B6B5A] rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-[#FE1157] border-t-[#FE1157] rounded-full animate-spin"></div>
               </div>
             </div>
           </div>
@@ -453,36 +453,36 @@ const Checkout = () => {
         `}</style>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-[#FE1157] border border-[#FE1157] text-[#FE1157] px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
 
         {/* Enhanced Processing Order Overlay with Steps */}
         {isProcessingOrder && (
-          <div className="fixed inset-0 bg-[#1A2F2A] bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm p-3 sm:p-4">
+          <div className="fixed inset-0 bg-[#0F1012] bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm p-3 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
               <div className="text-center">
                 <div className="flex justify-center mb-4 sm:mb-6">
                   <div className="relative">
-                    <div className="w-20 h-20 border-4 border-[#E0D8CE] border-t-[#2B6B5A] rounded-full animate-spin"></div>
+                    <div className="w-20 h-20 border-4 border-[#FE1157] border-t-[#FE1157] rounded-full animate-spin"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 bg-[#2B6B5A] rounded-full flex items-center justify-center">
+                      <div className="w-12 h-12 bg-[#FE1157] rounded-full flex items-center justify-center">
                         <span className="text-white font-bold text-lg">{processingStep}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-[#1A2F2A] mb-2">Placing Your Order</h3>
-                <p className="text-xs sm:text-sm text-[#8B9A95] mb-4 sm:mb-6">Please wait while we process your order...</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-[#0F1012] mb-2">Placing Your Order</h3>
+                <p className="text-xs sm:text-sm text-[#0F1012] mb-4 sm:mb-6">Please wait while we process your order...</p>
                 
                 {/* Processing Steps */}
                 <div className="space-y-3 text-left">
                   <div className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 ${
-                    processingStep >= 1 ? 'bg-[#2B6B5A]/10 border border-[#2B6B5A]/25' : 'bg-[#F5F0E8] border border-[#E0D8CE]'
+                    processingStep >= 1 ? 'bg-[#FE1157]/10 border border-[#FE1157]/25' : 'bg-[#FFFFFF] border border-[#FE1157]'
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                      processingStep >= 1 ? 'bg-[#2B6B5A]' : 'bg-[#E0D8CE]'
+                      processingStep >= 1 ? 'bg-[#FE1157]' : 'bg-[#FE1157]'
                     }`}>
                       {processingStep > 1 ? (
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -491,21 +491,21 @@ const Checkout = () => {
                       ) : processingStep === 1 ? (
                         <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></div>
                       ) : (
-                        <div className="w-2.5 h-2.5 bg-[#8B9A95]/60 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-[#0F1012]/60 rounded-full"></div>
                       )}
                     </div>
                     <span className={`text-sm font-medium transition-colors ${
-                      processingStep >= 1 ? 'text-[#1A2F2A]' : 'text-[#8B9A95]'
+                      processingStep >= 1 ? 'text-[#0F1012]' : 'text-[#0F1012]'
                     }`}>
                       Validating order details
                     </span>
                   </div>
                   
                   <div className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 ${
-                    processingStep >= 2 ? 'bg-[#2B6B5A]/10 border border-[#2B6B5A]/25' : 'bg-[#F5F0E8] border border-[#E0D8CE]'
+                    processingStep >= 2 ? 'bg-[#FE1157]/10 border border-[#FE1157]/25' : 'bg-[#FFFFFF] border border-[#FE1157]'
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                      processingStep >= 2 ? 'bg-[#2B6B5A]' : 'bg-[#E0D8CE]'
+                      processingStep >= 2 ? 'bg-[#FE1157]' : 'bg-[#FE1157]'
                     }`}>
                       {processingStep > 2 ? (
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -514,21 +514,21 @@ const Checkout = () => {
                       ) : processingStep === 2 ? (
                         <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></div>
                       ) : (
-                        <div className="w-2.5 h-2.5 bg-[#8B9A95]/60 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-[#0F1012]/60 rounded-full"></div>
                       )}
                     </div>
                     <span className={`text-sm font-medium transition-colors ${
-                      processingStep >= 2 ? 'text-[#1A2F2A]' : 'text-[#8B9A95]'
+                      processingStep >= 2 ? 'text-[#0F1012]' : 'text-[#0F1012]'
                     }`}>
                       Processing payment method
                     </span>
                   </div>
                   
                   <div className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 ${
-                    processingStep >= 3 ? 'bg-[#2B6B5A]/10 border border-[#2B6B5A]/25' : 'bg-[#F5F0E8] border border-[#E0D8CE]'
+                    processingStep >= 3 ? 'bg-[#FE1157]/10 border border-[#FE1157]/25' : 'bg-[#FFFFFF] border border-[#FE1157]'
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                      processingStep >= 3 ? 'bg-[#2B6B5A]' : 'bg-[#E0D8CE]'
+                      processingStep >= 3 ? 'bg-[#FE1157]' : 'bg-[#FE1157]'
                     }`}>
                       {processingStep > 3 ? (
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -537,21 +537,21 @@ const Checkout = () => {
                       ) : processingStep === 3 ? (
                         <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></div>
                       ) : (
-                        <div className="w-2.5 h-2.5 bg-[#8B9A95]/60 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-[#0F1012]/60 rounded-full"></div>
                       )}
                     </div>
                     <span className={`text-sm font-medium transition-colors ${
-                      processingStep >= 3 ? 'text-[#1A2F2A]' : 'text-[#8B9A95]'
+                      processingStep >= 3 ? 'text-[#0F1012]' : 'text-[#0F1012]'
                     }`}>
                       Confirming order
                     </span>
                   </div>
                   
                   <div className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 ${
-                    processingStep >= 4 ? 'bg-[#2B6B5A]/10 border border-[#2B6B5A]/25' : 'bg-[#F5F0E8] border border-[#E0D8CE]'
+                    processingStep >= 4 ? 'bg-[#FE1157]/10 border border-[#FE1157]/25' : 'bg-[#FFFFFF] border border-[#FE1157]'
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                      processingStep >= 4 ? 'bg-[#2B6B5A]' : 'bg-[#E0D8CE]'
+                      processingStep >= 4 ? 'bg-[#FE1157]' : 'bg-[#FE1157]'
                     }`}>
                       {processingStep > 4 ? (
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -560,32 +560,32 @@ const Checkout = () => {
                       ) : processingStep === 4 ? (
                         <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></div>
                       ) : (
-                        <div className="w-2.5 h-2.5 bg-[#8B9A95]/60 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-[#0F1012]/60 rounded-full"></div>
                       )}
                     </div>
                     <span className={`text-sm font-medium transition-colors ${
-                      processingStep >= 4 ? 'text-[#1A2F2A]' : 'text-[#8B9A95]'
+                      processingStep >= 4 ? 'text-[#0F1012]' : 'text-[#0F1012]'
                     }`}>
                       Creating order
                     </span>
                   </div>
                   
                   <div className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 ${
-                    processingStep >= 5 ? 'bg-[#2B6B5A]/10 border border-[#2B6B5A]/25' : 'bg-[#F5F0E8] border border-[#E0D8CE]'
+                    processingStep >= 5 ? 'bg-[#FE1157]/10 border border-[#FE1157]/25' : 'bg-[#FFFFFF] border border-[#FE1157]'
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                      processingStep >= 5 ? 'bg-[#2B6B5A]' : 'bg-[#E0D8CE]'
+                      processingStep >= 5 ? 'bg-[#FE1157]' : 'bg-[#FE1157]'
                     }`}>
                       {processingStep >= 5 ? (
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                       ) : (
-                        <div className="w-2.5 h-2.5 bg-[#8B9A95]/60 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-[#0F1012]/60 rounded-full"></div>
                       )}
                     </div>
                     <span className={`text-sm font-medium transition-colors ${
-                      processingStep >= 5 ? 'text-[#1A2F2A]' : 'text-[#8B9A95]'
+                      processingStep >= 5 ? 'text-[#0F1012]' : 'text-[#0F1012]'
                     }`}>
                       Order confirmed
                     </span>
@@ -600,12 +600,12 @@ const Checkout = () => {
           {/* Left Column - Shipping Address Form */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
             {/* Shipping Address Card */}
-            <div className="bg-white rounded-lg border border-[#E0D8CE] shadow-sm">
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-[#E0D8CE]">
+            <div className="bg-white rounded-lg border border-[#FE1157] shadow-sm">
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-[#FE1157]">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm sm:text-base font-semibold text-[#1A2F2A]">Shipping Address</h2>
+                  <h2 className="text-sm sm:text-base font-semibold text-[#0F1012]">Shipping Address</h2>
                   {addressSaved && (
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-[#2B6B5A] bg-[#2B6B5A]/10 px-2.5 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-[#FE1157] bg-[#FE1157]/10 px-2.5 py-1 rounded">
                       <Check size={12} />
                       <span>Saved</span>
                     </div>
@@ -614,8 +614,8 @@ const Checkout = () => {
               </div>
               <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">
-                    Full Name <span className="text-[#C4A265]">*</span>
+                  <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">
+                    Full Name <span className="text-[#FE1157]">*</span>
                   </label>
                   <input
                     type="text"
@@ -623,13 +623,13 @@ const Checkout = () => {
                     value={shippingAddress.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors"
+                    className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">
-                    Phone Number <span className="text-[#C4A265]">*</span>
+                  <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">
+                    Phone Number <span className="text-[#FE1157]">*</span>
                   </label>
                   <input
                     type="tel"
@@ -637,13 +637,13 @@ const Checkout = () => {
                     value={shippingAddress.phone}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors"
+                    className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors"
                     placeholder="Enter your phone number"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">
-                    Address <span className="text-[#C4A265]">*</span>
+                  <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">
+                    Address <span className="text-[#FE1157]">*</span>
                   </label>
                   <textarea
                     name="address"
@@ -651,14 +651,14 @@ const Checkout = () => {
                     onChange={handleInputChange}
                     required
                     rows="3"
-                    className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors resize-none"
+                    className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors resize-none"
                     placeholder="Enter your complete address"
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">
-                      City <span className="text-[#C4A265]">*</span>
+                    <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">
+                      City <span className="text-[#FE1157]">*</span>
                     </label>
                     <input
                       type="text"
@@ -666,54 +666,54 @@ const Checkout = () => {
                       value={shippingAddress.city}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors"
+                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors"
                       placeholder="City"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">State</label>
+                    <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">State</label>
                     <input
                       type="text"
                       name="state"
                       value={shippingAddress.state}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors"
+                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors"
                       placeholder="State"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">ZIP Code</label>
+                    <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">ZIP Code</label>
                     <input
                       type="text"
                       name="zipCode"
                       value={shippingAddress.zipCode}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors"
+                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors"
                       placeholder="ZIP Code"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-[#1A2F2A] mb-1.5">Country</label>
+                    <label className="block text-xs sm:text-sm font-medium text-[#0F1012] mb-1.5">Country</label>
                     <input
                       type="text"
                       name="country"
                       value={shippingAddress.country}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#E0D8CE] rounded-md focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition-colors"
+                      className="w-full px-3 py-2 text-xs sm:text-sm border border-[#FE1157] rounded-md focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition-colors"
                       placeholder="Country"
                     />
                   </div>
                 </div>
                 
                 {/* Save Address Button */}
-                <div className="pt-4 border-t border-[#E0D8CE]">
+                <div className="pt-4 border-t border-[#FE1157]">
                   <button
                     type="button"
                     onClick={saveAddress}
                     disabled={savingAddress || !shippingAddress.name || !shippingAddress.phone || !shippingAddress.address || !shippingAddress.city}
-                    className="w-full px-4 py-2 bg-[#F5F0E8] text-[#1A2F2A] rounded-md hover:bg-[#E0D8CE]/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 border border-[#E0D8CE]"
+                    className="w-full px-4 py-2 bg-[#FFFFFF] text-[#0F1012] rounded-md hover:bg-[#FE1157]/50 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 border border-[#FE1157]"
                   >
                     {savingAddress ? (
                       <>
@@ -737,18 +737,18 @@ const Checkout = () => {
 
           {/* Right Column - Order Summary */}
           <div className="lg:col-span-1 order-1 lg:order-2">
-            <div className="bg-white rounded-lg border border-[#E0D8CE] shadow-sm lg:sticky lg:top-24">
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-[#E0D8CE]">
-                <h2 className="text-sm sm:text-base font-semibold text-[#1A2F2A]">Order Summary</h2>
+            <div className="bg-white rounded-lg border border-[#FE1157] shadow-sm lg:sticky lg:top-24">
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-[#FE1157]">
+                <h2 className="text-sm sm:text-base font-semibold text-[#0F1012]">Order Summary</h2>
               </div>
               <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 max-h-48 sm:max-h-64 overflow-y-auto">
                 {cart.map((item) => {
                   const product = item.product || item;
                   const price = product.price || product.finalPrice || 0;
                   return (
-                    <div key={item._id || item.id} className="flex items-start gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-[#E0D8CE] last:border-0 last:pb-0">
+                    <div key={item._id || item.id} className="flex items-start gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-[#FE1157] last:border-0 last:pb-0">
                       {product.images?.[0] && (
-                        <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 bg-[#F5F0E8] rounded-md overflow-hidden border border-[#E0D8CE]">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 bg-[#FFFFFF] rounded-md overflow-hidden border border-[#FE1157]">
                           <img
                             src={product.images[0]}
                             alt={product.name}
@@ -757,9 +757,9 @@ const Checkout = () => {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm font-medium text-[#1A2F2A] truncate">{product.name}</p>
-                        <p className="text-[10px] sm:text-xs text-[#8B9A95] mt-0.5">Qty: {item.quantity}</p>
-                        <p className="text-xs sm:text-sm font-semibold text-[#1A2F2A] mt-1">
+                        <p className="text-xs sm:text-sm font-medium text-[#0F1012] truncate">{product.name}</p>
+                        <p className="text-[10px] sm:text-xs text-[#0F1012] mt-0.5">Qty: {item.quantity}</p>
+                        <p className="text-xs sm:text-sm font-semibold text-[#0F1012] mt-1">
                           ₹{formatPrice(price * item.quantity)}
                         </p>
                       </div>
@@ -767,29 +767,29 @@ const Checkout = () => {
                   );
                 })}
               </div>
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#E0D8CE] bg-[#F5F0E8] space-y-2 sm:space-y-2.5">
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#FE1157] bg-[#FFFFFF] space-y-2 sm:space-y-2.5">
                 <div className="flex justify-between text-xs sm:text-sm">
-                  <span className="text-[#8B9A95]">Subtotal</span>
-                  <span className="font-medium text-[#1A2F2A]">₹{formatPrice(getCartTotal())}</span>
+                  <span className="text-[#0F1012]">Subtotal</span>
+                  <span className="font-medium text-[#0F1012]">₹{formatPrice(getCartTotal())}</span>
                 </div>
                 <div className="flex justify-between text-xs sm:text-sm">
-                  <span className="text-[#8B9A95]">Shipping</span>
-                  <span className="font-medium text-[#2B6B5A]">Free</span>
+                  <span className="text-[#0F1012]">Shipping</span>
+                  <span className="font-medium text-[#FE1157]">Free</span>
                 </div>
-                <div className="border-t border-[#E0D8CE] pt-2 sm:pt-2.5 mt-2 sm:mt-2.5 flex justify-between">
-                  <span className="text-sm sm:text-base font-semibold text-[#1A2F2A]">Total</span>
-                  <span className="text-base sm:text-lg font-semibold text-[#1A2F2A]">₹{getCartTotal().toLocaleString()}</span>
+                <div className="border-t border-[#FE1157] pt-2 sm:pt-2.5 mt-2 sm:mt-2.5 flex justify-between">
+                  <span className="text-sm sm:text-base font-semibold text-[#0F1012]">Total</span>
+                  <span className="text-base sm:text-lg font-semibold text-[#0F1012]">₹{getCartTotal().toLocaleString()}</span>
                 </div>
               </div>
 
               {/* Payment Method Selection */}
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#E0D8CE]">
-                <h3 className="text-xs sm:text-sm font-semibold text-[#1A2F2A] mb-2 sm:mb-3">Payment Method</h3>
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#FE1157]">
+                <h3 className="text-xs sm:text-sm font-semibold text-[#0F1012] mb-2 sm:mb-3">Payment Method</h3>
                 <div className="space-y-2 sm:space-y-2.5">
                   <label className={`flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 border rounded-md cursor-pointer transition-all ${
                     paymentMethod === 'razorpay' 
-                      ? 'border-[#2B6B5A] bg-[#2B6B5A]/10' 
-                      : 'border-[#E0D8CE] hover:border-[#8B9A95]/50 hover:bg-[#F5F0E8]'
+                      ? 'border-[#FE1157] bg-[#FE1157]/10' 
+                      : 'border-[#FE1157] hover:border-[#0F1012]/50 hover:bg-[#FFFFFF]'
                   }`}>
                     <input
                       type="radio"
@@ -797,17 +797,17 @@ const Checkout = () => {
                       value="razorpay"
                       checked={paymentMethod === 'razorpay'}
                       onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="w-4 h-4 text-[#2B6B5A] focus:ring-[#2B6B5A] mt-0.5 flex-shrink-0"
+                      className="w-4 h-4 text-[#FE1157] focus:ring-[#FE1157] mt-0.5 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs sm:text-sm font-medium text-[#1A2F2A]">Online Payment</div>
-                      <div className="text-[10px] sm:text-xs text-[#8B9A95] mt-0.5">Cards, UPI, Wallets</div>
+                      <div className="text-xs sm:text-sm font-medium text-[#0F1012]">Online Payment</div>
+                      <div className="text-[10px] sm:text-xs text-[#0F1012] mt-0.5">Cards, UPI, Wallets</div>
                     </div>
                   </label>
                   <label className={`flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 border rounded-md cursor-pointer transition-all ${
                     paymentMethod === 'COD' 
-                      ? 'border-[#2B6B5A] bg-[#2B6B5A]/10' 
-                      : 'border-[#E0D8CE] hover:border-[#8B9A95]/50 hover:bg-[#F5F0E8]'
+                      ? 'border-[#FE1157] bg-[#FE1157]/10' 
+                      : 'border-[#FE1157] hover:border-[#0F1012]/50 hover:bg-[#FFFFFF]'
                   }`}>
                     <input
                       type="radio"
@@ -815,22 +815,22 @@ const Checkout = () => {
                       value="COD"
                       checked={paymentMethod === 'COD'}
                       onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="w-4 h-4 text-[#2B6B5A] focus:ring-[#2B6B5A] mt-0.5 flex-shrink-0"
+                      className="w-4 h-4 text-[#FE1157] focus:ring-[#FE1157] mt-0.5 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs sm:text-sm font-medium text-[#1A2F2A]">Cash on Delivery</div>
-                      <div className="text-[10px] sm:text-xs text-[#8B9A95] mt-0.5">Pay on delivery</div>
+                      <div className="text-xs sm:text-sm font-medium text-[#0F1012]">Cash on Delivery</div>
+                      <div className="text-[10px] sm:text-xs text-[#0F1012] mt-0.5">Pay on delivery</div>
                     </div>
                   </label>
                 </div>
               </div>
 
               {/* Payment Button */}
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#E0D8CE] bg-white">
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-[#FE1157] bg-white">
                 <button
                   onClick={handlePayment}
                   disabled={loading || isProcessingOrder}
-                  className="w-full bg-[#2B6B5A] text-white py-2.5 sm:py-3 rounded-md hover:bg-[#1A4D3F] transition-colors text-xs sm:text-sm font-medium disabled:bg-[#8B9A95]/60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full bg-[#FE1157] text-white py-2.5 sm:py-3 rounded-md hover:bg-[#0F1012] transition-colors text-xs sm:text-sm font-medium disabled:bg-[#0F1012]/60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading || isProcessingOrder ? (
                     <>
@@ -858,12 +858,12 @@ const Checkout = () => {
                     </>
                   )}
                 </button>
-                <p className="text-xs text-[#8B9A95] mt-3 text-center">
+                <p className="text-xs text-[#0F1012] mt-3 text-center">
                   By placing your order, you agree to our Terms & Conditions
                 </p>
                 <button
                   onClick={() => setShowInvoicePreview(true)}
-                  className="w-full mt-3 bg-white text-[#1A2F2A] py-2 border border-[#E0D8CE] rounded-md hover:bg-[#F5F0E8] transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                  className="w-full mt-3 bg-white text-[#0F1012] py-2 border border-[#FE1157] rounded-md hover:bg-[#FFFFFF] transition-colors text-sm font-medium flex items-center justify-center gap-2"
                 >
                   <FileText className="w-4 h-4" />
                   Preview Invoice
@@ -876,13 +876,13 @@ const Checkout = () => {
 
       {/* Invoice Preview Modal */}
       {showInvoicePreview && (
-        <div className="fixed inset-0 z-50 bg-[#1A2F2A]/50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onClick={() => setShowInvoicePreview(false)}>
+        <div className="fixed inset-0 z-50 bg-[#0F1012]/50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onClick={() => setShowInvoicePreview(false)}>
           <div className="bg-white rounded-lg max-w-4xl w-full my-4 sm:my-8 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="sticky top-0 bg-white border-b border-[#E0D8CE] px-3 sm:px-6 py-3 sm:py-4 flex justify-between items-center z-10">
-              <h2 className="text-lg sm:text-xl font-bold text-[#1A2F2A]">Invoice Preview</h2>
+            <div className="sticky top-0 bg-white border-b border-[#FE1157] px-3 sm:px-6 py-3 sm:py-4 flex justify-between items-center z-10">
+              <h2 className="text-lg sm:text-xl font-bold text-[#0F1012]">Invoice Preview</h2>
               <button
                 onClick={() => setShowInvoicePreview(false)}
-                className="text-[#8B9A95] hover:text-[#1A2F2A] transition-colors"
+                className="text-[#0F1012] hover:text-[#0F1012] transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

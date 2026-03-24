@@ -50,7 +50,7 @@ const TrackOrder = () => {
       case 'out for delivery':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 text-[#0F1012] border-gray-200';
     }
   };
 
@@ -59,14 +59,14 @@ const TrackOrder = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <Link to="/" className="text-gray-600 hover:text-gray-900 mb-4 inline-flex items-center text-sm">
+          <Link to="/" className="text-[#0F1012] hover:text-gray-900 mb-4 inline-flex items-center text-sm">
             <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to Home
           </Link>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Track Your Order</h1>
-          <p className="text-sm sm:text-base text-gray-600">Enter your order ID or tracking number to check the status of your order.</p>
+          <p className="text-sm sm:text-base text-[#0F1012]">Enter your order ID or tracking number to check the status of your order.</p>
         </div>
 
         {/* Track Order Form */}
@@ -78,7 +78,7 @@ const TrackOrder = () => {
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
                 placeholder="Enter Order ID or Tracking Number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                className="w-full px-4 py-3 border border-[#FE1157] rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
               />
             </div>
             <button
@@ -90,7 +90,7 @@ const TrackOrder = () => {
             </button>
           </form>
           {error && (
-            <p className="mt-4 text-sm text-red-600">{error}</p>
+            <p className="mt-4 text-sm text-[#FE1157]">{error}</p>
           )}
         </div>
 
@@ -122,14 +122,14 @@ const TrackOrder = () => {
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">Order #{trackingData.orderId}</h2>
-                  <p className="text-sm text-gray-600">Tracking Number: {trackingData.trackingNumber}</p>
+                  <p className="text-sm text-[#0F1012]">Tracking Number: {trackingData.trackingNumber}</p>
                 </div>
                 <span className={`px-4 py-2 rounded-full text-sm font-medium border ${getStatusColor(trackingData.status)}`}>
                   {trackingData.status.charAt(0).toUpperCase() + trackingData.status.slice(1)}
                 </span>
               </div>
               <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600 mb-1">Estimated Delivery</p>
+                <p className="text-sm text-[#0F1012] mb-1">Estimated Delivery</p>
                 <p className="text-lg font-semibold text-gray-900">
                   {new Date(trackingData.estimatedDelivery).toLocaleDateString('en-US', { 
                     weekday: 'long', 
@@ -155,12 +155,12 @@ const TrackOrder = () => {
                   <div className="ml-4 flex-1 pb-6">
                     <div className="flex justify-between items-start mb-1">
                       <h4 className="font-semibold text-gray-900">{event.status}</h4>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-[#0F1012]">
                         <span>{event.date}</span>
                         <span className="ml-2">{event.time}</span>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600">{event.description}</p>
+                    <p className="text-sm text-[#0F1012]">{event.description}</p>
                   </div>
                 </div>
               ))}
@@ -172,7 +172,7 @@ const TrackOrder = () => {
         {!trackingData && (
           <div className="bg-white rounded-lg shadow-sm p-6 text-center">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Can't Find Your Order?</h3>
-            <p className="text-gray-600 mb-4">If you're having trouble tracking your order, please contact our customer service team.</p>
+            <p className="text-[#0F1012] mb-4">If you're having trouble tracking your order, please contact our customer service team.</p>
             <Link
               to="/contact"
               className="inline-block px-6 py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"

@@ -32,7 +32,7 @@ const SocialShare = ({ product }) => {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm font-medium text-gray-700">Share:</span>
+      <span className="text-sm font-medium text-[#0F1012]">Share:</span>
       <div className="flex gap-2">
         <button
           onClick={() => handleShare('facebook')}
@@ -57,7 +57,7 @@ const SocialShare = ({ product }) => {
         </button>
         <button
           onClick={() => handleShare('email')}
-          className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+          className="p-2 text-[#0F1012] hover:bg-[#FE1157]/10 rounded-lg transition-colors"
           title="Share via Email"
         >
           <Mail className="w-5 h-5" />
@@ -65,7 +65,7 @@ const SocialShare = ({ product }) => {
         <button
           onClick={() => handleShare('copy')}
           className={`p-2 rounded-lg transition-colors ${
-            copied ? 'text-green-600 bg-green-50' : 'text-gray-600 hover:bg-gray-50'
+            copied ? 'text-green-600 bg-green-50' : 'text-[#0F1012] hover:bg-[#FE1157]/10'
           }`}
           title="Copy link"
         >

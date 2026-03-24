@@ -26,7 +26,7 @@ const Breadcrumbs = () => {
   }
 
   return (
-    <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+    <nav className="flex items-center space-x-2 text-sm text-[#0F1012] mb-4">
       <Link to="/" className="hover:text-gray-900 flex items-center">
         <Home className="w-4 h-4" />
       </Link>
@@ -36,7 +36,7 @@ const Breadcrumbs = () => {
 
         return (
           <div key={name} className="flex items-center space-x-2">
-            <ChevronRight className="w-4 h-4 text-gray-400" />
+            <ChevronRight className="w-4 h-4 text-[#0F1012]" />
             {isLast ? (
               <span className="text-gray-900 font-medium">{getBreadcrumbName(name)}</span>
             ) : (

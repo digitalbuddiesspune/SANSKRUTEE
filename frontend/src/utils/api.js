@@ -1,4 +1,5 @@
 import { getCachedProductResponse, cacheProductResponse } from './productCache';
+import { filterOutMensTitleProducts } from './productFilters';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
@@ -396,7 +397,13 @@ export const productAPI = {
     const cached = getCachedProductResponse(endpoint, params);
     if (cached) {
       console.log('📦 Using cached shoes data');
-      return cached;
+      return {
+        ...cached,
+        data: {
+          ...cached.data,
+          products: filterOutMensTitleProducts(cached.data?.products || []),
+        },
+      };
     }
 
     // Fetch from API
@@ -405,7 +412,15 @@ export const productAPI = {
     
     // Cache the response
     if (response.success) {
-      cacheProductResponse(endpoint, params, response);
+      const sanitizedResponse = {
+        ...response,
+        data: {
+          ...response.data,
+          products: filterOutMensTitleProducts(response.data?.products || []),
+        },
+      };
+      cacheProductResponse(endpoint, params, sanitizedResponse);
+      return sanitizedResponse;
     }
     
     return response;

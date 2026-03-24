@@ -1,55 +1,49 @@
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  return (
-    <footer>
-      {/* Elegant marquee divider — teal bg, gold text */}
-      <div className="w-full bg-[#2B6B5A] overflow-hidden select-none border-t border-b border-[#1A4D3F]">
-        <div className="h-10 flex items-center">
-          <div className="marquee-track">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.08em] text-[#C4A265] whitespace-nowrap">
-              {'  ·  SANSKRUTEE  ·  PREMIUM FASHION  ·  SANSKRUTEE  ·  ETHNIC ELEGANCE  ·  SANSKRUTEE  ·  TIMELESS STYLE  '.repeat(2)}
-            </span>
-          </div>
-        </div>
-      </div>
+  const shopLinks = [
+    { label: "Women's Fashion", path: '/women' },
+    { label: 'Watches', path: '/watches' },
+    { label: 'Eyewear', path: '/lenses' },
+    { label: 'Skincare', path: '/skincare' },
+    { label: 'Shoes', path: '/shoes' },
+  ];
 
-      {/* Main footer — deep teal bg */}
-      <div className="bg-[#1A2F2A] text-white">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
-          
-          {/* Top section: oversized brand name */}
-          <div className="pt-12 sm:pt-16 lg:pt-20 pb-10 sm:pb-14 border-b border-white/10">
-            <div className="flex items-center gap-3 mb-6">
+  const helpLinks = [
+    { label: 'Contact Us', path: '/contact' },
+    { label: 'FAQ', path: '/faq' },
+    { label: 'Shipping Info', path: '/shipping' },
+    { label: 'Returns', path: '/returns' },
+    { label: 'Track Order', path: '/track-order' },
+    { label: 'Size Guide', path: '/size-guide' },
+  ];
+
+  return (
+    <footer className="mt-12 border-t border-[#FE1157]/25 bg-[#0F1012] text-white">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="pt-12 sm:pt-14 lg:pt-16 pb-10 sm:pb-12 border-b border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+            <div className="lg:col-span-1">
               <img
                 src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
-                alt="Logo"
-                className="h-8 w-auto object-contain invert"
+                alt="Sanskrutee"
+                className="h-12 w-auto object-contain invert"
                 style={{ filter: 'invert(1) brightness(2)' }}
               />
-              <span className="text-lg font-bold uppercase tracking-[0.1em]">Sanskrutee</span>
+              <p className="mt-4 text-sm text-white/65 leading-relaxed max-w-xs">
+                Premium fashion essentials curated for modern women. Timeless pieces, thoughtful details, and effortless style.
+              </p>
+              <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#FE1157]/40 bg-[#FE1157]/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#FE1157]">
+                Trusted Quality
+              </div>
             </div>
-            <p className="text-sm text-white/50 max-w-md leading-relaxed">
-              Your one-stop destination for fashion, watches, and accessories. Shop the latest trends with the best prices.
-            </p>
-          </div>
 
-          {/* Link columns */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 py-10 sm:py-14">
-            
-            {/* Quick Links */}
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C4A265] mb-5">Shop</h4>
-              <ul className="space-y-3">
-                {[
-                  { label: "Women's Fashion", path: '/women' },
-                  { label: 'Watches', path: '/watches' },
-                  { label: 'Eyewear', path: '/lenses' },
-                  { label: 'Skincare', path: '/skincare' },
-                  { label: 'Shoes', path: '/shoes' },
-                ].map(link => (
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FE1157] mb-4">Shop</h4>
+              <ul className="space-y-2.5">
+                {shopLinks.map((link) => (
                   <li key={link.path}>
-                    <Link to={link.path} className="text-xs text-white/50 hover:text-white uppercase tracking-wide transition-colors duration-200">
+                    <Link to={link.path} className="text-xs text-white/65 hover:text-white transition-colors duration-200">
                       {link.label}
                     </Link>
                   </li>
@@ -57,20 +51,12 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Customer Service */}
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C4A265] mb-5">Help</h4>
-              <ul className="space-y-3">
-                {[
-                  { label: 'Contact Us', path: '/contact' },
-                  { label: 'FAQ', path: '/faq' },
-                  { label: 'Shipping Info', path: '/shipping' },
-                  { label: 'Returns', path: '/returns' },
-                  { label: 'Track Order', path: '/track-order' },
-                  { label: 'Size Guide', path: '/size-guide' },
-                ].map(link => (
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FE1157] mb-4">Help</h4>
+              <ul className="space-y-2.5">
+                {helpLinks.map((link) => (
                   <li key={link.path}>
-                    <Link to={link.path} className="text-xs text-white/50 hover:text-white uppercase tracking-wide transition-colors duration-200">
+                    <Link to={link.path} className="text-xs text-white/65 hover:text-white transition-colors duration-200">
                       {link.label}
                     </Link>
                   </li>
@@ -78,42 +64,26 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* About */}
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C4A265] mb-5">About</h4>
-              <ul className="space-y-3">
-                {[
-                  { label: 'About Brand', path: '/about' },
-                  { label: 'Blog', path: '/blog' },
-                  { label: 'Careers', path: '/careers' },
-                ].map(link => (
-                  <li key={link.path}>
-                    <Link to={link.path} className="text-xs text-white/50 hover:text-white uppercase tracking-wide transition-colors duration-200">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C4A265] mb-5">Contact</h4>
-              <div className="space-y-3 text-xs text-white/50">
-                <a href="mailto:support@sanskruteefashion.in" className="block hover:text-white transition-colors duration-200">
-                  support@sanskruteefashion.in
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FE1157] mb-4">Contact</h4>
+              <div className="space-y-3 text-xs text-white/65">
+                <a href="mailto:support@sanskrutee.in" className="inline-block hover:text-white transition-colors duration-200">
+                  support@sanskrutee.in
                 </a>
                 <div className="leading-relaxed">
-                  <p>4th Floor, 401, 6-3-862/1</p>
-                  <p>Laxmi Nivas, Begumpet</p>
-                  <p>Secunderabad, Telangana 500016</p>
+                  <p>2nd Floor, 201, 6-3-862/1</p>
+                  <p>xyz building, yyy road, zzz city</p>
+                  <p>zzz state, zzz country</p>
                 </div>
               </div>
-
-              {/* Social Icons */}
-              <div className="flex gap-3 mt-6">
+              <div className="flex gap-2.5 mt-5">
                 {['Facebook', 'Twitter', 'Instagram'].map((social) => (
-                  <a key={social} href="#" className="w-8 h-8 bg-white/10 hover:bg-[#C4A265] hover:text-[#1A2F2A] text-white/60 flex items-center justify-center transition-all duration-200" aria-label={social}>
+                  <a
+                    key={social}
+                    href="#"
+                    className="w-9 h-9 rounded-full border border-white/20 bg-white/5 text-white/75 hover:border-[#FE1157] hover:bg-[#FE1157] hover:text-[#0F1012] flex items-center justify-center transition-all duration-200"
+                    aria-label={social}
+                  >
                     {social === 'Facebook' && (
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                     )}
@@ -128,17 +98,15 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Bottom bar */}
-          <div className="border-t border-white/10 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-[10px] text-white/30 uppercase tracking-wider text-center md:text-left">
-              <p>&copy; 2026 Sanskrutee. All rights reserved.</p>
-              <p className="mt-1">STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED &middot; GSTIN: 36ABQCS3170D1Z8</p>
-            </div>
-            <div className="flex gap-5 text-[10px] text-white/30 uppercase tracking-wider">
-              <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-              <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
-            </div>
+        <div className="py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-[10px] text-white/40 uppercase tracking-wider text-center sm:text-left">
+            &copy; 2026 Sanskrutee. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5 text-[10px] text-white/40 uppercase tracking-wider">
+            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

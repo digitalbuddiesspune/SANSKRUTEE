@@ -35,8 +35,8 @@ const BillingPage = () => {
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen bg-[#FAF6F0] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2B6B5A]"></div>
+      <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FE1157]"></div>
       </div>
     );
   }
@@ -45,9 +45,9 @@ const BillingPage = () => {
   const displayName = user?.name || authUser?.name || 'User';
 
   return (
-    <div className="min-h-screen bg-[#FAF6F0] lg:hidden">
+    <div className="min-h-screen bg-[#FFFFFF] lg:hidden">
       {/* Header */}
-      <div className="bg-[#1A2F2A] text-[#F5F0E8] sticky top-0 z-10">
+      <div className="bg-[#0F1012] text-[#FFFFFF] sticky top-0 z-10">
         <div className="px-4 py-4 flex items-center gap-4">
           <Link to="/profile" className="p-2 -ml-2">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,7 +56,7 @@ const BillingPage = () => {
           </Link>
           <div>
             <h2 className="text-lg font-bold">Billing</h2>
-            <p className="text-xs text-[#F5F0E8]/80">Cards & payments</p>
+            <p className="text-xs text-[#FFFFFF]/80">Cards & payments</p>
           </div>
         </div>
       </div>
@@ -64,12 +64,12 @@ const BillingPage = () => {
       {/* Content */}
       <div className="p-4 space-y-6">
         <div>
-          <h3 className="text-base font-bold text-[#1A2F2A] mb-1">Saved Cards</h3>
-          <p className="text-sm text-[#8B9A95]">Manage your payment methods</p>
+          <h3 className="text-base font-bold text-[#0F1012] mb-1">Saved Cards</h3>
+          <p className="text-sm text-[#0F1012]">Manage your payment methods</p>
         </div>
         
         {/* Credit Card */}
-        <div className="relative w-full h-52 bg-gradient-to-br from-[#1A2F2A] to-[#0F2420] overflow-hidden text-[#F5F0E8] p-6 border border-[#1A2F2A]/30 rounded-lg luxury-shadow-lg">
+        <div className="relative w-full h-52 bg-gradient-to-br from-[#0F1012] to-[#0F1012] overflow-hidden text-[#FFFFFF] p-6 border border-[#0F1012]/30 rounded-lg luxury-shadow-lg">
           <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 rounded-full bg-white opacity-5"></div>
           <div className="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 rounded-full bg-white opacity-5"></div>
           <div className="flex justify-between items-start mb-8">
@@ -93,7 +93,7 @@ const BillingPage = () => {
           </div>
         </div>
         
-        <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-[#E0D8CE] text-sm font-semibold text-[#1A2F2A] bg-white/60 backdrop-blur-sm hover:bg-[#2B6B5A] hover:text-white transition-colors rounded-lg luxury-shadow-sm">
+        <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-[#FE1157] text-sm font-semibold text-[#0F1012] bg-white/60 backdrop-blur-sm hover:bg-[#FE1157] hover:text-white transition-colors rounded-lg luxury-shadow-sm">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
           Add Payment Method
         </button>

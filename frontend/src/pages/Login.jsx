@@ -52,7 +52,7 @@ const Login = () => {
   const illustrationImage = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1767164455/original-7101b82f5e41f1a0db3849231b5fea83_ht6umb.png';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F0E8] to-[#E8F2EE] font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFFFFF] to-[#FFFFFF] font-sans">
       {/* MOBILE VIEW */}
       <div className="lg:hidden min-h-screen flex flex-col bg-white">
         <div className="flex-1 flex flex-col justify-center px-6 py-8">
@@ -60,41 +60,41 @@ const Login = () => {
           <div className="flex items-center gap-2.5 mb-8">
             <div className="relative">
               <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="36" rx="8" fill="#2B6B5A"/>
+                <rect width="36" height="36" rx="8" fill="#FE1157"/>
                 <path d="M12 18C12 15.5 13.5 14 16 14C18.5 14 20 15.5 20 17C20 18.5 18.5 19.5 17 20C15.5 20.5 14 21.5 14 23C14 25.5 15.5 27 18 27C20.5 27 22 25.5 22 24" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
               </svg>
             </div>
-            <span className="text-xl font-bold text-[#1A2F2A]">Sanskrutee</span>
+            <span className="text-xl font-bold text-[#0F1012]">Sanskrutee</span>
           </div>
 
-          <h2 className="text-2xl font-bold text-[#1A2F2A] mb-2">Welcome Back!</h2>
-          <p className="text-sm text-[#8B9A95] mb-6">
+          <h2 className="text-2xl font-bold text-[#0F1012] mb-2">Welcome Back!</h2>
+          <p className="text-sm text-[#0F1012] mb-6">
             Enter your email and password to access your account.
           </p>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="mb-4 p-3 bg-[#FE1157] border border-[#FE1157] rounded-lg">
+              <p className="text-[#FE1157] text-sm">{error}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-5 w-5 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
               <input
                 type="text"
                 placeholder="Nickname"
-                className="w-full pl-10 pr-3 py-3 border border-[#E0D8CE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-transparent"
+                className="w-full pl-10 pr-3 py-3 border border-[#FE1157] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-transparent"
               />
             </div>
 
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-5 w-5 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
@@ -105,13 +105,13 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="Email address"
                 required
-                className="w-full pl-10 pr-3 py-3 border border-[#E0D8CE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-transparent"
+                className="w-full pl-10 pr-3 py-3 border border-[#FE1157] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-transparent"
               />
             </div>
 
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-5 w-5 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
@@ -122,12 +122,12 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="Password"
                 required
-                className="w-full pl-10 pr-10 py-3 border border-[#E0D8CE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-transparent"
+                className="w-full pl-10 pr-10 py-3 border border-[#FE1157] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-transparent"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8B9A95] hover:text-[#8B9A95]"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#0F1012] hover:text-[#0F1012]"
               >
                 {showPassword ? (
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,11 +148,11 @@ const Login = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-[#2B6B5A] focus:ring-[#2B6B5A] border-[#E0D8CE] rounded"
+                  className="h-4 w-4 text-[#FE1157] focus:ring-[#FE1157] border-[#FE1157] rounded"
                 />
-                <span className="ml-2 text-sm text-[#1A2F2A]">Remember Me</span>
+                <span className="ml-2 text-sm text-[#0F1012]">Remember Me</span>
               </label>
-              <a href="#" className="text-sm text-[#8B9A95] hover:text-[#1A2F2A]">
+              <a href="#" className="text-sm text-[#0F1012] hover:text-[#0F1012]">
                 Forgot your password?
               </a>
             </div>
@@ -160,7 +160,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-[#FE1157] hover:bg-[#0F1012] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -169,7 +169,7 @@ const Login = () => {
           {/* Login with OTP Button */}
           <button
             onClick={handleOTPLogin}
-            className="w-full py-2.5 mt-4 flex items-center justify-center gap-2 border border-[#E0D8CE] bg-white hover:bg-[#F5F0E8] text-[#1A2F2A] font-medium rounded-lg transition-colors"
+            className="w-full py-2.5 mt-4 flex items-center justify-center gap-2 border border-[#FE1157] bg-white hover:bg-[#FFFFFF] text-[#0F1012] font-medium rounded-lg transition-colors"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -178,9 +178,9 @@ const Login = () => {
           </button>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-[#8B9A95]">
+            <p className="text-sm text-[#0F1012]">
               Don't have an account?{' '}
-              <Link to="/signup" className="text-[#C4A265] font-medium hover:underline">
+              <Link to="/signup" className="text-[#FE1157] font-medium hover:underline">
                 create your account
               </Link>
             </p>
@@ -197,43 +197,43 @@ const Login = () => {
             <div className="flex items-center gap-2.5">
               <div className="relative">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="36" height="36" rx="8" fill="#2B6B5A"/>
+                  <rect width="36" height="36" rx="8" fill="#FE1157"/>
                   <path d="M12 18C12 15.5 13.5 14 16 14C18.5 14 20 15.5 20 17C20 18.5 18.5 19.5 17 20C15.5 20.5 14 21.5 14 23C14 25.5 15.5 27 18 27C20.5 27 22 25.5 22 24" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                 </svg>
               </div>
-              <span className="text-xl font-bold text-[#1A2F2A]">Sanskrutee</span>
+              <span className="text-xl font-bold text-[#0F1012]">Sanskrutee</span>
             </div>
 
             <div>
-              <h2 className="text-3xl font-bold text-[#1A2F2A] mb-2">Welcome Back!</h2>
-              <p className="text-sm text-[#8B9A95]">
+              <h2 className="text-3xl font-bold text-[#0F1012] mb-2">Welcome Back!</h2>
+              <p className="text-sm text-[#0F1012]">
                 Enter your email and password to access your account.
               </p>
             </div>
 
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-600 text-sm">{error}</p>
+              <div className="p-3 bg-[#FE1157] border border-[#FE1157] rounded-lg">
+                <p className="text-[#FE1157] text-sm">{error}</p>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
                 <input
                   type="text"
                   placeholder="Nickname"
-                  className="w-full pl-10 pr-3 py-3 border border-[#E0D8CE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-transparent"
+                  className="w-full pl-10 pr-3 py-3 border border-[#FE1157] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-transparent"
                 />
               </div>
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
@@ -244,13 +244,13 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="Email address"
                   required
-                  className="w-full pl-10 pr-3 py-3 border border-[#E0D8CE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-transparent"
+                  className="w-full pl-10 pr-3 py-3 border border-[#FE1157] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-transparent"
                 />
               </div>
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-[#8B9A95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
@@ -261,12 +261,12 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="Password"
                   required
-                  className="w-full pl-10 pr-10 py-3 border border-[#E0D8CE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-transparent"
+                  className="w-full pl-10 pr-10 py-3 border border-[#FE1157] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-transparent"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8B9A95] hover:text-[#8B9A95]"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#0F1012] hover:text-[#0F1012]"
                 >
                   {showPassword ? (
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -287,11 +287,11 @@ const Login = () => {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="h-4 w-4 text-[#2B6B5A] focus:ring-[#2B6B5A] border-[#E0D8CE] rounded"
+                    className="h-4 w-4 text-[#FE1157] focus:ring-[#FE1157] border-[#FE1157] rounded"
                   />
-                  <span className="ml-2 text-sm text-[#1A2F2A]">Remember Me</span>
+                  <span className="ml-2 text-sm text-[#0F1012]">Remember Me</span>
                 </label>
-                <a href="#" className="text-sm text-[#8B9A95] hover:text-[#1A2F2A]">
+                <a href="#" className="text-sm text-[#0F1012] hover:text-[#0F1012]">
                   Forgot your password?
                 </a>
               </div>
@@ -299,7 +299,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-[#FE1157] hover:bg-[#0F1012] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
@@ -308,7 +308,7 @@ const Login = () => {
             {/* Login with OTP Button */}
             <button
               onClick={handleOTPLogin}
-              className="w-full py-2.5 mt-4 flex items-center justify-center gap-2 border border-[#E0D8CE] bg-white hover:bg-[#F5F0E8] text-[#1A2F2A] font-medium rounded-lg transition-colors"
+              className="w-full py-2.5 mt-4 flex items-center justify-center gap-2 border border-[#FE1157] bg-white hover:bg-[#FFFFFF] text-[#0F1012] font-medium rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -317,9 +317,9 @@ const Login = () => {
             </button>
 
             <div className="text-center mt-6">
-              <p className="text-sm text-[#8B9A95]">
+              <p className="text-sm text-[#0F1012]">
                 Don't have an account?{' '}
-                <Link to="/signup" className="text-[#C4A265] font-medium hover:underline">
+                <Link to="/signup" className="text-[#FE1157] font-medium hover:underline">
                   create your account
                 </Link>
               </p>
@@ -328,7 +328,7 @@ const Login = () => {
         </div>
 
         {/* RIGHT SIDE: Illustration */}
-        <div className="w-1/2 bg-gradient-to-br from-[#F5F0E8] to-[#E8F2EE] flex items-center justify-center p-4">
+        <div className="w-1/2 bg-gradient-to-br from-[#FFFFFF] to-[#FFFFFF] flex items-center justify-center p-4">
           <img
             src={illustrationImage}
             alt="Login illustration"

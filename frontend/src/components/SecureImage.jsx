@@ -113,7 +113,7 @@ const SecureImage = ({
     return (
       <div 
         ref={containerRef}
-        className={`${size} ${className} rounded-full bg-[#2B6B5A] text-[#F5F0E8] flex items-center justify-center font-bold text-3xl border-4 border-white shadow-lg select-none`}
+        className={`${size} ${className} rounded-full bg-[#FE1157] text-[#FFFFFF] flex items-center justify-center font-bold text-3xl border-4 border-white shadow-lg select-none`}
         style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
       >
         {fallback}

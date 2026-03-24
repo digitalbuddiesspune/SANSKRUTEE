@@ -95,7 +95,7 @@ const StickyCartSummary = () => {
       {/* Sticky Cart Summary - Fixed at bottom until footer */}
       <div
         ref={containerRef}
-        className={`bg-[#F5F0E8] border-t-2 border-[#1A2F2A]/30 transition-all duration-300 luxury-shadow-sm ${
+        className={`bg-[#FFFFFF] border-t-2 border-[#0F1012]/30 transition-all duration-300 luxury-shadow-sm ${
           shouldStick ? 'fixed bottom-0 left-0 right-0 z-50' : 'relative'
         }`}
       >
@@ -108,7 +108,7 @@ const StickyCartSummary = () => {
               {/* Close Button */}
               <button
                 onClick={() => setIsVisible(false)}
-                className="w-8 h-8 flex items-center justify-center border border-[#1A2F2A]/30 bg-[#F5F0E8] hover:bg-[#1A4D3F] hover:text-white transition-colors"
+                className="w-8 h-8 flex items-center justify-center border border-[#0F1012]/30 bg-[#FFFFFF] hover:bg-[#0F1012] hover:text-white transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
@@ -117,7 +117,7 @@ const StickyCartSummary = () => {
 
               {/* Subtotal & Savings */}
               <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                <span className="text-xs sm:text-sm font-medium text-[#1A2F2A] whitespace-nowrap">Subtotal</span>
+                <span className="text-xs sm:text-sm font-medium text-[#0F1012] whitespace-nowrap">Subtotal</span>
                 {savings > 0 && (
                   <span className="bg-green-600 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded whitespace-nowrap">
                     Save: ₹{savings.toLocaleString()}
@@ -125,11 +125,11 @@ const StickyCartSummary = () => {
                 )}
                 <div className="flex items-center gap-1 sm:gap-2">
                   {originalTotal > cartTotal && (
-                    <span className="text-xs sm:text-sm text-[#1A2F2A]/50 line-through">
+                    <span className="text-xs sm:text-sm text-[#0F1012]/50 line-through">
                       ₹{originalTotal.toLocaleString()}
                     </span>
                   )}
-                  <span className="text-sm sm:text-base font-bold text-[#1A2F2A] whitespace-nowrap">
+                  <span className="text-sm sm:text-base font-bold text-[#0F1012] whitespace-nowrap">
                     ₹{cartTotal.toLocaleString()}
                   </span>
                 </div>
@@ -144,7 +144,7 @@ const StickyCartSummary = () => {
                 return (
                   <div
                     key={item._id || item.id || idx}
-                    className="w-12 h-12 border border-[#1A2F2A]/30 bg-[#F5F0E8] overflow-hidden flex items-center justify-center"
+                    className="w-12 h-12 border border-[#0F1012]/30 bg-[#FFFFFF] overflow-hidden flex items-center justify-center"
                   >
                     {imageUrl ? (
                       <img
@@ -154,7 +154,7 @@ const StickyCartSummary = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-[#1A2F2A]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-6 h-6 text-[#0F1012]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                         </svg>
                       </div>
@@ -166,9 +166,9 @@ const StickyCartSummary = () => {
               {Array.from({ length: Math.max(0, 3 - Math.min(cart.length, 3)) }).map((_, idx) => (
                 <div
                   key={`placeholder-${idx}`}
-                  className="w-12 h-12 border border-[#1A2F2A]/30 bg-[#F5F0E8] flex items-center justify-center"
+                  className="w-12 h-12 border border-[#0F1012]/30 bg-[#FFFFFF] flex items-center justify-center"
                 >
-                  <svg className="w-5 h-5 text-[#1A2F2A]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-[#0F1012]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </div>
@@ -180,7 +180,7 @@ const StickyCartSummary = () => {
                 {itemsNeeded > 0 ? (
                   <button
                     onClick={handleViewCart}
-                    className="px-2 sm:px-4 py-1.5 sm:py-2 border border-[#1A2F2A]/30 bg-[#F5F0E8] text-[#1A2F2A] font-medium text-xs sm:text-sm hover:bg-[#1A4D3F] hover:text-white transition-colors whitespace-nowrap"
+                    className="px-2 sm:px-4 py-1.5 sm:py-2 border border-[#0F1012]/30 bg-[#FFFFFF] text-[#0F1012] font-medium text-xs sm:text-sm hover:bg-[#0F1012] hover:text-white transition-colors whitespace-nowrap"
                   >
                     <span className="hidden sm:inline">Add {itemsNeeded} More Item{itemsNeeded > 1 ? 's' : ''}</span>
                     <span className="sm:hidden">+{itemsNeeded}</span>
@@ -188,7 +188,7 @@ const StickyCartSummary = () => {
                 ) : (
                   <button
                     onClick={handleViewCart}
-                    className="px-2 sm:px-4 py-1.5 sm:py-2 border border-[#1A2F2A]/30 bg-[#F5F0E8] text-[#1A2F2A] font-medium text-xs sm:text-sm hover:bg-[#1A4D3F] hover:text-white transition-colors whitespace-nowrap"
+                    className="px-2 sm:px-4 py-1.5 sm:py-2 border border-[#0F1012]/30 bg-[#FFFFFF] text-[#0F1012] font-medium text-xs sm:text-sm hover:bg-[#0F1012] hover:text-white transition-colors whitespace-nowrap"
                   >
                     <span className="hidden sm:inline">View Cart ({cartCount})</span>
                     <span className="sm:hidden">Cart ({cartCount})</span>

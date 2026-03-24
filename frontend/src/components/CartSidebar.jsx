@@ -33,7 +33,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
     <>
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 bg-[#1A2F2A]/20 z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-[#0F1012]/20 z-40 transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
@@ -41,19 +41,19 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <div 
-        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#F5F0E8] z-50 shadow-2xl flex flex-col border-l-2 border-[#E0D8CE] overflow-hidden transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#FFFFFF] z-50 shadow-2xl flex flex-col border-l-2 border-[#FE1157] overflow-hidden transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b-2 border-[#E0D8CE] bg-[#F5F0E8]">
-          <h2 className="text-lg font-bold text-[#1A2F2A]">
+        <div className="flex items-center justify-between p-4 border-b-2 border-[#FE1157] bg-[#FFFFFF]">
+          <h2 className="text-lg font-bold text-[#0F1012]">
             CART ({getCartItemsCount()})
           </h2>
           <button 
             onClick={onClose}
-            className="p-1 text-[#1A2F2A] hover:opacity-70 transition-opacity"
+            className="p-1 text-[#0F1012] hover:opacity-70 transition-opacity"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -66,27 +66,27 @@ const CartSidebar = ({ isOpen, onClose }) => {
           
           {/* Freebie Banner */}
           {productsForFreebie > 0 && productsForFreebie <= freebieThreshold && (
-            <div className="bg-[#2B6B5A]/10 border-b-2 border-[#E0D8CE] p-3">
-              <p className="text-sm font-medium text-[#1A2F2A] text-center">
+            <div className="bg-[#FE1157]/10 border-b-2 border-[#FE1157] p-3">
+              <p className="text-sm font-medium text-[#0F1012] text-center">
                 You are {productsForFreebie} product{productsForFreebie > 1 ? 's' : ''} away from 1st freebie
               </p>
               {/* Progress Bar */}
               <div className="mt-2 flex items-center gap-1">
-                <div className="flex-1 h-2 bg-[#2B6B5A]/20 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-[#FE1157]/20 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-[#2B6B5A] transition-all duration-300"
+                    className="h-full bg-[#FE1157] transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
                 {[1, 2, 3].map((num) => (
                   <div 
                     key={num}
-                    className={`w-5 h-5 flex items-center justify-center border border-[#E0D8CE] ${
-                      num <= cart.length ? 'bg-[#2B6B5A]' : 'bg-[#F5F0E8]'
+                    className={`w-5 h-5 flex items-center justify-center border border-[#FE1157] ${
+                      num <= cart.length ? 'bg-[#FE1157]' : 'bg-[#FFFFFF]'
                     }`}
                   >
                     <svg
-                      className={`w-3 h-3 ${num <= cart.length ? 'text-white' : 'text-[#8B9A95]'}`}
+                      className={`w-3 h-3 ${num <= cart.length ? 'text-white' : 'text-[#0F1012]'}`}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -102,13 +102,13 @@ const CartSidebar = ({ isOpen, onClose }) => {
           <div className="p-4 space-y-4">
             {cart.length === 0 ? (
               <div className="text-center py-12">
-                <svg className="w-16 h-16 mx-auto text-[#8B9A95]/60 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-16 h-16 mx-auto text-[#0F1012]/60 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
-                <p className="text-[#8B9A95] mb-4">Your cart is empty</p>
+                <p className="text-[#0F1012] mb-4">Your cart is empty</p>
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 border border-[#E0D8CE] text-[#1A2F2A] font-medium hover:bg-[#E0D8CE]/50 transition-colors"
+                  className="px-4 py-2 border border-[#FE1157] text-[#0F1012] font-medium hover:bg-[#FE1157]/50 transition-colors"
                 >
                   Continue Shopping
                 </button>
@@ -131,10 +131,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 const productName = product.name || product.productName || 'Product';
                 
                 return (
-                  <div key={itemId} className="border border-[#E0D8CE] bg-[#F5F0E8] p-3">
+                  <div key={itemId} className="border border-[#FE1157] bg-[#FFFFFF] p-3">
                     <div className="flex gap-3">
                       {/* Product Image */}
-                      <div className="w-20 h-20 flex-shrink-0 border border-[#E0D8CE] overflow-hidden bg-[#F5F0E8]">
+                      <div className="w-20 h-20 flex-shrink-0 border border-[#FE1157] overflow-hidden bg-[#FFFFFF]">
                         <img
                           src={productImage}
                           alt={productName}
@@ -145,7 +145,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                       
                       {/* Product Info */}
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-bold text-[#1A2F2A] truncate mb-1">
+                        <h3 className="text-sm font-bold text-[#0F1012] truncate mb-1">
                           {productName}
                         </h3>
                         
@@ -153,20 +153,20 @@ const CartSidebar = ({ isOpen, onClose }) => {
                         <div className="flex items-center gap-2 mb-2">
                           {originalPrice > productPrice ? (
                             <>
-                              <span className="text-xs text-[#8B9A95] line-through">
+                              <span className="text-xs text-[#0F1012] line-through">
                                 Rs. {originalPrice.toLocaleString()}
                               </span>
-                              <span className="text-sm font-bold text-[#1A2F2A]">
+                              <span className="text-sm font-bold text-[#0F1012]">
                                 Rs. {productPrice.toLocaleString()}
                               </span>
                               {discount > 0 && (
-                                <span className="text-xs font-medium text-[#C4A265]">
+                                <span className="text-xs font-medium text-[#FE1157]">
                                   ({discount}% OFF)
                                 </span>
                               )}
                             </>
                           ) : (
-                            <span className="text-sm font-bold text-[#1A2F2A]">
+                            <span className="text-sm font-bold text-[#0F1012]">
                               Rs. {productPrice.toLocaleString()}
                             </span>
                           )}
@@ -176,7 +176,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                         <div className="space-y-2">
                           {/* Variant Display (if applicable) */}
                           {(item.size || item.color || product.size || product.color) && (
-                            <div className="text-xs text-[#8B9A95]">
+                            <div className="text-xs text-[#0F1012]">
                               {item.size && `Size: ${item.size}`}
                               {item.size && item.color && ' • '}
                               {item.color && `Color: ${item.color}`}
@@ -195,13 +195,13 @@ const CartSidebar = ({ isOpen, onClose }) => {
                                 updateQuantity(itemId, item.quantity - 1);
                               }}
                               disabled={item.quantity <= 1}
-                              className="w-7 h-7 flex items-center justify-center border border-[#E0D8CE] bg-[#F5F0E8] hover:bg-[#E0D8CE]/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                              className="w-7 h-7 flex items-center justify-center border border-[#FE1157] bg-[#FFFFFF] hover:bg-[#FE1157]/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                               </svg>
                             </button>
-                            <span className="text-sm font-medium text-[#1A2F2A] min-w-[24px] text-center">
+                            <span className="text-sm font-medium text-[#0F1012] min-w-[24px] text-center">
                               {item.quantity}
                             </span>
                             <button
@@ -210,7 +210,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                                 e.stopPropagation();
                                 updateQuantity(itemId, item.quantity + 1);
                               }}
-                              className="w-7 h-7 flex items-center justify-center border border-[#E0D8CE] bg-[#F5F0E8] hover:bg-[#E0D8CE]/50 transition-colors"
+                              className="w-7 h-7 flex items-center justify-center border border-[#FE1157] bg-[#FFFFFF] hover:bg-[#FE1157]/50 transition-colors"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -223,7 +223,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                       {/* Remove Button */}
                       <button
                         onClick={() => removeFromCart(itemId)}
-                        className="self-start p-1 text-[#1A2F2A] hover:opacity-70 transition-opacity"
+                        className="self-start p-1 text-[#0F1012] hover:opacity-70 transition-opacity"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -238,8 +238,8 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
           {/* Free Shipping Banner */}
           {cart.length > 0 && (
-            <div className="bg-[#2B6B5A]/10 border-t-2 border-b-2 border-[#E0D8CE] p-3 mx-4 mb-4">
-              <p className="text-sm font-medium text-[#1A2F2A] text-center">
+            <div className="bg-[#FE1157]/10 border-t-2 border-b-2 border-[#FE1157] p-3 mx-4 mb-4">
+              <p className="text-sm font-medium text-[#0F1012] text-center">
                 Free Shipping on all Orders
               </p>
             </div>
@@ -248,33 +248,33 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
         {/* Footer - Fixed */}
         {cart.length > 0 && (
-          <div className="border-t-2 border-[#E0D8CE] bg-[#F5F0E8] p-4 space-y-4">
+          <div className="border-t-2 border-[#FE1157] bg-[#FFFFFF] p-4 space-y-4">
             {/* Grand Total */}
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-[#1A2F2A]">GRAND TOTAL</span>
+              <span className="text-sm font-bold text-[#0F1012]">GRAND TOTAL</span>
               <div className="text-right">
                 {cartTotal < freeShippingThreshold ? (
                   <>
-                    <span className="text-sm text-[#8B9A95] line-through mr-2">
+                    <span className="text-sm text-[#0F1012] line-through mr-2">
                       Rs. {cartTotal.toLocaleString()}
                     </span>
-                    <span className="text-base font-bold text-[#1A2F2A]">
+                    <span className="text-base font-bold text-[#0F1012]">
                       Rs. {cartTotal.toLocaleString()}
                     </span>
                   </>
                 ) : (
-                  <span className="text-base font-bold text-[#1A2F2A]">
+                  <span className="text-base font-bold text-[#0F1012]">
                     Rs. {cartTotal.toLocaleString()}
                   </span>
                 )}
-                <p className="text-xs text-[#8B9A95] mt-0.5">(Inc. All Taxes)</p>
+                <p className="text-xs text-[#0F1012] mt-0.5">(Inc. All Taxes)</p>
               </div>
             </div>
 
             {/* BUY NOW Button */}
             <button
               onClick={handleCheckout}
-              className="w-full py-3 bg-[#2B6B5A] text-white font-bold text-sm hover:bg-[#1A4D3F] transition-colors"
+              className="w-full py-3 bg-[#FE1157] text-white font-bold text-sm hover:bg-[#0F1012] transition-colors"
             >
               BUY NOW
             </button>

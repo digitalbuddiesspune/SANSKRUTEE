@@ -20,7 +20,7 @@ const Toast = ({ toast, onClose }) => {
 
   const styles = {
     success: 'bg-green-50 border-green-200 text-green-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
+    error: 'bg-[#FE1157] border-[#FE1157] text-[#FE1157]',
     warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
     info: 'bg-blue-50 border-blue-200 text-blue-800',
   };
@@ -34,7 +34,7 @@ const Toast = ({ toast, onClose }) => {
         animation: 'slideInRight 0.3s ease-out',
       }}
     >
-      <div className={`flex-shrink-0 ${toast.type === 'success' ? 'text-green-600' : toast.type === 'error' ? 'text-red-600' : toast.type === 'warning' ? 'text-yellow-600' : 'text-blue-600'}`}>
+      <div className={`flex-shrink-0 ${toast.type === 'success' ? 'text-green-600' : toast.type === 'error' ? 'text-[#FE1157]' : toast.type === 'warning' ? 'text-yellow-600' : 'text-blue-600'}`}>
         {icons[toast.type] || icons.info}
       </div>
       <div className="flex-1">
@@ -45,7 +45,7 @@ const Toast = ({ toast, onClose }) => {
       </div>
       <button
         onClick={() => onClose(toast.id)}
-        className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+        className="flex-shrink-0 text-[#0F1012] hover:text-[#0F1012] transition-colors"
       >
         <X className="w-4 h-4" />
       </button>

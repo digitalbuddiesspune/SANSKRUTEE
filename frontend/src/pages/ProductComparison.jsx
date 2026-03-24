@@ -47,12 +47,12 @@ const ProductComparison = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-8 h-8 text-[#0F1012]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
               </svg>
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No products to compare</h3>
-            <p className="text-gray-600 mb-4">Add products to compare by clicking the compare button on product pages</p>
+            <p className="text-[#0F1012] mb-4">Add products to compare by clicking the compare button on product pages</p>
             <Link to="/" className="inline-block px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800">
               Start Shopping
             </Link>
@@ -73,7 +73,7 @@ const ProductComparison = () => {
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Compare Products</h1>
           <button
             onClick={clearAll}
-            className="text-sm text-red-600 hover:text-red-700 flex items-center gap-1"
+            className="text-sm text-[#FE1157] hover:text-[#FE1157] flex items-center gap-1"
           >
             <Trash2 className="w-4 h-4" />
             Clear All
@@ -84,12 +84,12 @@ const ProductComparison = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Features</th>
+                <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-[#0F1012] uppercase">Features</th>
                 {products.map((product) => (
-                  <th key={product._id || product.id} className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase relative">
+                  <th key={product._id || product.id} className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-[#0F1012] uppercase relative">
                     <button
                       onClick={() => removeProduct(product._id || product.id)}
-                      className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                      className="absolute top-2 right-2 text-[#0F1012] hover:text-[#0F1012]"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -116,7 +116,7 @@ const ProductComparison = () => {
                   <td key={product._id || product.id} className="px-3 sm:px-4 py-3">
                     <Link
                       to={`/product/${product.category || 'product'}/${product._id || product.id}`}
-                      className="text-xs sm:text-sm font-medium text-gray-900 hover:text-gray-600"
+                      className="text-xs sm:text-sm font-medium text-gray-900 hover:text-[#0F1012]"
                     >
                       {product.name}
                     </Link>
@@ -130,7 +130,7 @@ const ProductComparison = () => {
                     <div className="text-xs sm:text-sm">
                       <span className="font-bold text-gray-900">₹{formatPrice(product.finalPrice || product.price)}</span>
                       {product.originalPrice && product.originalPrice > (product.finalPrice || product.price) && (
-                        <span className="text-gray-500 line-through ml-2">₹{formatPrice(product.originalPrice)}</span>
+                        <span className="text-[#0F1012] line-through ml-2">₹{formatPrice(product.originalPrice)}</span>
                       )}
                     </div>
                   </td>
@@ -139,7 +139,7 @@ const ProductComparison = () => {
               <tr>
                 <td className="px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium text-gray-900">Brand</td>
                 {products.map((product) => (
-                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-gray-600">
+                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-[#0F1012]">
                     {getValue(product, 'brand')}
                   </td>
                 ))}
@@ -147,7 +147,7 @@ const ProductComparison = () => {
               <tr>
                 <td className="px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium text-gray-900">Sizes</td>
                 {products.map((product) => (
-                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-gray-600">
+                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-[#0F1012]">
                     {product.sizes ? product.sizes.join(', ') : 'N/A'}
                   </td>
                 ))}
@@ -155,7 +155,7 @@ const ProductComparison = () => {
               <tr>
                 <td className="px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium text-gray-900">Colors</td>
                 {products.map((product) => (
-                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-gray-600">
+                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-[#0F1012]">
                     {product.colors ? product.colors.join(', ') : 'N/A'}
                   </td>
                 ))}
@@ -163,7 +163,7 @@ const ProductComparison = () => {
               <tr>
                 <td className="px-3 sm:px-4 py-3 text-xs sm:text-sm font-medium text-gray-900">Description</td>
                 {products.map((product) => (
-                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-gray-600">
+                  <td key={product._id || product.id} className="px-3 sm:px-4 py-3 text-xs sm:text-sm text-[#0F1012]">
                     {product.description ? product.description.substring(0, 100) + '...' : 'N/A'}
                   </td>
                 ))}

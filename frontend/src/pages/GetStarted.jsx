@@ -41,7 +41,7 @@ const GetStarted = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#1A2F2A] font-sans">
+    <div className="min-h-screen bg-[#0F1012] font-sans">
       {/* MOBILE VIEW */}
       <div className="lg:hidden min-h-screen flex flex-col">
         {/* Top Section - Product Posters in Single Line */}
@@ -100,13 +100,13 @@ const GetStarted = () => {
         <div className="px-6 pb-8 space-y-4">
           <button
             onClick={() => navigate('/signup')}
-            className="w-full py-4 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
+            className="w-full py-4 bg-[#FE1157] hover:bg-[#0F1012] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
           >
             SIGN UP
           </button>
           <button
             onClick={() => navigate('/login')}
-            className="w-full py-4 bg-[#1A2F2A] hover:bg-[#142822] text-white font-bold text-lg rounded-lg transition-colors"
+            className="w-full py-4 bg-[#0F1012] hover:bg-[#0F1012] text-white font-bold text-lg rounded-lg transition-colors"
           >
             LOG IN
           </button>
@@ -114,7 +114,7 @@ const GetStarted = () => {
       </div>
 
       {/* DESKTOP VIEW */}
-      <div className="hidden lg:flex min-h-screen bg-[#1A2F2A]">
+      <div className="hidden lg:flex min-h-screen bg-[#0F1012]">
         <div className="max-w-6xl mx-auto w-full flex flex-col justify-center items-center px-8 py-12">
           {/* Product Images in Single Horizontal Line */}
           <div className="w-full mb-12 overflow-x-auto scrollbar-hide">
@@ -166,13 +166,13 @@ const GetStarted = () => {
           <div className="flex gap-4 w-full max-w-md">
             <button
               onClick={() => navigate('/signup')}
-              className="flex-1 py-4 bg-[#2B6B5A] hover:bg-[#1A4D3F] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
+              className="flex-1 py-4 bg-[#FE1157] hover:bg-[#0F1012] text-white font-bold text-lg rounded-lg transition-colors shadow-lg"
             >
               SIGN UP
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="flex-1 py-4 bg-[#1A2F2A] hover:bg-[#142822] text-white font-bold text-lg rounded-lg transition-colors"
+              className="flex-1 py-4 bg-[#0F1012] hover:bg-[#0F1012] text-white font-bold text-lg rounded-lg transition-colors"
             >
               LOG IN
             </button>

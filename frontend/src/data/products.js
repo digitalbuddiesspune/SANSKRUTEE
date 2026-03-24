@@ -25,7 +25,7 @@ export const products = [
     rating: 4.5, 
     reviews: 120,
     sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['#000000', '#3B82F6', '#EF4444']
+    colors: ['#0F1012', '#FE1157', '#FE1157']
   },
   { 
     id: 2, 
@@ -41,7 +41,7 @@ export const products = [
     rating: 4.3, 
     reviews: 89,
     sizes: ['M', 'L', 'XL'],
-    colors: ['#1F2937', '#DC2626', '#2563EB']
+    colors: ['#0F1012', '#FE1157', '#FE1157']
   },
   { 
     id: 3, 
@@ -57,7 +57,7 @@ export const products = [
     rating: 4.7, 
     reviews: 156,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['#059669', '#7C3AED']
+    colors: ['#FE1157', '#FE1157']
   },
   
   // Men's T-shirts
@@ -123,7 +123,7 @@ const normalizedProducts = products.map((product) => ({
   ...product,
   images: product.images || generateImages(product.image, 3),
   sizes: product.sizes || ['S', 'M', 'L', 'XL'],
-  colors: product.colors || ['#000000', '#3B82F6', '#EF4444'],
+  colors: product.colors || ['#0F1012', '#FE1157', '#FE1157'],
   brand: product.brand || product.vendor || 'Brand',
   originalPrice: product.originalPrice || Math.round(product.price * (2 + Math.random() * 2)),
 }));

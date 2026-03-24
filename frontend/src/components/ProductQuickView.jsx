@@ -66,7 +66,7 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6">
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-lg font-medium text-gray-900">Quick View</h3>
-              <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
+              <button onClick={onClose} className="text-[#0F1012] hover:text-[#0F1012]">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -97,13 +97,13 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
               {/* Product Info */}
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h2>
-                {product.brand && <p className="text-sm text-gray-600 mb-4">{product.brand}</p>}
+                {product.brand && <p className="text-sm text-[#0F1012] mb-4">{product.brand}</p>}
 
                 <div className="flex items-baseline gap-3 mb-4">
                   <span className="text-2xl font-bold text-gray-900">₹{formatPrice(price)}</span>
                   {discount > 0 && (
                     <>
-                      <span className="text-lg text-gray-500 line-through">₹{formatPrice(originalPrice)}</span>
+                      <span className="text-lg text-[#0F1012] line-through">₹{formatPrice(originalPrice)}</span>
                       <span className="text-sm font-medium text-green-600">{discount}% OFF</span>
                     </>
                   )}
@@ -112,7 +112,7 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
                 {/* Sizes (skip for watches) */}
                 {!isWatch && product.sizes && product.sizes.length > 0 && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Size</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-2">Size</label>
                     <div className="flex flex-wrap gap-2">
                       {product.sizes.map((size) => (
                         <button
@@ -121,7 +121,7 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
                           className={`px-4 py-2 border rounded-lg text-sm ${
                             selectedSize === size
                               ? 'border-gray-900 bg-gray-900 text-white'
-                              : 'border-gray-300 hover:border-gray-400'
+                              : 'border-[#FE1157] hover:border-gray-400'
                           }`}
                         >
                           {size}
@@ -134,14 +134,14 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
                 {/* Colors */}
                 {product.colors && product.colors.length > 0 && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-2">Color</label>
                     <div className="flex gap-2">
                       {product.colors.map((color) => (
                         <button
                           key={color}
                           onClick={() => setSelectedColor(color)}
                           className={`w-10 h-10 rounded-full border-2 ${
-                            selectedColor === color ? 'border-gray-900' : 'border-gray-300'
+                            selectedColor === color ? 'border-gray-900' : 'border-[#FE1157]'
                           }`}
                           style={{ backgroundColor: color }}
                           title={color}
@@ -153,18 +153,18 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
 
                 {/* Quantity */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-2">Quantity</label>
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center"
+                      className="w-10 h-10 border border-[#FE1157] rounded-lg flex items-center justify-center"
                     >
                       -
                     </button>
                     <span className="w-12 text-center font-medium">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center"
+                      className="w-10 h-10 border border-[#FE1157] rounded-lg flex items-center justify-center"
                     >
                       +
                     </button>
@@ -184,8 +184,8 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
                     onClick={handleWishlistToggle}
                     className={`px-4 py-3 border rounded-lg flex items-center justify-center ${
                       isInWishlist(product._id || product.id)
-                        ? 'border-red-500 text-red-500'
-                        : 'border-gray-300 hover:border-gray-400'
+                        ? 'border-[#FE1157] text-[#FE1157]'
+                        : 'border-[#FE1157] hover:border-gray-400'
                     }`}
                   >
                     <Heart className={`w-5 h-5 ${isInWishlist(product._id || product.id) ? 'fill-current' : ''}`} />
@@ -195,7 +195,7 @@ const ProductQuickView = ({ product, isOpen, onClose }) => {
                 <Link
                   to={`/product/${product.category || 'product'}/${product._id || product.id}`}
                   onClick={onClose}
-                  className="block mt-4 text-center text-sm text-gray-600 hover:text-gray-900 underline"
+                  className="block mt-4 text-center text-sm text-[#0F1012] hover:text-gray-900 underline"
                 >
                   View Full Details
                 </Link>

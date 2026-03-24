@@ -16,11 +16,11 @@ const MobileOrderCard = ({ order, user }) => {
 
   return (
     <>
-      <div className="bg-white/60 backdrop-blur-sm border border-[#E0D8CE] rounded-lg p-4 luxury-shadow-sm">
+      <div className="bg-white/60 backdrop-blur-sm border border-[#FE1157] rounded-lg p-4 luxury-shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <p className="text-xs text-[#8B9A95] mb-1">Order ID</p>
-            <p className="text-sm font-bold text-[#1A2F2A]">#{order._id?.slice(-6).toUpperCase()}</p>
+            <p className="text-xs text-[#0F1012] mb-1">Order ID</p>
+            <p className="text-sm font-bold text-[#0F1012]">#{order._id?.slice(-6).toUpperCase()}</p>
           </div>
           <span className={`px-3 py-1 text-xs font-semibold border rounded ${
             order.status === 'delivered' ? 'bg-green-50/80 text-green-800 border-green-300' : 
@@ -32,17 +32,17 @@ const MobileOrderCard = ({ order, user }) => {
         </div>
         <div className="flex items-center justify-between mb-3">
           <div>
-            <p className="text-xs text-[#8B9A95] mb-1">Date</p>
-            <p className="text-sm text-[#1A2F2A]">{new Date(order.orderDate || order.createdAt).toLocaleDateString()}</p>
+            <p className="text-xs text-[#0F1012] mb-1">Date</p>
+            <p className="text-sm text-[#0F1012]">{new Date(order.orderDate || order.createdAt).toLocaleDateString()}</p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-[#8B9A95] mb-1">Total</p>
-            <p className="text-lg font-bold text-[#C4A265]">₹{order.totalAmount?.toLocaleString()}</p>
+            <p className="text-xs text-[#0F1012] mb-1">Total</p>
+            <p className="text-lg font-bold text-[#FE1157]">₹{order.totalAmount?.toLocaleString()}</p>
           </div>
         </div>
         <button
           onClick={() => setShowInvoice(true)}
-          className="w-full flex items-center justify-center gap-2 py-2.5 border border-[#E0D8CE] text-sm font-semibold text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded luxury-shadow-sm"
+          className="w-full flex items-center justify-center gap-2 py-2.5 border border-[#FE1157] text-sm font-semibold text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors rounded luxury-shadow-sm"
         >
           <FileText className="w-4 h-4" />
           View Invoice
@@ -51,11 +51,11 @@ const MobileOrderCard = ({ order, user }) => {
       {showInvoice && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto" onClick={() => setShowInvoice(false)}>
           <div className="bg-white rounded-lg max-w-4xl w-full my-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="sticky top-0 bg-white border-b border-[#E0D8CE] px-6 py-4 flex justify-between items-center">
-              <h2 className="text-xl font-bold text-[#1A2F2A]">Invoice</h2>
+            <div className="sticky top-0 bg-white border-b border-[#FE1157] px-6 py-4 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-[#0F1012]">Invoice</h2>
               <button
                 onClick={() => setShowInvoice(false)}
-                className="text-[#8B9A95] hover:text-[#1A2F2A] transition-colors"
+                className="text-[#0F1012] hover:text-[#0F1012] transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -107,16 +107,16 @@ const OrdersPage = () => {
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen bg-[#FAF6F0] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2B6B5A]"></div>
+      <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FE1157]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF6F0] lg:hidden">
+    <div className="min-h-screen bg-[#FFFFFF] lg:hidden">
       {/* Header */}
-      <div className="bg-[#1A2F2A] text-[#F5F0E8] sticky top-0 z-10">
+      <div className="bg-[#0F1012] text-[#FFFFFF] sticky top-0 z-10">
         <div className="px-4 py-4 flex items-center gap-4">
           <Link to="/profile" className="p-2 -ml-2">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +125,7 @@ const OrdersPage = () => {
           </Link>
           <div>
             <h2 className="text-lg font-bold">Orders</h2>
-            <p className="text-xs text-[#F5F0E8]/80">History & status</p>
+            <p className="text-xs text-[#FFFFFF]/80">History & status</p>
           </div>
         </div>
       </div>
@@ -140,12 +140,12 @@ const OrdersPage = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <div className="w-20 h-20 bg-white/60 backdrop-blur-sm border border-[#E0D8CE] rounded-full flex items-center justify-center mx-auto mb-5 luxury-shadow">
-              <IconShoppingBag className="w-10 h-10 text-[#8B9A95]" />
+            <div className="w-20 h-20 bg-white/60 backdrop-blur-sm border border-[#FE1157] rounded-full flex items-center justify-center mx-auto mb-5 luxury-shadow">
+              <IconShoppingBag className="w-10 h-10 text-[#0F1012]" />
             </div>
-            <h3 className="text-xl font-semibold text-[#1A2F2A] mb-2">No orders placed yet</h3>
-            <p className="text-sm text-[#8B9A95] mb-6">Start shopping to see your orders here</p>
-            <Link to="/" className="inline-flex items-center px-6 py-3 border border-[#E0D8CE] text-sm font-semibold text-[#1A2F2A] bg-white/60 backdrop-blur-sm hover:bg-[#2B6B5A] hover:text-white transition-colors rounded-lg luxury-shadow">
+            <h3 className="text-xl font-semibold text-[#0F1012] mb-2">No orders placed yet</h3>
+            <p className="text-sm text-[#0F1012] mb-6">Start shopping to see your orders here</p>
+            <Link to="/" className="inline-flex items-center px-6 py-3 border border-[#FE1157] text-sm font-semibold text-[#0F1012] bg-white/60 backdrop-blur-sm hover:bg-[#FE1157] hover:text-white transition-colors rounded-lg luxury-shadow">
               Browse Products
             </Link>
           </div>

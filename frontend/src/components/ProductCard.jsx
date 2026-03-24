@@ -62,6 +62,15 @@ const ProductCard = ({ product }) => {
   
   const isBestseller = product.isBestseller || product.bestseller || false;
   const isSoldOut = product.stock === 0 || product.quantity === 0 || product.inStock === false;
+  const stockCount = Number(product.stock ?? product.quantity ?? 0);
+  const isLowStock = !isSoldOut && Number.isFinite(stockCount) && stockCount > 0 && stockCount <= 5;
+  const shortDescription = String(
+    product.shortDescription ||
+    product.description ||
+    product.subCategory ||
+    product.category ||
+    ''
+  ).replace(/<[^>]*>/g, '').trim();
 
   let defaultImageIndex = 0;
   if (isLens && productImages.length > 1) {
@@ -124,20 +133,20 @@ const ProductCard = ({ product }) => {
       >
         <Link
           to={`/product/${productCategory}/${productId}`}
-          className="block bg-white border border-[#E0D8CE] transition-all duration-200 hover:border-[#2B6B5A]"
+          className="real-card block overflow-hidden"
         >
           
           {/* IMAGE — clean, square, white bg */}
-          <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#F5F0E8]">
+          <div className="real-card-media relative w-full aspect-[3/4] overflow-hidden bg-[#FFFFFF]">
             
             {/* Sale / Bestseller badge */}
             {isBestseller && (
-              <span className="absolute top-2 left-2 z-20 bg-[#2B6B5A] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
+              <span className="absolute top-2 left-2 z-20 bg-[#FE1157] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
                 Bestseller
               </span>
             )}
             {!isBestseller && hasDiscount && (
-              <span className="absolute top-2 left-2 z-20 bg-[#D91C1C] text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider border border-white/70">
+              <span className="absolute top-2 left-2 z-20 bg-red-600/90 text-white text-[9px] sm:text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
                 Sale
               </span>
             )}
@@ -147,9 +156,7 @@ const ProductCard = ({ product }) => {
               type="button"
               onClick={handleAddClick}
               disabled={isAdding || isSoldOut}
-              className={`absolute bottom-2 right-2 z-30 w-10 h-10 rounded-full bg-[#2B6B5A] text-white flex items-center justify-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${
-                isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-              }`}
+              className="absolute bottom-2 right-2 z-30 w-10 h-10 rounded-full bg-[#FE1157] text-white flex items-center justify-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
               aria-label="Add to cart"
             >
               <span className="sr-only">
@@ -168,7 +175,7 @@ const ProductCard = ({ product }) => {
                 onLoad={() => setImageLoaded(true)}
                 decoding="async"
                 loading="lazy"
-                className={`w-full h-full object-cover transition-all duration-500 ease-out ${imageLoaded ? 'opacity-100' : 'opacity-0'} group-hover:scale-105`}
+                className={`w-full h-full object-cover transition-opacity duration-300 ease-out ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
                 onError={handleImageError}
               />
             )}
@@ -180,28 +187,55 @@ const ProductCard = ({ product }) => {
                 <img
                   src={hoverImageSrc}
                   alt={product.name || product.title || 'Product'}
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out ${
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-out ${
                     isHovered && hoverImageLoaded ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                  } group-hover:scale-105`}
+                  }`}
                   onError={handleImageError}
                 />
               </>
             )}
           </div>
 
-          {/* PRODUCT INFO — minimal: name + price only (COLLUSION style) */}
-          <div className="px-3 py-3 sm:px-4 sm:py-4">
-            <h3 className="text-[11px] sm:text-xs font-bold text-[#1A2F2A] uppercase tracking-[0.04em] leading-tight line-clamp-1 mb-1.5">
+          {/* PRODUCT INFO */}
+          <div className="real-card-content px-3 py-3 sm:px-4 sm:py-4">
+            <h3 className="text-[11px] sm:text-xs font-bold text-[#0F1012] uppercase tracking-[0.04em] leading-tight line-clamp-1 mb-1.5">
               {(product.name || product.productName || 'Product').toUpperCase()}
             </h3>
 
+            {shortDescription && (
+              <p className="text-[11px] sm:text-xs text-[#0F1012]/70 line-clamp-2 mb-2 leading-relaxed">
+                {shortDescription}
+              </p>
+            )}
+
             <div className="flex items-baseline gap-2">
-              <span className="text-sm sm:text-base font-bold text-[#1A2F2A]">
+              <span className="text-sm sm:text-base font-bold text-[#0F1012]">
                 Rs. {formatPrice(finalPrice)}
               </span>
               {hasDiscount && originalPrice > 0 && (
-                <span className="text-[10px] sm:text-xs text-[#8B9A95] line-through">
+                <span className="text-[10px] sm:text-xs text-[#0F1012] line-through">
                   Rs. {formatPrice(originalPrice)}
+                </span>
+              )}
+            </div>
+
+            <div className="mt-2 flex items-center justify-between gap-2">
+              {hasDiscount && discountPercent > 0 ? (
+                <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-green-700">
+                  {discountPercent}% OFF
+                </span>
+              ) : (
+                <span />
+              )}
+
+              {isSoldOut && (
+                <span className="text-[10px] font-bold uppercase tracking-wide text-[#FE1157]">
+                  Sold Out
+                </span>
+              )}
+              {!isSoldOut && isLowStock && (
+                <span className="text-[10px] font-bold uppercase tracking-wide text-[#FE1157]">
+                  Only {stockCount} Left
                 </span>
               )}
             </div>

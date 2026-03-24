@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        teal: { DEFAULT: '#2B6B5A', dark: '#1A4D3F', light: '#3A7D6B' },
-        gold: { DEFAULT: '#C4A265', light: '#D4B87A', dark: '#A8894F' },
-        cream: '#FAF6F0',
-        ink: '#1A2F2A',
-        muted: '#8B9A95',
-        surface: '#F5F0E8',
-        primary: { DEFAULT: '#2B6B5A' },
-        background: { DEFAULT: '#FAF6F0' },
-        text: { DEFAULT: '#1A2F2A', light: '#3D5A50', muted: '#8B9A95' },
+        teal: { DEFAULT: '#FE1157', dark: '#D10F4B', light: '#FF3A78' },
+        gold: { DEFAULT: '#FE1157', light: '#FF3A78', dark: '#D10F4B' },
+        cream: '#FFFFFF',
+        ink: '#0F1012',
+        muted: '#4B5563',
+        surface: '#FFFFFF',
+        primary: { DEFAULT: '#FE1157' },
+        background: { DEFAULT: '#FFFFFF' },
+        text: { DEFAULT: '#0F1012', light: '#1F2937', muted: '#4B5563' },
       },
       fontFamily: {
         sans: ['Inter', 'Helvetica Neue', 'Arial', 'sans-serif'],

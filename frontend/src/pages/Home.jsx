@@ -8,6 +8,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { formatPriceWithCurrency } from '../utils/formatUtils';
 import { optimizeImageUrl } from '../utils/imageOptimizer';
+import { filterOutMensTitleProducts } from '../utils/productFilters';
 
 // --- ICONS (Embedded directly so no install needed) ---
 const IconChevronLeft = () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>;
@@ -27,7 +28,7 @@ const fetchFreshDrops = async () => {
     // Get shoes from women, take exactly 12
     let allShoes = [];
     if (womenShoes.success && womenShoes.data.products) {
-      allShoes = [...allShoes, ...womenShoes.data.products];
+      allShoes = [...allShoes, ...filterOutMensTitleProducts(womenShoes.data.products)];
     }
     const shoes = allShoes.slice(0, 12);
     
@@ -93,7 +94,92 @@ const fetchSkincare = async () => {
     console.error("Error fetching skincare:", error);
     return [];
   }
-};  
+};
+
+/** Testimonials shown under the "For Her" section */
+const FOR_HER_TESTIMONIALS = [
+  {
+    id: 1,
+    quote:
+      'The quality exceeded my expectations—fabric feels premium and the fit is perfect. My go-to for ethnic wear now!',
+    name: 'Priya S.',
+    location: 'Mumbai',
+    rating: 5,
+  },
+  {
+    id: 2,
+    quote:
+      'Ordered a kurta set for a family function; it arrived on time and looked exactly like the photos. So many compliments!',
+    name: 'Ananya K.',
+    location: 'Delhi',
+    rating: 5,
+  },
+  {
+    id: 3,
+    quote:
+      'Beautiful curation and easy checkout. Customer care helped me pick the right size—could not be happier.',
+    name: 'Meera R.',
+    location: 'Bengaluru',
+    rating: 5,
+  },
+  {
+    id: 4,
+    quote:
+      'Loved the packaging—it felt like unwrapping a gift. The dupatta colour matched the site images perfectly.',
+    name: 'Ritu P.',
+    location: 'Pune',
+    rating: 5,
+  },
+  {
+    id: 5,
+    quote:
+      'Picked statement earrings for a wedding; lightweight and stunning. Already planning my next order!',
+    name: 'Sneha M.',
+    location: 'Hyderabad',
+    rating: 5,
+  },
+  {
+    id: 6,
+    quote:
+      'My first saree from here and I am impressed—pleats fall beautifully and the blouse stitching options were clear.',
+    name: 'Kavita D.',
+    location: 'Kolkata',
+    rating: 5,
+  },
+  {
+    id: 7,
+    quote:
+      'Had to exchange for a size up; the team replied quickly and the replacement reached me before my event.',
+    name: 'Neha T.',
+    location: 'Chennai',
+    rating: 5,
+  },
+  {
+    id: 8,
+    quote:
+      'Fast delivery to Ahmedabad and the coord set is office-appropriate yet festive. Great value for the price.',
+    name: 'Divya N.',
+    location: 'Ahmedabad',
+    rating: 4,
+  },
+  {
+    id: 9,
+    quote:
+      'Bought a suit set for my mom—she rarely shops online but this one fit her perfectly. Thank you, Sanskrutee!',
+    name: 'Simran J.',
+    location: 'Chandigarh',
+    rating: 5,
+  },
+  {
+    id: 10,
+    quote:
+      'The festive edit is gorgeous; I mixed a kurta with pieces I already own and got so many questions about where I shop.',
+    name: 'Aisha F.',
+    location: 'Jaipur',
+    rating: 5,
+  },
+];
+const FOR_HER_TESTIMONIALS_LOOP = [...FOR_HER_TESTIMONIALS, ...FOR_HER_TESTIMONIALS];
 
 const LuxeSection = () => {
   const scrollRef = useRef(null);
@@ -678,22 +764,44 @@ const Home = () => {
     });
   };
 
+  const getProductImage = (product) => {
+    if (!product) return '';
+    const imageCandidates = [];
+
+    if (Array.isArray(product.images)) {
+      imageCandidates.push(...product.images);
+    } else if (product.images && typeof product.images === 'object') {
+      imageCandidates.push(...Object.values(product.images));
+    } else if (typeof product.images === 'string') {
+      imageCandidates.push(product.images);
+    }
+
+    imageCandidates.push(product.image, product.imageUrl, product.thumbnail);
+    return imageCandidates.find((img) => typeof img === 'string' && img.trim()) || '';
+  };
+
+  const formatProductPrice = (product) => {
+    const value = Number(product?.finalPrice ?? product?.price ?? 0);
+    return formatPriceWithCurrency(Number.isFinite(value) ? value : 0);
+  };
+
   const handleAddToCart = async (product) => {
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
     try {
-      await addToCart(product, 1, product.sizes?.[0] || 'M', '');
+      const selectedSize = Array.isArray(product?.sizes) && product.sizes.length > 0 ? product.sizes[0] : '';
+      await addToCart(product, 1, selectedSize, '');
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
   };
 
   return (
-    <div className="min-h-screen font-sans text-gray-800">
+    <div className="min-h-screen font-sans text-[#0F1012]">
       {/* MOBILE HOME PAGE - New Design */}
-        <div className="md:hidden bg-white min-h-screen">
+        <div className="hidden bg-white min-h-screen">
         {/* Mobile hero banner (above search) */}
         <div className="relative w-full bg-white px-4 pt-4 pb-4">
           <div className="relative w-full flex items-center justify-center mx-auto">
@@ -729,27 +837,9 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="px-4 mb-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-4 pr-14 py-3 bg-[#F5F0E8] rounded-full text-[#1A2F2A] placeholder-[#8B9A95] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A]"
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-[#2B6B5A] rounded-full">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
         {/* Categories Section */}
-        <div className="px-4 mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">Categories</h3>
+        <div className="hidden px-4 mb-6">
+          <h3 className="text-lg font-semibold text-[#0F1012] mb-3">Categories</h3>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
             {categories.map((cat) => (
               <button
@@ -774,8 +864,8 @@ const Home = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                   openDropdown === cat.id
-                    ? 'bg-[#1A2F2A] text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                    ? 'bg-[#0F1012] text-white'
+                    : 'bg-white text-[#0F1012] border border-[#FE1157] hover:bg-[#FE1157]/10'
                 }`}
               >
                 {cat.label}
@@ -796,14 +886,14 @@ const Home = () => {
           
           {/* Subcategories Section */}
           {openDropdown && categories.find(cat => cat.id === openDropdown)?.subItems && (
-            <div className="mt-3 bg-white border border-[#E0D8CE] rounded-lg shadow-sm p-4">
+            <div className="mt-3 bg-white border border-[#FE1157] rounded-lg shadow-sm p-4">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-sm font-semibold text-gray-800">
+                <h4 className="text-sm font-semibold text-[#0F1012]">
                   {categories.find(cat => cat.id === openDropdown)?.label}
                 </h4>
                 <button
                   onClick={() => setOpenDropdown(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-[#0F1012] hover:text-[#0F1012]"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -816,9 +906,9 @@ const Home = () => {
                     key={index}
                     to={subItem.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="group relative overflow-hidden rounded-xl border border-[#E0D8CE] bg-white/60 hover:border-[#2B6B5A] transition-colors shadow-sm"
+                    className="group relative overflow-hidden rounded-xl border border-[#FE1157] bg-white/60 hover:border-[#FE1157] transition-colors shadow-sm"
                   >
-                    <div className="relative w-full aspect-[4/3] bg-[#F5F0E8]">
+                    <div className="relative w-full aspect-[4/3] bg-[#FFFFFF]">
                       <img
                         src={optimizeImageUrl(getSubItemImage(subItem), 50)}
                         alt={subItem.name}
@@ -848,13 +938,11 @@ const Home = () => {
         </div>
 
         <div className="px-4 mt-3 mb-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B9A95] mb-2">
-            Browse
-          </p>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#1A2F2A] tracking-tight leading-tight">
+         
+          <h2 className="text-2xl sm:text-3xl font-black text-[#0F1012] tracking-tight leading-tight">
             Catalog
           </h2>
-          <p className="text-xs sm:text-sm mt-1 text-[#1A2F2A]/70">
+          <p className="text-xs sm:text-sm mt-1 text-[#0F1012]/70">
             {getActiveCategoryTitle()}
           </p>
         </div>
@@ -881,10 +969,10 @@ const Home = () => {
                                     'product';
 
               return (
-                <div key={productId} className="bg-white rounded-xl shadow-sm border border-[#E0D8CE] overflow-hidden relative">
+                <div key={productId} className="bg-white rounded-xl shadow-sm border border-[#FE1157] overflow-hidden relative">
                   {/* Discount Badge */}
                   {hasDiscount && discountPercent > 0 && (
-                    <div className="absolute top-2 right-2 z-10 bg-[#D91C1C] text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
+                    <div className="absolute top-2 right-2 z-10 bg-[#FE1157] text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
                       <span className="text-xs font-bold">{discountPercent}% OFF</span>
                     </div>
                   )}
@@ -906,7 +994,7 @@ const Home = () => {
                   {/* Product Info */}
                   <div className="p-3 pr-12">
                     <Link to={`/product/${productCategory}/${productId}`}>
-                      <h4 className="text-sm font-semibold text-gray-800 mb-1 line-clamp-1">{productName}</h4>
+                      <h4 className="text-sm font-semibold text-[#0F1012] mb-1 line-clamp-1">{productName}</h4>
                     </Link>
                     <p className="text-base font-bold text-gray-900 mb-3">{formatPriceWithCurrency(productPrice)}</p>
 
@@ -914,7 +1002,7 @@ const Home = () => {
                     <button
                       onClick={() => handleAddToCart(product)}
                       aria-label={`Add ${productName} to cart`}
-                      className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#1A2F2A] text-white flex items-center justify-center hover:bg-[#2B6B5A] hover:text-[#1A2F2A] transition-colors shadow-sm"
+                      className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#0F1012] text-white flex items-center justify-center hover:bg-[#FE1157] hover:text-[#0F1012] transition-colors shadow-sm"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -932,7 +1020,7 @@ const Home = () => {
       <section className="w-full">
         {/* Desktop banner */}
         <img
-          src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774009093/sale_products_1_oaenoj.png"
+          src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774247796/8f62ac7e-5681-4084-a535-5d1ceb226e6b.png"
           alt="Sale Products Banner"
           width={1921}
           height={791}
@@ -940,31 +1028,67 @@ const Home = () => {
           loading="eager"
         />
         {/* Mobile banner */}
-        
+        <img
+          src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774009783/sale_products_1080_x_1080_px_qgovod.png"
+          alt="Sale Products Banner"
+          width={1080}
+          height={1080}
+          className="w-full h-auto object-contain md:hidden"
+          loading="eager"
+          draggable="false"
+        />
       </section>
+
+      {/* --- CATALOG STRIP NEXT TO HERO --- */}
+      <div className="bg-gradient-to-b from-white to-[#FFFFFF] border-b border-[#FE1157]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-5 sm:py-7">
+          <div className="mb-4 sm:mb-6 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0F1012] mb-1.5">Shop by</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0F1012] tracking-tight">Category</h2>
+            </div>
+            <Link to="/women" className="shrink-0 text-[10px] font-bold uppercase tracking-[0.12em] text-[#0F1012] border-b-2 border-[#0F1012] pb-0.5 hover:text-[#FE1157] hover:border-[#FE1157] transition-colors">
+              View All
+            </Link>
+          </div>
+
+          <div className="overflow-x-auto scrollbar-hide pb-2 -mx-1 px-1">
+            <div className="flex gap-3 sm:gap-4 snap-x snap-mandatory" style={{ width: 'max-content' }}>
+              <Link to="/women" className="real-card group snap-start w-32 sm:w-40 lg:w-44 overflow-hidden">
+                <div className="real-card-media aspect-[4/5] bg-[#FFFFFF] overflow-hidden"><img src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774247547/a13a97cc-03d2-4f13-9424-930d68f4b27b.png', 50)} alt="Fashion" className="w-full h-full object-cover" /></div>
+                <div className="real-card-content px-3 py-2.5"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Fashion</h3></div>
+              </Link>
+              <Link to="/sale" className="real-card group snap-start w-32 sm:w-40 lg:w-44 overflow-hidden">
+                <div className="real-card-media aspect-[4/5] bg-[#FFFFFF] overflow-hidden"><img src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774246777/dc82c4f7-90ea-499a-a20a-679c54304e39.png', 50)} alt="Sale" className="w-full h-full object-cover" /></div>
+                <div className="real-card-content px-3 py-2.5"><h3 className="text-[11px] font-bold text-[#FE1157] uppercase tracking-[0.06em]">Sale</h3></div>
+              </Link>
+              <Link to="/shoes" className="real-card group snap-start w-32 sm:w-40 lg:w-44 overflow-hidden">
+                <div className="real-card-media aspect-[4/5] bg-[#FFFFFF] overflow-hidden"><img src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774246947/1b478f6a-06cd-4826-a001-0cf8eab5c7e4.png', 50)} alt="Shoes" className="w-full h-full object-cover" /></div>
+                <div className="real-card-content px-3 py-2.5"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Shoes</h3></div>
+              </Link>
+              <Link to="/watches" className="real-card group snap-start w-32 sm:w-40 lg:w-44 overflow-hidden">
+                <div className="real-card-media aspect-[4/5] bg-[#FFFFFF] overflow-hidden"><img src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774247088/c5101f6e-66e3-4688-a817-a13b8b2082bc.png', 50)} alt="Watches" className="w-full h-full object-cover" /></div>
+                <div className="real-card-content px-3 py-2.5"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Watches</h3></div>
+              </Link>
+              <Link to="/lenses" className="real-card group snap-start w-32 sm:w-40 lg:w-44 overflow-hidden">
+                <div className="real-card-media aspect-[4/5] bg-[#FFFFFF] overflow-hidden"><img src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774247163/6d5f9f1c-4973-49c7-965e-c9647c8ac40d.png', 50)} alt="Eyewear" className="w-full h-full object-cover" /></div>
+                <div className="real-card-content px-3 py-2.5"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Eyewear</h3></div>
+              </Link>
+              <Link to="/skincare" className="real-card group snap-start w-32 sm:w-40 lg:w-44 overflow-hidden">
+                <div className="real-card-media aspect-[4/5] bg-[#FFFFFF] overflow-hidden"><img src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774247295/cc38b86b-48dd-41a9-b1d9-8b45f7b9e551.png', 50)} alt="Skincare" className="w-full h-full object-cover" /></div>
+                <div className="real-card-content px-3 py-2.5"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Skincare</h3></div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* --- DESKTOP: Search + Categories Dropdown + Products (like mobile view) --- */}
       <div className="hidden md:block bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
-          {/* Search Bar */}
-          <div className="relative mb-6">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-4 pr-14 py-3 bg-[#F5F0E8] rounded-full text-[#1A2F2A] placeholder-[#8B9A95] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A]"
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-[#2B6B5A] rounded-full">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-          </div>
-
           {/* Categories Section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">Categories</h3>
+          <div className="hidden mb-6">
+            <h3 className="text-lg font-semibold text-[#0F1012] mb-3">Categories</h3>
             <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
               {categories.map((cat) => (
                 <button
@@ -986,8 +1110,8 @@ const Home = () => {
                   }}
                   className={`flex-shrink-0 px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                     openDropdown === cat.id
-                      ? 'bg-[#1A2F2A] text-white'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                      ? 'bg-[#0F1012] text-white'
+                      : 'bg-white text-[#0F1012] border border-[#FE1157] hover:bg-[#FE1157]/10'
                   }`}
                 >
                   {cat.label}
@@ -1008,14 +1132,14 @@ const Home = () => {
 
             {/* Subcategories Section */}
             {openDropdown && categories.find(cat => cat.id === openDropdown)?.subItems && (
-              <div className="mt-3 bg-white border border-[#E0D8CE] rounded-lg shadow-sm p-4">
+              <div className="mt-3 bg-white border border-[#FE1157] rounded-lg shadow-sm p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-sm font-semibold text-gray-800">
+                  <h4 className="text-sm font-semibold text-[#0F1012]">
                     {categories.find(cat => cat.id === openDropdown)?.label}
                   </h4>
                   <button
                     onClick={() => setOpenDropdown(null)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-[#0F1012] hover:text-[#0F1012]"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -1030,13 +1154,13 @@ const Home = () => {
                         key={index}
                         to={subItem.path}
                         onClick={() => setOpenDropdown(null)}
-                        className="group relative overflow-hidden rounded-xl border border-[#E0D8CE] bg-white/60 hover:border-[#2B6B5A] transition-colors shadow-sm"
+                        className="real-card group relative overflow-hidden rounded-xl"
                       >
-                        <div className="relative w-full aspect-[4/3] bg-[#F5F0E8]">
+                        <div className="relative w-full aspect-[4/3] bg-[#FFFFFF]">
                           <img
                             src={optimizeImageUrl(getSubItemImage(subItem), 50)}
                             alt={subItem.name}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            className="w-full h-full object-cover"
                             loading="lazy"
                             onError={(e) => {
                               e.currentTarget.src = `https://via.placeholder.com/400x300?text=${encodeURIComponent(subItem.name || 'Category')}`;
@@ -1062,13 +1186,11 @@ const Home = () => {
           </div>
 
           <div className="px-4 mt-3 mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B9A95] mb-2">
-              Browse
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#1A2F2A] tracking-tight leading-tight">
+           
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0F1012] tracking-tight leading-tight">
               Catalog
             </h2>
-            <p className="text-xs sm:text-sm mt-1 text-[#1A2F2A]/70">
+            <p className="text-xs sm:text-sm mt-1 text-[#0F1012]/70">
               {getActiveCategoryTitle()}
             </p>
           </div>
@@ -1086,6 +1208,12 @@ const Home = () => {
                 const discountPercent = hasDiscount && originalPrice > 0
                   ? Math.round(((originalPrice - productPrice) / originalPrice) * 100)
                   : 0;
+                const shortDescription = String(
+                  product.shortDescription || product.description || product.subCategory || product.category || ''
+                ).replace(/<[^>]*>/g, '').trim();
+                const stockCount = Number(product.stock ?? product.quantity ?? 0);
+                const isSoldOut = product.inStock === false || stockCount === 0;
+                const isLowStock = !isSoldOut && Number.isFinite(stockCount) && stockCount > 0 && stockCount <= 5;
 
                 // Determine product category for routing
                 const productCategory = product.category?.toLowerCase().includes('watch') ? 'watches' :
@@ -1095,15 +1223,15 @@ const Home = () => {
                         'product';
 
                 return (
-                  <div key={productId} className="bg-white rounded-xl shadow-sm border border-[#E0D8CE] overflow-hidden relative">
+                  <div key={productId} className="real-card rounded-xl overflow-hidden relative">
                     {hasDiscount && discountPercent > 0 && (
-                      <div className="absolute top-2 right-2 z-10 bg-[#D91C1C] text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
+                      <div className="absolute top-2 right-2 z-10 bg-green-600 text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
                         <span className="text-xs font-bold">{discountPercent}% OFF</span>
                       </div>
                     )}
 
                     <Link to={`/product/${productCategory}/${productId}`}>
-                      <div className="w-full aspect-square bg-gray-100 overflow-hidden">
+                      <div className="real-card-media w-full aspect-square bg-[#FFFFFF] overflow-hidden">
                         <img
                           src={optimizeImageUrl(productImage, 50)}
                           alt={productName}
@@ -1115,16 +1243,39 @@ const Home = () => {
                       </div>
                     </Link>
 
-                    <div className="p-3 pr-12">
+                    <div className="real-card-content p-3 pr-12">
                       <Link to={`/product/${productCategory}/${productId}`}>
-                        <h4 className="text-sm font-semibold text-gray-800 mb-1 line-clamp-1">{productName}</h4>
+                        <h4 className="text-sm font-semibold text-[#0F1012] mb-1 line-clamp-1">{productName}</h4>
                       </Link>
-                      <p className="text-base font-bold text-gray-900 mb-3">{formatPriceWithCurrency(productPrice)}</p>
+                      {shortDescription && (
+                        <p className="text-xs text-[#0F1012]/70 line-clamp-2 mb-1.5 leading-relaxed">
+                          {shortDescription}
+                        </p>
+                      )}
+                      <div className="mb-2.5">
+                        <p className="text-base font-bold text-green-700">
+                          {formatPriceWithCurrency(productPrice)}
+                        </p>
+                        {hasDiscount && (
+                          <p className="text-xs text-[#0F1012]/55 line-through">
+                            {formatPriceWithCurrency(originalPrice)}
+                          </p>
+                        )}
+                      </div>
+                      <div className="min-h-[16px] mb-1">
+                        {isSoldOut && (
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-[#FE1157]">Sold Out</p>
+                        )}
+                        {!isSoldOut && isLowStock && (
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-[#FE1157]">Only {stockCount} left</p>
+                        )}
+                      </div>
 
                       <button
                         onClick={() => handleAddToCart(product)}
                         aria-label={`Add ${productName} to cart`}
-                        className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#1A2F2A] text-white flex items-center justify-center hover:bg-[#2B6B5A] hover:text-[#1A2F2A] transition-colors shadow-sm"
+                        disabled={isSoldOut}
+                        className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#0F1012] text-white flex items-center justify-center hover:bg-[#FE1157] hover:text-[#0F1012] transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -1143,17 +1294,17 @@ const Home = () => {
       
 
       {/* --- SHOP BY CATEGORY SECTION --- */}
-      <div className="py-10 sm:py-14 lg:py-20 bg-white">
+      <div className="hidden py-10 sm:py-14 lg:py-20 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           {/* Section Header — COLLUSION style */}
           <div className="mb-8 sm:mb-10 flex items-end justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B9A95] mb-2">Browse</p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1A2F2A] tracking-tight">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0F1012] mb-2">Browse</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0F1012] tracking-tight">
                 Catalog
               </h2>
             </div>
-            <Link to="/women" className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-[0.12em] text-[#1A2F2A] border-b-2 border-[#1A2F2A] pb-0.5 hover:border-[#C4A265] transition-colors">
+            <Link to="/women" className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-[0.12em] text-[#0F1012] border-b-2 border-[#0F1012] pb-0.5 hover:border-[#FE1157] transition-colors">
               View All
             </Link>
           </div>
@@ -1168,7 +1319,7 @@ const Home = () => {
                   to="/women" 
                   className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden"
                 >
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img
                       src={optimizeImageUrl('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop', 50)}
                       alt="Fashion"
@@ -1177,7 +1328,7 @@ const Home = () => {
                     />
                   </div>
                   <div className="mt-3">
-                    <h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Fashion</h3>
+                    <h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Fashion</h3>
                   </div>
                 </Link>
 
@@ -1186,68 +1337,68 @@ const Home = () => {
                   to="/sale" 
                   className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden"
                 >
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img
                       src={optimizeImageUrl('https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=500&fit=crop', 50)}
                       alt="Sale"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Sale'; }}
                     />
-                    <span className="absolute top-2 left-2 bg-[#2B6B5A] text-[#1A2F2A] text-[9px] font-bold uppercase tracking-wider px-2 py-1">Sale</span>
+                    <span className="absolute top-2 left-2 bg-[#FE1157] text-[#0F1012] text-[9px] font-bold uppercase tracking-wider px-2 py-1">Sale</span>
                   </div>
                   <div className="mt-3">
-                    <h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Sale</h3>
+                    <h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Sale</h3>
                   </div>
                 </Link>
 
                 {/* Category 3 - Shoes */}
                 <Link to="/shoes" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img src={optimizeImageUrl('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop', 50)} alt="Shoes"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Shoes'; }} />
                   </div>
-                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Shoes</h3></div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Shoes</h3></div>
                 </Link>
 
                 {/* Category 4 - Watches */}
                 <Link to="/watches" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img src={optimizeImageUrl('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=500&fit=crop', 50)} alt="Watches"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Watches'; }} />
                   </div>
-                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Watches</h3></div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Watches</h3></div>
                 </Link>
 
                 {/* Category 5 - Eyewear */}
                 <Link to="/lenses" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img src={optimizeImageUrl('https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=500&fit=crop', 50)} alt="Eyewear"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Eyewear'; }} />
                   </div>
-                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Eyewear</h3></div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Eyewear</h3></div>
                 </Link>
 
                 {/* Category 6 - Skincare */}
                 <Link to="/skincare" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img src={optimizeImageUrl('https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=500&fit=crop', 50)} alt="Skincare"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Skincare'; }} />
                   </div>
-                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Skincare</h3></div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Skincare</h3></div>
                 </Link>
 
                 {/* Category 7 - Earrings */}
                 <Link to="/accessories?subCategory=earrings" className="group relative flex-shrink-0 w-36 sm:w-44 lg:w-52 overflow-hidden">
-                  <div className="relative w-full aspect-[3/4] bg-[#F5F0E8]">
+                  <div className="relative w-full aspect-[3/4] bg-[#FFFFFF]">
                     <img src={optimizeImageUrl('https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=500&fit=crop', 50)} alt="Earrings"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Earrings'; }} />
                   </div>
-                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#1A2F2A] uppercase tracking-[0.06em]">Earrings</h3></div>
+                  <div className="mt-3"><h3 className="text-[11px] font-bold text-[#0F1012] uppercase tracking-[0.06em]">Earrings</h3></div>
                 </Link>
               </div>
             </div>
@@ -1255,232 +1406,97 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- THREE COLUMN PRODUCT SECTIONS --- */}
-      <div className="relative w-full bg-white border-t border-[#E0D8CE]">
+      {/* --- THREE COLUMN PRODUCT SHOWCASE --- */}
+      <div className="relative w-full bg-white border-t border-[#FE1157]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {/* Column 1: Women's Fashion */}
-            <Link to="/women" className="relative group overflow-hidden bg-white border border-[#E0D8CE] luxury-shadow transition-all duration-300">
-              {/* Content */}
-              <div className="relative z-10 p-4 sm:p-5 lg:p-6">
-                {/* Brand/Logo */}
-                <div className="mb-4 bg-transparent">
-                  <img 
-                    src={optimizeImageUrl('https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png', 50)}
-                    alt="Sanskrutee Logo"
-                    className="h-8 sm:h-10 w-auto object-contain mb-2"
-                    style={{ backgroundColor: 'transparent', background: 'transparent' }}
-                  />
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#1A2F2A' }}>
-                    Women's Fashion
-                  </h2>
-                </div>
-                
-                {/* Products Display */}
-                <div className="space-y-2.5 sm:space-y-3">
-                  {womenItems.slice(0, isMobile ? 2 : 4).map((product, idx) => {
-                    // Handle images - support array, object, or string formats
-                    let imageUrl = null;
-                    if (product.images) {
-                      if (Array.isArray(product.images) && product.images.length > 0) {
-                        imageUrl = product.images[0];
-                      } else if (typeof product.images === 'object') {
-                        imageUrl = product.images.image1 || product.images.image2 || product.images.image3 || product.images.image4;
-                      } else if (typeof product.images === 'string') {
-                        imageUrl = product.images;
-                      }
-                    }
-                    if (!imageUrl) {
-                      imageUrl = product.image || product.imageUrl || product.thumbnail;
-                    }
-                    
-                    return (
-                      <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#1A2F2A]/20 hover:border-[#1A2F2A]/40 transition-colors" style={{ backgroundColor: '#FAF6F0' }}>
-                        {/* Red accent line */}
-                        <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#2B6B5A' }}></div>
-                        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#1A2F2A]/20">
-                          {imageUrl ? (
-                            <img
-                              src={optimizeImageUrl(imageUrl, 50)}
-                              alt={product.name || product.productName || 'Product'}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.style.display = 'none';
-                                e.target.nextSibling.style.display = 'flex';
-                              }}
-                            />
-                          ) : null}
-                          <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: imageUrl ? 'none' : 'flex', backgroundColor: '#FAF6F0', color: '#1A2F2A' }}>
-                            No Image
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#1A2F2A' }}>
-                            {product.name || product.productName || 'Product'}
-                          </p>
-                          <p className="text-sm sm:text-base font-bold" style={{ color: '#2B6B5A' }}>
-                            ₹{product.finalPrice || product.price || '0'}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                {/* CTA */}
-                <div className="mt-4 pt-3 border-t border-[#1A2F2A]/20">
-                  <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#1A2F2A' }}>
-                    Shop Now →
-                  </span>
-                </div>
-              </div>
-            </Link>
+          {(() => {
+            const showcaseColumns = [
+              {
+                title: "Women's Fashion",
+                subtitle: 'Curated trending picks',
+                cta: 'Shop Now',
+                to: '/women',
+                items: womenItems.slice(0, isMobile ? 2 : 4),
+              },
+              {
+                title: 'Skincare Essentials',
+                subtitle: 'Nourish & Glow',
+                cta: 'Explore',
+                to: '/skincare',
+                items: skincareProducts.slice(0, isMobile ? 2 : 4),
+              },
+              {
+                title: 'Earrings',
+                subtitle: 'Elegant Earrings',
+                cta: 'Discover',
+                to: '/accessories?subCategory=earrings',
+                items: (isMobile
+                  ? [...watches.slice(0, 1), ...accessories.slice(0, 1)]
+                  : [...watches.slice(0, 2), ...accessories.slice(0, 2)]),
+              },
+            ];
 
-          {/* Column 2: Skincare */}
-          <Link to="/skincare" className="relative group overflow-hidden bg-white border border-[#E0D8CE] luxury-shadow transition-all duration-300">
-            {/* Content */}
-            <div className="relative z-10 p-4 sm:p-5 lg:p-6">
-              {/* Brand/Logo */}
-              <div className="mb-4 bg-transparent">
-                <img 
-                  src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
-                  alt="Sanskrutee Logo"
-                  className="h-8 sm:h-10 w-auto object-contain mb-2"
-                  style={{ backgroundColor: 'transparent', background: 'transparent' }}
-                />
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#1A2F2A' }}>
-                  Skincare Essentials
-                </h2>
-                <p className="text-xs sm:text-sm mt-1" style={{ color: '#1A2F2A', opacity: 0.7 }}>Nourish & Glow</p>
-              </div>
-              
-              {/* Products Display */}
-              <div className="space-y-2.5 sm:space-y-3">
-                {skincareProducts.slice(0, isMobile ? 2 : 4).map((product, idx) => (
-                  <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#1A2F2A]/20 hover:border-[#1A2F2A]/40 transition-colors" style={{ backgroundColor: '#FAF6F0' }}>
-                    {/* Red accent line */}
-                    <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#2B6B5A' }}></div>
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#1A2F2A]/20">
-                      <img
-                        src={product.image || product.imageUrl || 'https://via.placeholder.com/80'}
-                        alt={product.name || product.productName || 'Product'}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: 'none', backgroundColor: '#FAF6F0', color: '#1A2F2A' }}>
-                        No Image
-                      </div>
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+                {showcaseColumns.map((section) => (
+                  <div
+                    key={section.title}
+                    className="real-card rounded-2xl overflow-hidden"
+                  >
+                    <div className="px-4 sm:px-5 lg:px-6 py-4 sm:py-5 border-b border-[#FE1157]/25">
+                      <h2 className="text-lg sm:text-xl md:text-2xl font-black text-[#0F1012] tracking-tight">
+                        {section.title}
+                      </h2>
+                      <p className="text-xs sm:text-sm mt-1 text-[#0F1012]/70">{section.subtitle}</p>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#1A2F2A' }}>
-                        {product.name || product.productName || 'Product'}
-                      </p>
-                      <p className="text-sm sm:text-base font-bold" style={{ color: '#2B6B5A' }}>
-                        ₹{product.finalPrice || product.price || '0'}
-                      </p>
+
+                    <div className="p-3 sm:p-4 space-y-3">
+                      {section.items.map((product, idx) => {
+                        const imageUrl = getProductImage(product);
+                        return (
+                          <div
+                            key={product.id || product._id || idx}
+                            className="group flex items-center gap-3 rounded-xl border border-[#FE1157]/20 bg-white p-2.5 sm:p-3 hover:border-[#FE1157]/50 hover:bg-[#FE1157]/[0.04] transition-all"
+                          >
+                            <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 overflow-hidden rounded-lg border border-[#FE1157]/25 bg-white">
+                              <img
+                                src={imageUrl ? optimizeImageUrl(imageUrl, 50) : 'https://via.placeholder.com/80?text=No+Image'}
+                                alt={product.name || product.productName || 'Product'}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => handleImageError(e, 80, 80)}
+                              />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs sm:text-sm font-semibold text-[#0F1012] line-clamp-2 leading-snug">
+                                {product.name || product.productName || 'Product'}
+                              </p>
+                              <p className="mt-1 text-sm sm:text-base font-black text-[#FE1157]">
+                                {formatProductPrice(product)}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="px-4 sm:px-5 lg:px-6 pb-4 sm:pb-5">
+                      <Link
+                        to={section.to}
+                        className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wide text-[#0F1012] hover:text-[#FE1157] transition-colors"
+                      >
+                        {section.cta} →
+                      </Link>
                     </div>
                   </div>
-            ))}
-          </div>
-              
-              {/* CTA */}
-              <div className="mt-4 pt-3 border-t border-[#1A2F2A]/20">
-                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#1A2F2A' }}>
-                  Explore →
-                </span>
-        </div>
-            </div>
-          </Link>
-
-          {/* Column 3: Earrings & Watches */}
-          <Link to="/accessories?subCategory=earrings" className="relative group overflow-hidden bg-white border border-[#E0D8CE] luxury-shadow transition-all duration-300">
-            {/* Content */}
-            <div className="relative z-10 p-4 sm:p-5 lg:p-6">
-              {/* Brand/Logo */}
-              <div className="mb-4 bg-transparent">
-                <img 
-                  src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
-                  alt="Sanskrutee Logo"
-                  className="h-8 sm:h-10 w-auto object-contain mb-2"
-                  style={{ backgroundColor: 'transparent', background: 'transparent' }}
-                />
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: '#1A2F2A' }}>
-                  Earrings
-                </h2>
-                <p className="text-xs sm:text-sm mt-1" style={{ color: '#1A2F2A', opacity: 0.7 }}>Elegant Earrings</p>
-      </div>
-              
-              {/* Products Display */}
-              <div className="space-y-2.5 sm:space-y-3">
-                {(isMobile 
-                  ? [...watches.slice(0, 1), ...accessories.slice(0, 1)]
-                  : [...watches.slice(0, 2), ...accessories.slice(0, 2)]
-                ).map((product, idx) => {
-                  // Handle images - support array, object, or string formats
-                  let imageUrl = null;
-                  if (product.images) {
-                    if (Array.isArray(product.images) && product.images.length > 0) {
-                      imageUrl = product.images[0];
-                    } else if (typeof product.images === 'object') {
-                      imageUrl = product.images.image1 || product.images.image2 || product.images.image3 || product.images.image4;
-                    } else if (typeof product.images === 'string') {
-                      imageUrl = product.images;
-                    }
-                  }
-                  if (!imageUrl) {
-                    imageUrl = product.image || product.imageUrl || product.thumbnail;
-                  }
-                  
-                  return (
-                    <div key={product.id || product._id || idx} className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 border border-[#1A2F2A]/20 hover:border-[#1A2F2A]/40 transition-colors" style={{ backgroundColor: '#FAF6F0' }}>
-                      {/* Red accent line */}
-                      <div className="absolute left-0 w-0.5 h-full" style={{ backgroundColor: '#2B6B5A' }}></div>
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 flex-shrink-0 overflow-hidden flex items-center justify-center border border-[#1A2F2A]/20">
-                        {imageUrl ? (
-                          <img
-                            src={imageUrl}
-                            alt={product.name || product.productName || 'Product'}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                              e.target.nextSibling.style.display = 'flex';
-                            }}
-                          />
-                        ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[8px] sm:text-[9px]" style={{ display: imageUrl ? 'none' : 'flex', backgroundColor: '#FAF6F0', color: '#1A2F2A' }}>
-                          No Image
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm font-semibold mb-0.5 line-clamp-1" style={{ color: '#1A2F2A' }}>
-                          {product.name || product.productName || 'Product'}
-                        </p>
-                        <p className="text-sm sm:text-base font-bold" style={{ color: '#2B6B5A' }}>
-                          ₹{product.finalPrice || product.price || '0'}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
+                ))}
               </div>
-              
-              {/* CTA */}
-              <div className="mt-4 pt-3 border-t border-[#1A2F2A]/20">
-                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide" style={{ color: '#1A2F2A' }}>
-                  Discover →
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
+            );
+          })()}
         </div>
       </div>
 
       {/* --- BANNER IMAGES SECTION --- */}
-      <div className="w-full bg-white border-t border-[#E0D8CE]">
+      <div className="w-full bg-white border-t border-[#FE1157]">
         <div className="flex flex-col md:flex-row gap-0">
           {/* First Banner - Sale */}
           <Link 
@@ -1508,19 +1524,26 @@ const Home = () => {
         </div>
       </div>
 
-      {/* --- THE BEST OF SKINCARE SECTION (Luxury Style) --- */}
-      <div className="bg-white py-8 sm:py-10 lg:py-12 xl:py-14 border-t border-[#E0D8CE]">
+      {/* --- THE BEST OF SKINCARE SECTION --- */}
+      <div className="bg-white py-8 sm:py-10 lg:py-12 xl:py-14 border-t border-[#FE1157]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           {/* Section Header */}
           <div className="text-center mb-6 sm:mb-8 lg:mb-10">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2" style={{ color: '#1A2F2A' }}>THE BEST OF SKINCARE</h2>
-            <p className="text-xs sm:text-sm lg:text-base" style={{ color: '#1A2F2A', opacity: 0.7 }}>Curated premium skincare collection</p>
+            <span className="inline-block mb-2 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-[0.16em] rounded-full bg-[#FE1157]/12 text-[#FE1157]">
+              Curated Edit
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight text-[#0F1012]">
+              THE BEST OF SKINCARE
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm lg:text-base text-[#0F1012]/70">
+              Curated premium skincare collection
+            </p>
           </div>
 
           {/* Skincare Products Grid */}
           {skincareProducts.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
-              {skincareProducts.slice(0, windowWidth < 640 ? 14 : 16).map((product, index) => {
+              {skincareProducts.slice(0, 15).map((product, index) => {
                 // Group products by brand for better display
                 const brandName = product.brand || 'Skincare';
                 const discount = product.discountPercent || 0;
@@ -1532,37 +1555,26 @@ const Home = () => {
                       ? 'Free Gift with Orders' 
                       : 'Limited Edition';
                 
-                // Luxury background styles
-                const bgStyles = [
-                  'bg-gradient-to-br from-[#FAF6F0] via-[#F5F0E8] to-[#FAF6F0]',
-                  'bg-gradient-to-br from-[#F5F0E8] via-[#FAF6F0] to-[#E0D8CE]',
-                  'bg-gradient-to-br from-[#FAF6F0] via-[#E0D8CE] to-[#F5F0E8]',
-                  'bg-gradient-to-br from-[#E0D8CE] via-[#FAF6F0] to-[#F5F0E8]',
-                  'bg-gradient-to-br from-[#F5F0E8] via-[#E0D8CE] to-[#FAF6F0]',
-                ];
-                const bgStyle = bgStyles[index % bgStyles.length];
-
                 return (
                   <div
                     key={product.id || product._id || index}
-                    className="group relative overflow-hidden rounded border border-[#E0D8CE] luxury-shadow transition-all duration-300 bg-white"
+                    className="group relative overflow-hidden rounded-xl border border-[#FE1157]/25 bg-white shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#FE1157]/45"
                   >
-                    {/* Card Background with Gradient */}
-                    <div className={`relative ${bgStyle} p-3 sm:p-4 flex flex-col h-full`}>
+                    <div className="relative p-3 sm:p-4 flex flex-col h-full">
                       {/* Brand Badge */}
-                      <div className="absolute top-2 left-2 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide z-10 border border-[#1A2F2A]/20" style={{ color: '#1A2F2A' }}>
+                      <div className="absolute top-2 left-2 bg-[#0F1012] text-white px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide z-10">
                         {brandName.length > 12 ? brandName.substring(0, 12) + '...' : brandName}
                       </div>
 
                       {/* Product Image - Clickable Link */}
                       <Link
                         to={`/skincare/${product.id || product._id}`}
-                        className="flex-1 flex items-center justify-center mt-6 sm:mt-8 mb-3"
+                        className="mt-6 sm:mt-8 mb-3 rounded-lg border border-[#FE1157]/15 bg-white p-2 sm:p-3 flex-1 flex items-center justify-center"
                       >
                         <img
                           src={optimizeImageUrl(product.image || product.imageUrl || product.images?.[0], 50)}
                           alt={product.name || product.productName}
-                          className="max-w-full max-h-24 sm:max-h-28 md:max-h-32 lg:max-h-36 object-contain"
+                          className="max-w-full max-h-24 sm:max-h-28 md:max-h-32 lg:max-h-36 object-contain transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => handleImageError(e, 300, 300)}
                         />
                       </Link>
@@ -1572,10 +1584,10 @@ const Home = () => {
                         to={`/skincare/${product.id || product._id}`}
                         className="mt-auto space-y-1"
                       >
-                        <p className="text-xs sm:text-sm font-semibold line-clamp-2 min-h-[2.5em]" style={{ color: '#1A2F2A' }}>
+                        <p className="text-xs sm:text-sm font-semibold line-clamp-2 min-h-[2.5em] text-[#0F1012]">
                           {product.name || product.productName}
                         </p>
-                        <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-wide" style={{ color: '#2B6B5A' }}>
+                        <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-wide text-[#FE1157]">
                           {offerText}
                         </p>
                       </Link>
@@ -1587,17 +1599,7 @@ const Home = () => {
                           e.stopPropagation();
                           handleAddToCart(product);
                         }}
-                        className="mt-2 w-full py-1.5 sm:py-2 px-2 sm:px-3 text-[9px] sm:text-[10px] font-semibold rounded transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5"
-                        style={{ 
-                          backgroundColor: '#2B6B5A', 
-                          color: '#FAF6F0' 
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.backgroundColor = '#1A2F2A';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = '#2B6B5A';
-                        }}
+                        className="mt-2 w-full py-1.5 sm:py-2 px-2 sm:px-3 text-[9px] sm:text-[10px] font-semibold rounded bg-[#0F1012] text-white hover:bg-[#FE1157] transition-colors duration-200 flex items-center justify-center gap-1 sm:gap-1.5"
                       >
                         <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -1622,14 +1624,7 @@ const Home = () => {
             <div className="text-center mt-6 sm:mt-8 lg:mt-10">
               <Link
                 to="/skincare"
-                className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#E0D8CE] text-sm font-semibold transition-colors luxury-shadow"
-                style={{ backgroundColor: '#2B6B5A', color: '#FAF6F0' }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#1A2F2A';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#2B6B5A';
-                }}
+                className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#FE1157] bg-[#FE1157] text-white text-sm font-semibold transition-colors shadow-sm hover:bg-[#0F1012]"
               >
                 View All Skincare
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1644,12 +1639,12 @@ const Home = () => {
       
 
       {/* --- PROFESSIONAL SKINCARE SECTIONS (Legends, Hot Sellers, Combos) --- */}
-      <section className="relative py-8 sm:py-10 bg-white border-t border-[#1A2F2A]/20">
+      <section className="relative py-8 sm:py-10 bg-white border-t border-[#0F1012]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             
             {/* Left Section: SKINCARE LEGENDS */}
-            <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+            <div className="real-card relative rounded-lg p-4 sm:p-5 flex flex-col">
               {/* Badge */}
               <div className="mb-3">
                 <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wide bg-pink-500 text-white rounded-full">
@@ -1657,7 +1652,7 @@ const Home = () => {
                 </span>
               </div>
 
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#1A2F2A]">
+              <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#0F1012]">
                 Introducing the SKINCARE LEGENDS!
               </h2>
               
@@ -1665,13 +1660,13 @@ const Home = () => {
               <div className="grid grid-cols-2 gap-2 mb-4">
                 <Link 
                   to="/skincare?category=serum" 
-                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors text-center rounded"
+                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#FE1157] bg-white text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors text-center rounded"
                 >
                   Pigmentation Specialist
                 </Link>
                 <Link 
                   to="/skincare?category=serum" 
-                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors text-center rounded"
+                  className="px-2 py-1.5 text-[10px] sm:text-xs font-semibold border border-[#FE1157] bg-white text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors text-center rounded"
                 >
                   Acne Fighter
                 </Link>
@@ -1681,7 +1676,7 @@ const Home = () => {
               <div className="mb-4">
                 <Link 
                   to="/skincare?category=moisturizer"
-                  className="block w-full px-3 py-2 text-xs sm:text-sm font-semibold border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors text-center rounded"
+                  className="block w-full px-3 py-2 text-xs sm:text-sm font-semibold border border-[#FE1157] bg-white text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors text-center rounded"
                 >
                   Moisturizer - Skincare
                 </Link>
@@ -1689,7 +1684,7 @@ const Home = () => {
               
               {/* Skincare Products */}
               <div className="mb-4">
-                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#1A2F2A]">
+                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#0F1012]">
                   Premium Skincare Serums
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -1699,7 +1694,7 @@ const Home = () => {
                       <Link
                         key={product._id || product.id || idx}
                         to={`/skincare/${product._id || product.id}`}
-                        className="w-full h-16 sm:h-20 bg-white border border-[#1A2F2A]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#2B6B5A] transition-colors"
+                        className="w-full h-16 sm:h-20 bg-white border border-[#0F1012]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#FE1157] transition-colors"
                       >
                         {imageUrl ? (
                           <img
@@ -1712,7 +1707,7 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#1A2F2A] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#0F1012] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
                           {product.name || product.productName || 'Product'}
                         </div>
                       </Link>
@@ -1724,14 +1719,14 @@ const Home = () => {
               {/* CTA Button */}
               <Link
                 to="/skincare"
-                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded"
+                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#FE1157] bg-white text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors rounded"
               >
                 NEW LAUNCH
               </Link>
             </div>
 
             {/* Middle Section: HOT SELLERS */}
-            <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+            <div className="real-card relative rounded-lg p-4 sm:p-5 flex flex-col">
               {/* Badge */}
               <div className="mb-3">
                 <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wide bg-orange-500 text-white rounded-full">
@@ -1739,16 +1734,16 @@ const Home = () => {
                 </span>
               </div>
 
-              <h2 className="text-lg sm:text-xl font-bold mb-2 text-[#1A2F2A]">
+              <h2 className="text-lg sm:text-xl font-bold mb-2 text-[#0F1012]">
                 HOT SELLERS
               </h2>
-              <p className="text-xs sm:text-sm mb-4 text-[#1A2F2A]/70">
+              <p className="text-xs sm:text-sm mb-4 text-[#0F1012]/70">
                 High In Demand Secure Yours Now!
               </p>
               
               {/* Hot Sellers Skincare Products */}
               <div className="mb-4">
-                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#1A2F2A]">
+                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#0F1012]">
                   Best Selling Products
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -1758,7 +1753,7 @@ const Home = () => {
                       <Link
                         key={product._id || product.id || idx}
                         to={`/skincare/${product._id || product.id}`}
-                        className="w-full h-16 sm:h-20 bg-white border border-[#1A2F2A]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#2B6B5A] transition-colors"
+                        className="w-full h-16 sm:h-20 bg-white border border-[#0F1012]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#FE1157] transition-colors"
                       >
                         {imageUrl ? (
                           <img
@@ -1771,7 +1766,7 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#1A2F2A] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[9px] text-[#0F1012] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
                           {product.name || product.productName || 'Product'}
                         </div>
                       </Link>
@@ -1783,28 +1778,28 @@ const Home = () => {
               {/* CTA Button */}
               <Link
                 to="/sale"
-                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded"
+                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#FE1157] bg-white text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors rounded"
               >
                 Hot Sellers
               </Link>
             </div>
 
             {/* Right Section: Greatest Combos */}
-            <div className="relative bg-white border border-[#1A2F2A]/20 rounded-lg p-4 sm:p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+            <div className="real-card relative rounded-lg p-4 sm:p-5 flex flex-col">
               {/* Discount Badge */}
               <div className="relative mb-3">
-                <div className="absolute -left-2 -top-2 bg-[#D91C1C] border border-white shadow-lg px-3 py-1.5 transform rotate-[-12deg] z-10 rounded">
+                <div className="absolute -left-2 -top-2 bg-[#FE1157] border border-white shadow-lg px-3 py-1.5 transform rotate-[-12deg] z-10 rounded">
                   <span className="text-[10px] sm:text-xs font-bold text-white">UP TO 60% OFF</span>
                 </div>
               </div>
               
-              <h2 className="text-base sm:text-lg font-bold mb-3 text-[#1A2F2A] mt-4">
+              <h2 className="text-base sm:text-lg font-bold mb-3 text-[#0F1012] mt-4">
                 Grab your Biggest Savings with our Greatest Combos!
               </h2>
               
               {/* Combo Skincare Products */}
               <div className="mb-4">
-                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#1A2F2A]">
+                <p className="text-xs sm:text-sm font-semibold mb-3 text-[#0F1012]">
                   Combo Products
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -1814,7 +1809,7 @@ const Home = () => {
                       <Link
                         key={product._id || product.id || idx}
                         to={`/skincare/${product._id || product.id}`}
-                        className="w-full h-14 sm:h-16 bg-white border border-[#1A2F2A]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#2B6B5A] transition-colors"
+                        className="w-full h-14 sm:h-16 bg-white border border-[#0F1012]/20 rounded overflow-hidden flex items-center justify-center hover:border-[#FE1157] transition-colors"
                       >
                         {imageUrl ? (
                           <img
@@ -1827,7 +1822,7 @@ const Home = () => {
                             }}
                           />
                         ) : null}
-                        <div className="w-full h-full flex items-center justify-center text-[8px] text-[#1A2F2A] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
+                        <div className="w-full h-full flex items-center justify-center text-[8px] text-[#0F1012] p-1" style={{ display: imageUrl ? 'none' : 'flex' }}>
                           {product.name || product.productName || 'Product'}
                         </div>
                       </Link>
@@ -1839,7 +1834,7 @@ const Home = () => {
               {/* CTA Button */}
               <Link
                 to="/sale"
-                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#E0D8CE] bg-white text-[#1A2F2A] hover:bg-[#2B6B5A] hover:text-white transition-colors rounded"
+                className="w-full py-2 text-xs sm:text-sm font-semibold text-center border border-[#FE1157] bg-white text-[#0F1012] hover:bg-[#FE1157] hover:text-white transition-colors rounded"
               >
                 Combos
               </Link>
@@ -1888,25 +1883,25 @@ const Home = () => {
       /> */}
 
       {/* 3. Women - Enhanced "For Her" Section */}
-      <div className="relative w-full bg-gradient-to-br from-[#FAF6F0] via-[#F5F0E8] to-[#FAF6F0] py-12 sm:py-16 lg:py-20 overflow-hidden">
+      <div className="relative w-full bg-gradient-to-br from-[#FFFFFF] via-[#FFFFFF] to-[#FFFFFF] py-12 sm:py-16 lg:py-20 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#2B6B5A]/10 to-[#C4A265]/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#C4A265]/10 to-[#2B6B5A]/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#FE1157]/10 to-[#FE1157]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#FE1157]/10 to-[#FE1157]/10 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-8 sm:mb-12">
             <div className="inline-block mb-4">
-              <span className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#2B6B5A] text-white rounded-full shadow-lg">
+              <span className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#FE1157] text-white rounded-full shadow-lg">
                 Exclusive Collection
               </span>
             </div>
-            <h2 className="text-2xl sm:text-5xl lg:text-4xl font-serif font-bold mb-4 text-[#1A2F2A]">
+            <h2 className="text-2xl sm:text-5xl lg:text-4xl font-serif font-bold mb-4 text-[#0F1012]">
               For Her
             </h2>
-            <p className="text-base sm:text-lg text-[#8B9A95] max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-[#0F1012] max-w-2xl mx-auto leading-relaxed">
               Discover our curated collection of women's fashion, designed to elevate your style and celebrate your unique beauty
             </p>
           </div>
@@ -1927,7 +1922,7 @@ const Home = () => {
                     className="group relative transform transition-all duration-500 hover:-translate-y-2"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <div className="absolute -inset-1 bg-gradient-to-r from-[#2B6B5A] via-[#C4A265] to-[#2B6B5A] rounded-2xl opacity-0 group-hover:opacity-15 blur-xl transition-opacity duration-500"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-[#FE1157] via-[#FE1157] to-[#FE1157] rounded-2xl opacity-0 group-hover:opacity-15 blur-xl transition-opacity duration-500"></div>
                     <div className="relative">
                       <ProductCard product={p} />
                     </div>
@@ -1942,7 +1937,7 @@ const Home = () => {
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               <Link
                 to="/women"
-                className="group relative px-8 py-4 text-sm sm:text-base font-bold text-white rounded-full overflow-hidden shadow-2xl transition-all duration-300 hover:shadow-[#2B6B5A]/30 bg-[#2B6B5A] hover:bg-[#1A4D3F]"
+                className="group relative px-8 py-4 text-sm sm:text-base font-bold text-white rounded-full overflow-hidden shadow-2xl transition-all duration-300 hover:shadow-[#FE1157]/30 bg-[#FE1157] hover:bg-[#0F1012]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <span>Shop Women's Collection</span>
@@ -1954,19 +1949,79 @@ const Home = () => {
               
               <Link
                 to="/women"
-                className="px-6 py-3 text-sm sm:text-base font-semibold text-[#2B6B5A] hover:text-[#1A4D3F] transition-colors border-2 border-[#2B6B5A]/30 hover:border-[#2B6B5A] rounded-full hover:bg-[#2B6B5A]/5"
+                className="px-6 py-3 text-sm sm:text-base font-semibold text-[#FE1157] hover:text-[#0F1012] transition-colors border-2 border-[#FE1157]/30 hover:border-[#FE1157] rounded-full hover:bg-[#FE1157]/5"
               >
                 View All →
               </Link>
             </div>
 
             {/* Decorative Elements */}
-            <div className="mt-8 flex items-center justify-center gap-2 text-[#C4A265]">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#C4A265] to-transparent"></div>
-              <svg className="w-5 h-5 text-[#C4A265]" fill="currentColor" viewBox="0 0 20 20">
+            <div className="mt-8 flex items-center justify-center gap-2 text-[#FE1157]">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#FE1157] to-transparent"></div>
+              <svg className="w-5 h-5 text-[#FE1157]" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#C4A265] to-transparent"></div>
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#FE1157] to-transparent"></div>
+            </div>
+          </div>
+
+          {/* Testimonials — under For Her */}
+          <div className="mt-14 sm:mt-16 pt-12 sm:pt-14 border-t border-[#FE1157]/70">
+            <div className="text-center mb-8 sm:mb-10">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#FE1157] mb-2">
+                Real stories
+              </p>
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#0F1012] mb-3">
+                Let customers speak for us
+              </h3>
+              <p className="text-sm sm:text-base text-[#0F1012] max-w-xl mx-auto">
+                Hear from women who shop Sanskrutee—quality, style, and service that keeps them coming back.
+              </p>
+            </div>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-6 sm:w-10 bg-gradient-to-r from-white to-transparent z-10" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-6 sm:w-10 bg-gradient-to-l from-white to-transparent z-10" />
+              <div className="overflow-hidden">
+                <div
+                  className="marquee-track flex gap-4 sm:gap-5"
+                  style={{ animationDuration: '55s' }}
+                >
+                  {FOR_HER_TESTIMONIALS_LOOP.map((t, idx) => (
+                <blockquote
+                  key={`${t.id}-${idx}`}
+                  className="real-card relative w-[280px] sm:w-[320px] shrink-0 rounded-2xl p-6 sm:p-7 flex flex-col"
+                >
+                  <div className="flex gap-0.5 mb-4 text-[#FE1157]" aria-hidden>
+                    {Array.from({ length: t.rating }).map((_, i) => (
+                      <svg key={i} className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-[#0F1012]/90 text-sm sm:text-base leading-relaxed flex-grow font-medium">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                  <footer className="mt-6 pt-5 border-t border-[#FE1157]/80 flex items-center gap-3">
+                    <div
+                      className="w-11 h-11 rounded-full bg-gradient-to-br from-[#FE1157] to-[#0F1012] text-[#FFFFFF] flex items-center justify-center text-sm font-bold shrink-0"
+                      aria-hidden
+                    >
+                      {t.name
+                        .split(' ')
+                        .map((w) => w[0])
+                        .join('')}
+                    </div>
+                    <div className="text-left min-w-0">
+                      <cite className="not-italic font-bold text-[#0F1012] text-sm sm:text-base block truncate">
+                        {t.name}
+                      </cite>
+                      <span className="text-xs sm:text-sm text-[#0F1012]">{t.location}</span>
+                    </div>
+                  </footer>
+                </blockquote>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2019,15 +2074,15 @@ const ProductSection = ({ title, subtitle, products, viewAllLink, bgColor = 'bg-
   return (
     <section className={`py-8 sm:py-12 md:py-16 ${bgColor}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 border-b pb-3 sm:pb-4 border-[#E0D8CE]">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 border-b pb-3 sm:pb-4 border-[#FE1157]">
           <div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{title}</h2>
-            {subtitle && <p className="text-sm sm:text-base text-gray-500 mt-1">{subtitle}</p>}
+            {subtitle && <p className="text-sm sm:text-base text-[#0F1012] mt-1">{subtitle}</p>}
           </div>
           {viewAllLink && (
             <Link
               to={viewAllLink}
-              className="mt-3 sm:mt-0 inline-block px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border border-gray-300 font-semibold text-white bg-gray-900 hover:bg-gray-900 hover:text-white hover:border-transparent transform"
+              className="mt-3 sm:mt-0 inline-block px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border border-[#FE1157] font-semibold text-white bg-gray-900 hover:bg-gray-900 hover:text-white hover:border-transparent transform"
             >
               View All
             </Link>
@@ -2045,7 +2100,7 @@ const ProductSection = ({ title, subtitle, products, viewAllLink, bgColor = 'bg-
                 <ProductCard key={product._id} product={product} />
               ))
             ) : (
-              <p className="col-span-4 text-center text-gray-500 py-10">No products found.</p>
+              <p className="col-span-4 text-center text-[#0F1012] py-10">No products found.</p>
             )}
           </div>
         )}
@@ -2062,3 +2117,8 @@ const ProductSection = ({ title, subtitle, products, viewAllLink, bgColor = 'bg-
 };
 
 export default Home;
+
+
+
+
+

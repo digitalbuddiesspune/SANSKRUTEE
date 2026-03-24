@@ -55,7 +55,7 @@ const StockNotification = ({ product }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+          className="flex-1 px-3 py-2 border border-[#FE1157] rounded-lg text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent"
           required={!isAuthenticated}
         />
       )}

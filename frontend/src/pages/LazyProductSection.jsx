@@ -155,7 +155,7 @@ const LazyProductSection = ({ title, link, fetchFunction, bgColor = "bg-white", 
 
         {/* EMPTY STATE */}
         {hasLoaded && products.length === 0 && (
-           <div className="text-center py-10 text-gray-500">No products found.</div>
+           <div className="text-center py-10 text-[#0F1012]">No products found.</div>
         )}
       </div>
     </section>

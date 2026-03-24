@@ -8,16 +8,16 @@ const typeConfig = {
   'new-arrival': {
     title: 'New Arrivals',
     description: 'Fresh drops across men, women, watches, lenses, and accessories.',
-    highlightClass: 'text-[#2B6B5A]',
-    ctaColor: 'text-[#2B6B5A] hover:text-[#1A4D3F]',
+    highlightClass: 'text-[#FE1157]',
+    ctaColor: 'text-[#FE1157] hover:text-[#0F1012]',
     query: { isNewArrival: true, sort: 'createdAt', order: 'desc' },
     emptyMessage: 'No new arrivals right now. Check back soon!',
   },
   sale: {
     title: 'Mega Sale',
     description: 'Handpicked deals with the highest discounts across every category.',
-    highlightClass: 'text-[#C4A265]',
-    ctaColor: 'text-[#C4A265] hover:text-[#A68850]',
+    highlightClass: 'text-[#FE1157]',
+    ctaColor: 'text-[#FE1157] hover:text-[#FE1157]',
     query: { onSale: true, sort: 'discountPercent', order: 'desc' },
     emptyMessage: 'No active sale items at the moment.',
   },
@@ -173,15 +173,15 @@ const SpecialCollection = ({ type }) => {
   });
 
   return (
-    <div className="min-h-screen bg-[#F5F0E8]">
+    <div className="min-h-screen bg-[#FFFFFF]">
       {/* Simple Header */}
-      <div className="bg-white border-b border-[#E0D8CE]">
+      <div className="bg-white border-b border-[#FE1157]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-[#1A2F2A] mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#0F1012] mb-2">
               {config.title}
             </h1>
-            <p className="text-[#8B9A95] text-base">
+            <p className="text-[#0F1012] text-base">
               {config.description}
             </p>
           </div>
@@ -191,13 +191,13 @@ const SpecialCollection = ({ type }) => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
-          <p className="text-[#8B9A95] text-sm">
-            Showing <span className="font-semibold text-[#1A2F2A]">{products.length}</span> of{' '}
-            <span className="font-semibold text-[#1A2F2A]">{allProducts.length}</span> items
+          <p className="text-[#0F1012] text-sm">
+            Showing <span className="font-semibold text-[#0F1012]">{products.length}</span> of{' '}
+            <span className="font-semibold text-[#0F1012]">{allProducts.length}</span> items
           </p>
           <button
             onClick={() => setShowMobileFilters(true)}
-            className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white border border-[#E0D8CE] rounded-lg text-sm font-medium text-[#1A2F2A] hover:bg-[#F5F0E8] shadow-sm"
+            className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white border border-[#FE1157] rounded-lg text-sm font-medium text-[#0F1012] hover:bg-[#FFFFFF] shadow-sm"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h18M4 8h16M5 12h14M6 16h12M7 20h10" />
@@ -221,7 +221,7 @@ const SpecialCollection = ({ type }) => {
                 <h2 className="text-xl font-bold">Filters</h2>
                 <button
                   onClick={() => setShowMobileFilters(false)}
-                  className="text-[#8B9A95] hover:text-[#1A2F2A]"
+                  className="text-[#0F1012] hover:text-[#0F1012]"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -254,13 +254,13 @@ const SpecialCollection = ({ type }) => {
             {isLoading ? (
               <div className="min-h-[40vh] flex items-center justify-center">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2B6B5A] mx-auto mb-4"></div>
-                  <p className="text-[#8B9A95]">Collecting the best picks for you...</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FE1157] mx-auto mb-4"></div>
+                  <p className="text-[#0F1012]">Collecting the best picks for you...</p>
                 </div>
               </div>
             ) : products.length === 0 ? (
               <div className="min-h-[30vh] flex flex-col items-center justify-center text-center">
-                <p className="text-[#8B9A95] text-lg mb-4">{config.emptyMessage}</p>
+                <p className="text-[#0F1012] text-lg mb-4">{config.emptyMessage}</p>
                 <Link to="/" className={`${config.ctaColor} font-medium`}>
                   Explore all products →
                 </Link>
@@ -277,12 +277,12 @@ const SpecialCollection = ({ type }) => {
                   
                   if (hasAccessories) {
                     return (
-                      <div className="mb-4 sm:mb-6 pb-4 border-b border-[#E0D8CE]">
-                        <p className="text-xs sm:text-sm uppercase tracking-wide text-[#8B9A95] font-semibold mb-3">Subcategories</p>
+                      <div className="mb-4 sm:mb-6 pb-4 border-b border-[#FE1157]">
+                        <p className="text-xs sm:text-sm uppercase tracking-wide text-[#0F1012] font-semibold mb-3">Subcategories</p>
                         <div className="flex flex-wrap gap-2 sm:gap-3">
                           <Link
                             to="/accessories?subCategory=earrings"
-                            className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#1A2F2A] border-[#E0D8CE] hover:bg-[#1A4D3F] hover:border-[#1A4D3F] hover:text-white"
+                            className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold border-2 rounded-lg transition-colors text-[#0F1012] border-[#FE1157] hover:bg-[#0F1012] hover:border-[#0F1012] hover:text-white"
                           >
                             Earrings
                           </Link>

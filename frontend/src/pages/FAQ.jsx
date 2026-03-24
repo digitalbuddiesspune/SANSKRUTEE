@@ -121,14 +121,14 @@ const FAQ = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <Link to="/" className="text-gray-600 hover:text-gray-900 mb-4 inline-flex items-center text-sm">
+          <Link to="/" className="text-[#0F1012] hover:text-gray-900 mb-4 inline-flex items-center text-sm">
             <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to Home
           </Link>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h1>
-          <p className="text-sm sm:text-base text-gray-600">Find answers to common questions about shopping with us.</p>
+          <p className="text-sm sm:text-base text-[#0F1012]">Find answers to common questions about shopping with us.</p>
         </div>
 
         {/* FAQ Sections */}
@@ -146,11 +146,11 @@ const FAQ = () => {
                     <div key={faqIndex}>
                       <button
                         onClick={() => toggleQuestion(index)}
-                        className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+                        className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left flex justify-between items-center hover:bg-[#FE1157]/10 transition-colors"
                       >
                         <span className="text-sm sm:text-base font-medium text-gray-900 pr-2 sm:pr-4">{faq.q}</span>
                         <svg
-                          className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
+                          className={`w-5 h-5 text-[#0F1012] flex-shrink-0 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -160,7 +160,7 @@ const FAQ = () => {
                       </button>
                       {isOpen && (
                         <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50">
-                          <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{faq.a}</p>
+                          <p className="text-sm sm:text-base text-[#0F1012] leading-relaxed">{faq.a}</p>
                         </div>
                       )}
                     </div>
@@ -174,7 +174,7 @@ const FAQ = () => {
         {/* Still have questions */}
         <div className="mt-12 bg-white rounded-lg shadow-sm p-6 text-center">
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Still have questions?</h3>
-          <p className="text-gray-600 mb-4">Can't find the answer you're looking for? Please get in touch with our friendly team.</p>
+          <p className="text-[#0F1012] mb-4">Can't find the answer you're looking for? Please get in touch with our friendly team.</p>
           <Link
             to="/contact"
             className="inline-block px-6 py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"

@@ -3,7 +3,7 @@ import { useState } from 'react';
 // --- Polished Icons ---
 const ChevronIcon = ({ isOpen }) => (
   <svg 
-    className={`w-4 h-4 text-[#1A2F2A] transition-all duration-300 ease-out ${isOpen ? 'rotate-180' : ''}`} 
+    className={`w-4 h-4 text-[#0F1012] transition-all duration-300 ease-out ${isOpen ? 'rotate-180' : ''}`} 
     fill="none" viewBox="0 0 24 24" stroke="currentColor"
     strokeWidth={2}
   >
@@ -39,22 +39,22 @@ const SizeIcon = () => (
 // --- Custom UI Elements ---
 
 const FilterSection = ({ title, isOpen, onToggle, activeCount, children, icon: Icon }) => (
-  <div className="border-b border-[#1A2F2A]/20 last:border-0">
+  <div className="border-b border-[#0F1012]/15 last:border-0">
     <button
       onClick={onToggle}
-      className="w-full flex items-center justify-between py-4 px-5 group focus:outline-none transition-all duration-200 hover:bg-white/50"
+      className="w-full flex items-center justify-between py-4 px-4 group focus:outline-none transition-all duration-200 hover:bg-[#FE1157]/[0.04]"
     >
       <div className="flex items-center gap-3">
         {Icon && (
-          <div className={`transition-colors duration-200 ${isOpen ? 'text-[#2B6B5A]' : 'text-[#1A2F2A]/50'}`}>
+          <div className={`transition-colors duration-200 ${isOpen ? 'text-[#FE1157]' : 'text-[#0F1012]/50'}`}>
             <Icon />
           </div>
         )}
-        <h3 className={`text-sm font-bold text-[#1A2F2A] uppercase tracking-wide`}>
+        <h3 className={`text-sm font-bold text-[#0F1012] uppercase tracking-wide`}>
           {title}
         </h3>
         {activeCount > 0 && (
-          <span className="flex items-center justify-center min-w-[20px] h-5 px-2 text-[10px] font-bold text-white bg-[#2B6B5A] rounded-full luxury-shadow-sm">
+          <span className="flex items-center justify-center min-w-[20px] h-5 px-2 text-[10px] font-bold text-white bg-[#FE1157] rounded-full luxury-shadow-sm">
             {activeCount}
           </span>
         )}
@@ -67,7 +67,7 @@ const FilterSection = ({ title, isOpen, onToggle, activeCount, children, icon: I
           isOpen ? 'max-h-[600px] opacity-100 pb-4' : 'max-h-0 opacity-0 pb-0'
         }`}
       >
-        <div className="px-5 pt-3">
+        <div className="px-4 pt-3">
           {children}
         </div>
       </div>
@@ -86,8 +86,8 @@ const CustomCheckbox = ({ label, checked, onChange }) => (
       <div className={`
         w-5 h-5 border-2 transition-all duration-300 ease-out flex items-center justify-center rounded-sm
         ${checked 
-          ? 'bg-[#2B6B5A] border-[#2B6B5A] luxury-shadow-sm' 
-          : 'bg-white border-[#1A2F2A]/30 group-hover:border-[#2B6B5A]/50'
+          ? 'bg-[#FE1157] border-[#FE1157] luxury-shadow-sm' 
+          : 'bg-white border-[#0F1012]/30 group-hover:border-[#FE1157]/50'
         }
       `}>
         <svg className={`w-3.5 h-3.5 text-white transform transition-all duration-300 ${checked ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -95,7 +95,7 @@ const CustomCheckbox = ({ label, checked, onChange }) => (
         </svg>
       </div>
     </div>
-    <span className={`text-sm font-medium transition-colors duration-200 ${checked ? 'text-[#1A2F2A] font-semibold' : 'text-[#1A2F2A]/70'}`}>
+    <span className={`text-sm font-medium transition-colors duration-200 ${checked ? 'text-[#0F1012] font-semibold' : 'text-[#0F1012]/70'}`}>
       {label}
     </span>
   </label>
@@ -108,14 +108,14 @@ const CustomRadio = ({ label, checked, onChange }) => (
       <div className={`
         w-5 h-5 rounded-full border-2 transition-all duration-300 flex items-center justify-center
         ${checked 
-          ? 'border-[#2B6B5A] bg-white' 
-          : 'border-[#1A2F2A]/30 bg-white group-hover:border-[#2B6B5A]/50'
+          ? 'border-[#FE1157] bg-white' 
+          : 'border-[#0F1012]/30 bg-white group-hover:border-[#FE1157]/50'
         }
       `}>
-        <div className={`w-2.5 h-2.5 rounded-full bg-[#2B6B5A] transform transition-all duration-300 ${checked ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+        <div className={`w-2.5 h-2.5 rounded-full bg-[#FE1157] transform transition-all duration-300 ${checked ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
       </div>
     </div>
-    <span className={`text-sm font-medium transition-colors duration-200 ${checked ? 'text-[#1A2F2A] font-semibold' : 'text-[#1A2F2A]/70'}`}>
+    <span className={`text-sm font-medium transition-colors duration-200 ${checked ? 'text-[#0F1012] font-semibold' : 'text-[#0F1012]/70'}`}>
       {label}
     </span>
   </label>
@@ -143,10 +143,10 @@ const DualRangeSlider = ({ min, max, value, onChange, minPrice = 0, maxPrice = 5
   return (
     <div className="relative py-6">
       {/* Track Background */}
-      <div className="relative h-2 bg-[#1A2F2A]/10 rounded-full">
+      <div className="relative h-2 bg-[#0F1012]/10 rounded-full">
         {/* Active Range Fill */}
         <div
-          className="absolute h-2 bg-[#2B6B5A] rounded-full transition-all duration-200"
+          className="absolute h-2 bg-[#FE1157] rounded-full transition-all duration-200"
           style={{
             left: `${minPercent}%`,
             width: `${maxPercent - minPercent}%`,
@@ -188,7 +188,7 @@ const DualRangeSlider = ({ min, max, value, onChange, minPrice = 0, maxPrice = 5
           appearance: none;
           width: 20px;
           height: 20px;
-          background: #2B6B5A;
+          background: #FE1157;
           border: 2px solid white;
           border-radius: 50%;
           cursor: pointer;
@@ -201,7 +201,7 @@ const DualRangeSlider = ({ min, max, value, onChange, minPrice = 0, maxPrice = 5
         .dual-range-slider input[type="range"]::-moz-range-thumb {
           width: 20px;
           height: 20px;
-          background: #2B6B5A;
+          background: #FE1157;
           border: 2px solid white;
           border-radius: 50%;
           cursor: pointer;
@@ -221,9 +221,9 @@ const DualRangeSlider = ({ min, max, value, onChange, minPrice = 0, maxPrice = 5
       `}</style>
       
       {/* Value Display */}
-      <div className="flex justify-between mt-4 text-xs font-semibold text-[#1A2F2A]">
-        <span className="bg-white px-2 py-1 rounded border border-[#1A2F2A]/20">₹{minVal.toLocaleString()}</span>
-        <span className="bg-white px-2 py-1 rounded border border-[#1A2F2A]/20">₹{maxVal.toLocaleString()}</span>
+      <div className="flex justify-between mt-4 text-xs font-semibold text-[#0F1012]">
+        <span className="bg-white px-2 py-1 rounded border border-[#0F1012]/20">₹{minVal.toLocaleString()}</span>
+        <span className="bg-white px-2 py-1 rounded border border-[#0F1012]/20">₹{maxVal.toLocaleString()}</span>
       </div>
     </div>
   );
@@ -255,14 +255,14 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
   };
 
   return (
-    <div className="w-full bg-white border border-[#1A2F2A]/20 overflow-hidden sticky top-[50px] mt-0 max-h-[calc(100vh-48px)] flex flex-col z-40 luxury-shadow-sm rounded-lg m">
+    <div className="w-full bg-white border border-[#0F1012]/18 overflow-hidden sticky top-[50px] mt-0 max-h-[calc(100vh-48px)] flex flex-col z-40 shadow-sm rounded-none lg:rounded-r-xl lg:rounded-l-none">
       
       {/* Header */}
-      <div className="px-5 py-4 border-b border-[#1A2F2A]/20 bg-gradient-to-r from-[#F5F0E8] to-white flex items-center justify-between">
+      <div className="px-4 py-4 border-b border-[#0F1012]/15 bg-[#FFFFFF] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h2 className="text-lg font-bold text-[#1A2F2A] uppercase tracking-wide">Filters</h2>
+          <h2 className="text-lg font-bold text-[#0F1012] uppercase tracking-wide">Filters</h2>
           {getActiveCount() > 0 && (
-            <span className="flex items-center justify-center min-w-[22px] h-5 px-2 text-[11px] font-bold text-white bg-[#2B6B5A] rounded-full luxury-shadow-sm">
+            <span className="flex items-center justify-center min-w-[22px] h-5 px-2 text-[11px] font-bold text-white bg-[#FE1157] rounded-full luxury-shadow-sm">
               {getActiveCount()}
             </span>
           )}
@@ -271,7 +271,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
         {getActiveCount() > 0 && (
           <button 
             onClick={onClearFilters}
-            className="text-xs font-semibold text-[#2B6B5A] hover:text-[#1A2F2A] px-3 py-1.5 border border-[#2B6B5A]/30 bg-white hover:bg-[#1A4D3F] hover:text-white transition-all duration-200 rounded-md luxury-shadow-sm"
+            className="text-xs font-semibold text-[#FE1157] hover:text-[#0F1012] px-3 py-1.5 border border-[#FE1157]/30 bg-white hover:bg-[#0F1012] hover:text-white transition-all duration-200 rounded-md luxury-shadow-sm"
           >
             Clear All
           </button>
@@ -279,7 +279,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
       </div>
 
       {/* Content */}
-      <div className="py-1 overflow-y-auto flex-1 custom-scrollbar bg-[#F5F0E8]">
+      <div className="py-1 overflow-y-auto flex-1 custom-scrollbar bg-[#FFFFFF]">
         
         {/* Sort Section */}
         <FilterSection 
@@ -316,7 +316,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
         >
           <div className="space-y-4">
             {/* Dual Range Slider */}
-            <div className="bg-white p-4 border border-[#1A2F2A]/20 rounded-md luxury-shadow-sm dual-range-slider">
+            <div className="bg-white p-4 border border-[#0F1012]/20 rounded-md luxury-shadow-sm dual-range-slider">
               <DualRangeSlider
                 min={priceRange.min}
                 max={priceRange.max}
@@ -330,7 +330,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
             {/* Manual Input Fields */}
             <div className="flex items-center gap-3">
               <div className="relative flex-1 group">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2B6B5A] text-sm font-semibold">₹</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#FE1157] text-sm font-semibold">₹</span>
                 <input
                   type="number"
                   placeholder="Min"
@@ -343,12 +343,12 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
                       max: filters.priceRange?.max || priceRange.max
                     });
                   }}
-                  className="w-full pl-7 pr-3 py-2.5 text-sm bg-white border border-[#1A2F2A]/20 focus:outline-none focus:border-[#2B6B5A] focus:ring-2 focus:ring-[#2B6B5A]/20 text-[#1A2F2A] font-medium rounded-md transition-all duration-200"
+                  className="w-full pl-7 pr-3 py-2.5 text-sm bg-white border border-[#0F1012]/20 focus:outline-none focus:border-[#FE1157] focus:ring-2 focus:ring-[#FE1157]/20 text-[#0F1012] font-medium rounded-md transition-all duration-200"
                 />
               </div>
-              <span className="text-[#1A2F2A] font-bold text-lg">-</span>
+              <span className="text-[#0F1012] font-bold text-lg">-</span>
               <div className="relative flex-1 group">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2B6B5A] text-sm font-semibold">₹</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#FE1157] text-sm font-semibold">₹</span>
                 <input
                   type="number"
                   placeholder="Max"
@@ -361,7 +361,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
                       min: filters.priceRange?.min || priceRange.min
                     });
                   }}
-                  className="w-full pl-7 pr-3 py-2.5 text-sm bg-white border border-[#1A2F2A]/20 focus:outline-none focus:border-[#2B6B5A] focus:ring-2 focus:ring-[#2B6B5A]/20 text-[#1A2F2A] font-medium rounded-md transition-all duration-200"
+                  className="w-full pl-7 pr-3 py-2.5 text-sm bg-white border border-[#0F1012]/20 focus:outline-none focus:border-[#FE1157] focus:ring-2 focus:ring-[#FE1157]/20 text-[#0F1012] font-medium rounded-md transition-all duration-200"
                 />
               </div>
             </div>
@@ -409,8 +409,8 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
                     className={`
                       min-w-[44px] h-10 px-3 flex items-center justify-center text-sm font-bold border-2 transition-all duration-200 rounded-md
                       ${isActive 
-                        ? 'bg-[#2B6B5A] text-white border-[#2B6B5A] luxury-shadow-sm' 
-                        : 'bg-white text-[#1A2F2A] border-[#1A2F2A]/20 hover:border-[#2B6B5A]/50 hover:bg-[#F5F0E8]'
+                        ? 'bg-[#FE1157] text-white border-[#FE1157] luxury-shadow-sm' 
+                        : 'bg-white text-[#0F1012] border-[#0F1012]/20 hover:border-[#FE1157]/50 hover:bg-[#FFFFFF]'
                       }
                     `}
                   >
@@ -420,7 +420,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
               })}
             </div>
           ) : (
-            <div className="text-sm text-[#1A2F2A]/70 py-2">
+            <div className="text-sm text-[#0F1012]/70 py-2">
               No sizes available for these products
             </div>
           )}
@@ -433,14 +433,14 @@ const FilterSidebar = ({ filters, onFilterChange, onClearFilters, brands = [], s
           width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #F5F0E8;
+          background: #FFFFFF;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #2B6B5A;
+          background: #FE1157;
           border-radius: 3px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #1A2F2A;
+          background: #0F1012;
         }
       `}</style>
     </div>

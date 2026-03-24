@@ -5,15 +5,15 @@
 @tailwind utilities;
 
 :root {
-  --teal: #2B6B5A;
-  --teal-dark: #1A4D3F;
-  --gold: #C4A265;
-  --gold-light: #D4B87A;
-  --cream: #FAF6F0;
-  --dark: #1A2F2A;
+  --teal: #FE1157;
+  --teal-dark: #FE1157;
+  --gold: #FE1157;
+  --gold-light: #FE1157;
+  --cream: #FFFFFF;
+  --dark: #0F1012;
   --white: #FFFFFF;
-  --muted: #8B9A95;
-  --border: #E0D8CE;
+  --muted: #0F1012;
+  --border: #0f101226;
 }
 
 body {
@@ -256,4 +256,26 @@ img::-moz-selection { background: transparent; }
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ==========================================
+   REAL CARD SYSTEM
+========================================== */
+.real-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 16, 18, 0.1);
+  border-radius: 0px;
+  box-shadow: 0 6px 18px rgba(15, 16, 18, 0.06);
+}
+
+.real-card:hover {
+}
+
+.real-card-media {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(15, 16, 18, 0.08);
+}
+
+.real-card-content {
+  background: #ffffff;
 }

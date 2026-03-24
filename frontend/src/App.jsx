@@ -40,6 +40,7 @@ import ProductComparison from './pages/ProductComparison';
 import CookieConsent from './components/CookieConsent';
 import ErrorBoundary from './components/ErrorBoundary';
 import BackToTop from './components/BackToTop';
+import WelcomeModal from './components/WelcomeModal';
 
 function AppContent() {
   const location = useLocation();
@@ -151,6 +152,7 @@ function AppContent() {
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <WelcomeModal />}
       {!isAdminRoute && <CookieConsent />}
       {!isAdminRoute && <BackToTop />}
     </div>

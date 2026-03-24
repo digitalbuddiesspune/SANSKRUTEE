@@ -343,7 +343,7 @@ const AdminDashboard = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <p className="mt-4 text-[#0F1012]">Loading...</p>
         </div>
       </div>
     );
@@ -355,7 +355,7 @@ const AdminDashboard = () => {
         <div className="bg-white border rounded-2xl shadow-sm max-w-lg w-full p-10 text-center space-y-4">
           <div className="text-4xl">🚫</div>
           <h1 className="text-2xl font-bold text-gray-900">Admin access only</h1>
-          <p className="text-gray-600">You need an admin account to view this page.</p>
+          <p className="text-[#0F1012]">You need an admin account to view this page.</p>
           <Link
             to="/profile"
             className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
@@ -385,30 +385,30 @@ const AdminDashboard = () => {
               {summary ? (
                 <>
                   <div className="bg-white rounded-2xl border p-4 sm:p-5 shadow-sm">
-                    <p className="text-xs uppercase text-gray-500">Revenue</p>
+                    <p className="text-xs uppercase text-[#0F1012]">Revenue</p>
                     <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-2">
                       ₹{summary.totalRevenue.toLocaleString()}
                     </p>
                   </div>
                   <div className="bg-white rounded-2xl border p-4 sm:p-5 shadow-sm">
-                    <p className="text-xs uppercase text-gray-500">Orders</p>
+                    <p className="text-xs uppercase text-[#0F1012]">Orders</p>
                     <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-2">{summary.totalOrders}</p>
-                    <p className="text-xs text-gray-500">{summary.pendingOrders} pending</p>
+                    <p className="text-xs text-[#0F1012]">{summary.pendingOrders} pending</p>
                   </div>
                   <div className="bg-white rounded-2xl border p-4 sm:p-5 shadow-sm">
-                    <p className="text-xs uppercase text-gray-500">Customers</p>
+                    <p className="text-xs uppercase text-[#0F1012]">Customers</p>
                     <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-2">{summary.totalUsers}</p>
                   </div>
                   <div className="bg-white rounded-2xl border p-4 sm:p-5 shadow-sm">
-                    <p className="text-xs uppercase text-gray-500">Total Products</p>
+                    <p className="text-xs uppercase text-[#0F1012]">Total Products</p>
                     <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-2">
                       {summary.totalProducts?.toLocaleString() || 0}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">All collections</p>
+                    <p className="text-xs text-[#0F1012] mt-1">All collections</p>
                   </div>
                 </>
               ) : (
-                <p className="text-gray-500 text-sm">Loading summary...</p>
+                <p className="text-[#0F1012] text-sm">Loading summary...</p>
               )}
             </div>
 
@@ -419,7 +419,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {Object.entries(summary.categoryCounts).map(([category, count]) => (
                     <div key={category} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                      <p className="text-xs uppercase text-gray-500 mb-1">
+                      <p className="text-xs uppercase text-[#0F1012] mb-1">
                         {category === 'lens' ? 'Lens' :
                          category.charAt(0).toUpperCase() + category.slice(1)}
                       </p>
@@ -429,7 +429,7 @@ const AdminDashboard = () => {
                 </div>
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-gray-700">Total Products</p>
+                    <p className="text-sm font-semibold text-[#0F1012]">Total Products</p>
                     <p className="text-lg font-bold text-gray-900">
                       {summary.totalProducts?.toLocaleString() || 0}
                     </p>
@@ -531,7 +531,7 @@ const AdminDashboard = () => {
             {subCategoryOptions[productCategory] && subCategoryOptions[productCategory].length > 0 && (
               <div className="bg-white rounded-lg border p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-sm font-medium text-gray-700">Filter by Sub Category:</span>
+                  <span className="text-sm font-medium text-[#0F1012]">Filter by Sub Category:</span>
                   {selectedSubCategory && (
                     <button
                       onClick={() => {
@@ -553,7 +553,7 @@ const AdminDashboard = () => {
                     className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                       selectedSubCategory === ''
                         ? 'bg-gray-900 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-100 text-[#0F1012] hover:bg-gray-200'
                     }`}
                   >
                     All
@@ -568,7 +568,7 @@ const AdminDashboard = () => {
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                         selectedSubCategory === subCat
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : 'bg-gray-100 text-[#0F1012] hover:bg-gray-200'
                       }`}
                     >
                       {subCat.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
@@ -579,16 +579,16 @@ const AdminDashboard = () => {
             )}
 
             {loading ? (
-              <p className="text-sm text-gray-500">Loading...</p>
+              <p className="text-sm text-[#0F1012]">Loading...</p>
             ) : filteredProducts.length === 0 ? (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[#0F1012]">
                 {selectedSubCategory 
                   ? `No products found in ${selectedSubCategory} subcategory.`
                   : 'No products in this category yet.'}
               </p>
             ) : (
               <>
-                <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                <div className="flex items-center justify-between text-sm text-[#0F1012] mb-4">
                   <p>
                     Showing {startIndex + 1} to {Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} products
                   </p>
@@ -618,17 +618,17 @@ const AdminDashboard = () => {
                         />
                       ) : (
                         <div className="w-full h-48 sm:h-60 bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-400 text-sm">No Image</span>
+                          <span className="text-[#0F1012] text-sm">No Image</span>
                         </div>
                       );
                     })()}
                     <div className="p-3 sm:p-4">
                       <h3 className="font-semibold text-gray-900 text-sm sm:text-base line-clamp-2">{product.name}</h3>
-                      <p className="text-xs sm:text-sm text-gray-600 mt-1">{product.brand}</p>
+                      <p className="text-xs sm:text-sm text-[#0F1012] mt-1">{product.brand}</p>
                       <p className="text-base sm:text-lg font-bold text-gray-900 mt-2">
                       ₹{product.finalPrice || product.price}
                     </p>
-                      <p className="text-xs text-gray-500 mt-1">Stock: {product.stock}</p>
+                      <p className="text-xs text-[#0F1012] mt-1">Stock: {product.stock}</p>
                     <div className="flex gap-2 mt-3">
                       <button
                         onClick={() => handleEditProduct(product)}
@@ -638,7 +638,7 @@ const AdminDashboard = () => {
                       </button>
                       <button
                         onClick={() => handleDeleteProduct(product._id)}
-                          className="flex-1 px-3 py-2 text-xs bg-red-600 text-white hover:bg-red-700 rounded"
+                          className="flex-1 px-3 py-2 text-xs bg-[#FE1157] text-white hover:bg-[#FE1157] rounded"
                       >
                         Delete
                       </button>
@@ -656,7 +656,7 @@ const AdminDashboard = () => {
                       disabled={currentPage === 1}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentPage === 1
-                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          ? 'bg-gray-200 text-[#0F1012] cursor-not-allowed'
                           : 'bg-blue-600 text-white hover:bg-blue-700'
                       }`}
                     >
@@ -683,7 +683,7 @@ const AdminDashboard = () => {
                             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                               currentPage === pageNum
                                 ? 'bg-blue-600 text-white'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                : 'bg-gray-200 text-[#0F1012] hover:bg-gray-300'
                             }`}
                           >
                             {pageNum}
@@ -697,7 +697,7 @@ const AdminDashboard = () => {
                       disabled={currentPage === totalPages}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentPage === totalPages
-                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          ? 'bg-gray-200 text-[#0F1012] cursor-not-allowed'
                           : 'bg-blue-600 text-white hover:bg-blue-700'
                       }`}
                     >
@@ -717,7 +717,7 @@ const AdminDashboard = () => {
             <form onSubmit={handleCreateProduct} className="bg-white rounded-xl border p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Category</label>
                   <select
                     name="category"
                     value={productForm.category}
@@ -733,7 +733,7 @@ const AdminDashboard = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Sub Category *</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Sub Category *</label>
                   <select
                     name="subCategory"
                     value={productForm.subCategory}
@@ -754,11 +754,11 @@ const AdminDashboard = () => {
                     ))}
                   </select>
                   {productForm.category && !subCategoryOptions[productForm.category] && (
-                    <p className="text-xs text-gray-500 mt-1">No subcategories available for this category</p>
+                    <p className="text-xs text-[#0F1012] mt-1">No subcategories available for this category</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Product Name</label>
                   <input
                     name="name"
                     value={productForm.name}
@@ -769,7 +769,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Brand</label>
                   <input
                     name="brand"
                     value={productForm.brand}
@@ -780,7 +780,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Price (₹)</label>
                   <input
                     name="price"
                     type="number"
@@ -792,7 +792,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Original Price (₹)</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Original Price (₹)</label>
                   <input
                     name="originalPrice"
                     type="number"
@@ -803,7 +803,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Stock</label>
                   <input
                     name="stock"
                     type="number"
@@ -814,7 +814,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Discount %</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Discount %</label>
                   <input
                     name="discountPercent"
                     type="number"
@@ -827,7 +827,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Image URLs (comma separated)</label>
+                <label className="block text-sm font-medium text-[#0F1012] mb-1">Image URLs (comma separated)</label>
                 <textarea
                   name="images"
                   value={productForm.images}
@@ -838,7 +838,7 @@ const AdminDashboard = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-[#0F1012] mb-1">Description</label>
                 <textarea
                   name="description"
                   value={productForm.description}
@@ -857,7 +857,7 @@ const AdminDashboard = () => {
                     onChange={handleProductFormChange}
                     className="rounded"
                   />
-                  <span className="text-sm text-gray-700">New Arrival</span>
+                  <span className="text-sm text-[#0F1012]">New Arrival</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -867,7 +867,7 @@ const AdminDashboard = () => {
                     onChange={handleProductFormChange}
                     className="rounded"
                   />
-                  <span className="text-sm text-gray-700">On Sale</span>
+                  <span className="text-sm text-[#0F1012]">On Sale</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -877,7 +877,7 @@ const AdminDashboard = () => {
                     onChange={handleProductFormChange}
                     className="rounded"
                   />
-                  <span className="text-sm text-gray-700">Featured</span>
+                  <span className="text-sm text-[#0F1012]">Featured</span>
                 </label>
               </div>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -890,7 +890,7 @@ const AdminDashboard = () => {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 rounded-lg w-full sm:w-auto"
+                  className="px-6 py-2 border border-[#FE1157] text-[#0F1012] font-semibold hover:bg-[#FE1157]/10 rounded-lg w-full sm:w-auto"
                 >
                   Reset
                 </button>
@@ -920,7 +920,7 @@ const AdminDashboard = () => {
               <form onSubmit={handleUpdateProduct} className="bg-white rounded-xl border p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Category</label>
                     <select
                       name="category"
                       value={productForm.category}
@@ -936,7 +936,7 @@ const AdminDashboard = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Sub Category *</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Sub Category *</label>
                     <select
                       name="subCategory"
                       value={productForm.subCategory}
@@ -957,11 +957,11 @@ const AdminDashboard = () => {
                       ))}
                     </select>
                     {productForm.category && !subCategoryOptions[productForm.category] && (
-                      <p className="text-xs text-gray-500 mt-1">No subcategories available for this category</p>
+                      <p className="text-xs text-[#0F1012] mt-1">No subcategories available for this category</p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Product Name</label>
                     <input
                       name="name"
                       value={productForm.name}
@@ -971,7 +971,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Brand</label>
                     <input
                       name="brand"
                       value={productForm.brand}
@@ -981,7 +981,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Price (₹)</label>
                     <input
                       name="price"
                       type="number"
@@ -993,7 +993,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Original Price (₹)</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Original Price (₹)</label>
                     <input
                       name="originalPrice"
                       type="number"
@@ -1004,7 +1004,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Stock</label>
                     <input
                       name="stock"
                       type="number"
@@ -1015,7 +1015,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Discount %</label>
+                    <label className="block text-sm font-medium text-[#0F1012] mb-1">Discount %</label>
                     <input
                       name="discountPercent"
                       type="number"
@@ -1028,7 +1028,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URLs (comma separated)</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Image URLs (comma separated)</label>
                   <textarea
                     name="images"
                     value={productForm.images}
@@ -1038,7 +1038,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <label className="block text-sm font-medium text-[#0F1012] mb-1">Description</label>
                   <textarea
                     name="description"
                     value={productForm.description}
@@ -1056,7 +1056,7 @@ const AdminDashboard = () => {
                       onChange={handleProductFormChange}
                       className="rounded"
                     />
-                    <span className="text-sm text-gray-700">New Arrival</span>
+                    <span className="text-sm text-[#0F1012]">New Arrival</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -1066,7 +1066,7 @@ const AdminDashboard = () => {
                       onChange={handleProductFormChange}
                       className="rounded"
                     />
-                    <span className="text-sm text-gray-700">On Sale</span>
+                    <span className="text-sm text-[#0F1012]">On Sale</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -1076,7 +1076,7 @@ const AdminDashboard = () => {
                       onChange={handleProductFormChange}
                       className="rounded"
                     />
-                    <span className="text-sm text-gray-700">Featured</span>
+                    <span className="text-sm text-[#0F1012]">Featured</span>
                   </label>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3">
@@ -1092,7 +1092,7 @@ const AdminDashboard = () => {
                       resetForm();
                       setActiveSection('products');
                     }}
-                    className="px-6 py-2 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 rounded-lg w-full sm:w-auto"
+                    className="px-6 py-2 border border-[#FE1157] text-[#0F1012] font-semibold hover:bg-[#FE1157]/10 rounded-lg w-full sm:w-auto"
                   >
                     Cancel
                   </button>
@@ -1100,7 +1100,7 @@ const AdminDashboard = () => {
               </form>
             ) : (
               <div className="bg-white rounded-xl border p-6 text-center">
-                <p className="text-gray-600">Select a product from "View Products" to edit</p>
+                <p className="text-[#0F1012]">Select a product from "View Products" to edit</p>
                 <button
                   onClick={() => setActiveSection('products')}
                   className="mt-4 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700"
@@ -1130,9 +1130,9 @@ const AdminDashboard = () => {
               </select>
             </div>
             {loading ? (
-              <p className="text-sm text-gray-500">Loading products...</p>
+              <p className="text-sm text-[#0F1012]">Loading products...</p>
             ) : products.length === 0 ? (
-              <p className="text-sm text-gray-500">No products in this category yet.</p>
+              <p className="text-sm text-[#0F1012]">No products in this category yet.</p>
             ) : (
               <div className="space-y-3">
                 {products.map((product) => (
@@ -1142,12 +1142,12 @@ const AdminDashboard = () => {
                   >
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{product.name}</h3>
-                      <p className="text-xs sm:text-sm text-gray-600">{product.brand}</p>
-                      <p className="text-xs sm:text-sm text-gray-500">₹{product.finalPrice || product.price}</p>
+                      <p className="text-xs sm:text-sm text-[#0F1012]">{product.brand}</p>
+                      <p className="text-xs sm:text-sm text-[#0F1012]">₹{product.finalPrice || product.price}</p>
                     </div>
                     <button
                       onClick={() => handleDeleteProduct(product._id)}
-                      className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 text-sm font-semibold rounded-lg w-full sm:w-auto"
+                      className="px-4 py-2 bg-[#FE1157] text-white hover:bg-[#FE1157] text-sm font-semibold rounded-lg w-full sm:w-auto"
                     >
                       Delete
                     </button>
@@ -1172,7 +1172,7 @@ const AdminDashboard = () => {
             </div>
             {orders.length === 0 ? (
               <div className="bg-white border p-12 text-center">
-                <p className="text-gray-500 text-sm">No orders yet</p>
+                <p className="text-[#0F1012] text-sm">No orders yet</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6">
@@ -1195,8 +1195,8 @@ const AdminDashboard = () => {
                                   : order.status === 'processing'
                                   ? 'bg-yellow-100 text-yellow-800'
                                   : order.status === 'cancelled'
-                                  ? 'bg-red-100 text-red-800'
-                                  : 'bg-gray-100 text-gray-800'
+                                  ? 'bg-[#FE1157] text-[#FE1157]'
+                                  : 'bg-gray-100 text-[#0F1012]'
                               }`}
                             >
                               {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Pending'}
@@ -1204,17 +1204,17 @@ const AdminDashboard = () => {
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                             <div>
-                              <span className="text-gray-600">Customer:</span>
+                              <span className="text-[#0F1012]">Customer:</span>
                               <span className="ml-2 font-medium text-gray-900">
                                 {order.user?.name || 'Guest'}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Email:</span>
+                              <span className="text-[#0F1012]">Email:</span>
                               <span className="ml-2 text-gray-900">{order.user?.email || 'N/A'}</span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Date:</span>
+                              <span className="text-[#0F1012]">Date:</span>
                               <span className="ml-2 text-gray-900">
                                 {new Date(order.orderDate || order.createdAt).toLocaleDateString('en-US', {
                                   year: 'numeric',
@@ -1224,7 +1224,7 @@ const AdminDashboard = () => {
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Items:</span>
+                              <span className="text-[#0F1012]">Items:</span>
                               <span className="ml-2 font-medium text-gray-900">
                                 {order.items?.length || 0} item(s)
                               </span>
@@ -1233,14 +1233,14 @@ const AdminDashboard = () => {
                         </div>
                         <div className="flex flex-col items-end gap-2">
                           <div className="text-right">
-                            <p className="text-xs text-gray-500 uppercase tracking-wide">Total Amount</p>
+                            <p className="text-xs text-[#0F1012] uppercase tracking-wide">Total Amount</p>
                             <p className="text-xl font-bold text-gray-900 mt-1">
                               ₹{order.totalAmount?.toLocaleString() || '0'}
                             </p>
                           </div>
                           <button
                             onClick={() => handleDeleteOrder(order._id)}
-                            className="px-4 py-2 bg-red-600 text-white text-xs font-semibold hover:bg-red-700 whitespace-nowrap"
+                            className="px-4 py-2 bg-[#FE1157] text-white text-xs font-semibold hover:bg-[#FE1157] whitespace-nowrap"
                           >
                             Delete Order
                           </button>
@@ -1255,7 +1255,7 @@ const AdminDashboard = () => {
                         <select
                           value={order.status || 'pending'}
                           onChange={(e) => handleOrderStatusChange(order._id, e.target.value)}
-                          className="text-sm border border-gray-300 px-4 py-2 w-full sm:w-64 bg-white"
+                          className="text-sm border border-[#FE1157] px-4 py-2 w-full sm:w-64 bg-white"
                         >
                           {statusOptions.map((status) => (
                             <option key={status} value={status}>
@@ -1281,7 +1281,7 @@ const AdminDashboard = () => {
                                 />
                               ) : (
                                 <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 border border-gray-200 flex-shrink-0 flex items-center justify-center">
-                                  <span className="text-xs text-gray-400">No Image</span>
+                                  <span className="text-xs text-[#0F1012]">No Image</span>
                                 </div>
                               )}
                               <div className="flex-1 min-w-0 w-full sm:w-auto">
@@ -1289,21 +1289,21 @@ const AdminDashboard = () => {
                                   {item.product?.name || 'Product Name Not Available'}
                                 </h5>
                                 {item.product?.brand && (
-                                  <p className="text-xs text-gray-600 mb-2">Brand: {item.product.brand}</p>
+                                  <p className="text-xs text-[#0F1012] mb-2">Brand: {item.product.brand}</p>
                                 )}
                                 <div className="flex flex-wrap gap-4 text-xs sm:text-sm">
                                   <div>
-                                    <span className="text-gray-600">Quantity:</span>
+                                    <span className="text-[#0F1012]">Quantity:</span>
                                     <span className="ml-2 font-medium text-gray-900">{item.quantity}</span>
                                   </div>
                                   <div>
-                                    <span className="text-gray-600">Unit Price:</span>
+                                    <span className="text-[#0F1012]">Unit Price:</span>
                                     <span className="ml-2 font-medium text-gray-900">
                                       ₹{item.price?.toLocaleString() || '0'}
                                     </span>
                                   </div>
                                   <div>
-                                    <span className="text-gray-600">Size:</span>
+                                    <span className="text-[#0F1012]">Size:</span>
                                     <span className="ml-2 font-medium text-gray-900">
                                       {item.selectedSize || 'N/A'}
                                     </span>
@@ -1311,7 +1311,7 @@ const AdminDashboard = () => {
                                 </div>
                               </div>
                               <div className="text-right flex-shrink-0 w-full sm:w-auto sm:ml-auto">
-                                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Subtotal</p>
+                                <p className="text-xs text-[#0F1012] uppercase tracking-wide mb-1">Subtotal</p>
                                 <p className="text-lg font-bold text-gray-900">
                                   ₹{((item.price || 0) * (item.quantity || 0)).toLocaleString()}
                                 </p>
@@ -1342,7 +1342,7 @@ const AdminDashboard = () => {
             </div>
             {orders.length === 0 ? (
               <div className="bg-white border p-12 text-center">
-                <p className="text-gray-500 text-sm">No orders yet</p>
+                <p className="text-[#0F1012] text-sm">No orders yet</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6">
@@ -1364,8 +1364,8 @@ const AdminDashboard = () => {
                                   : order.status === 'processing'
                                   ? 'bg-yellow-100 text-yellow-800'
                                   : order.status === 'cancelled'
-                                  ? 'bg-red-100 text-red-800'
-                                  : 'bg-gray-100 text-gray-800'
+                                  ? 'bg-[#FE1157] text-[#FE1157]'
+                                  : 'bg-gray-100 text-[#0F1012]'
                               }`}
                             >
                               {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Pending'}
@@ -1373,17 +1373,17 @@ const AdminDashboard = () => {
                           </div>
                           <div className="space-y-1 text-sm">
                             <div>
-                              <span className="text-gray-600">Customer:</span>
+                              <span className="text-[#0F1012]">Customer:</span>
                               <span className="ml-2 font-medium text-gray-900">
                                 {order.user?.name || 'Guest'}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Email:</span>
+                              <span className="text-[#0F1012]">Email:</span>
                               <span className="ml-2 text-gray-900">{order.user?.email || 'N/A'}</span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Date:</span>
+                              <span className="text-[#0F1012]">Date:</span>
                               <span className="ml-2 text-gray-900">
                                 {new Date(order.orderDate || order.createdAt).toLocaleDateString('en-US', {
                                   year: 'numeric',
@@ -1393,7 +1393,7 @@ const AdminDashboard = () => {
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Items:</span>
+                              <span className="text-[#0F1012]">Items:</span>
                               <span className="ml-2 font-medium text-gray-900">
                                 {order.items?.length || 0} item(s)
                               </span>
@@ -1402,14 +1402,14 @@ const AdminDashboard = () => {
                         </div>
                         <div className="flex flex-col items-end gap-3 w-full sm:w-auto">
                           <div className="text-right">
-                            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Total Amount</p>
+                            <p className="text-xs text-[#0F1012] uppercase tracking-wide mb-1">Total Amount</p>
                             <p className="text-xl font-bold text-gray-900">
                               ₹{order.totalAmount?.toLocaleString() || '0'}
                             </p>
                           </div>
                           <button
                             onClick={() => handleDeleteOrder(order._id)}
-                            className="px-4 py-2 bg-red-600 text-white text-xs font-semibold hover:bg-red-700 whitespace-nowrap w-full sm:w-auto"
+                            className="px-4 py-2 bg-[#FE1157] text-white text-xs font-semibold hover:bg-[#FE1157] whitespace-nowrap w-full sm:w-auto"
                           >
                             Delete Order
                           </button>
@@ -1420,7 +1420,7 @@ const AdminDashboard = () => {
                         <select
                           value={order.status || 'pending'}
                           onChange={(e) => handleOrderStatusChange(order._id, e.target.value)}
-                          className="text-sm border border-gray-300 px-4 py-2 w-full sm:w-64 bg-white"
+                          className="text-sm border border-[#FE1157] px-4 py-2 w-full sm:w-64 bg-white"
                         >
                           {statusOptions.map((status) => (
                             <option key={status} value={status}>
@@ -1451,11 +1451,11 @@ const AdminDashboard = () => {
             </div>
             {loading ? (
               <div className="bg-white border p-12 text-center">
-                <p className="text-gray-500 text-sm">Loading users...</p>
+                <p className="text-[#0F1012] text-sm">Loading users...</p>
               </div>
             ) : users.length === 0 ? (
               <div className="bg-white border p-12 text-center">
-                <p className="text-gray-500 text-sm">No users found</p>
+                <p className="text-[#0F1012] text-sm">No users found</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6">
@@ -1476,23 +1476,23 @@ const AdminDashboard = () => {
                           </div>
                           <div className="space-y-1 text-sm">
                             <div>
-                              <span className="text-gray-600">Email:</span>
+                              <span className="text-[#0F1012]">Email:</span>
                               <span className="ml-2 text-gray-900">{user.email || 'N/A'}</span>
                             </div>
                             {user.phone && (
                               <div>
-                                <span className="text-gray-600">Phone:</span>
+                                <span className="text-[#0F1012]">Phone:</span>
                                 <span className="ml-2 text-gray-900">{user.phone}</span>
                               </div>
                             )}
                             <div>
-                              <span className="text-gray-600">User ID:</span>
+                              <span className="text-[#0F1012]">User ID:</span>
                               <span className="ml-2 text-gray-900 font-mono text-xs">
                                 {user._id?.slice(-8)?.toUpperCase() || 'N/A'}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Joined:</span>
+                              <span className="text-[#0F1012]">Joined:</span>
                               <span className="ml-2 text-gray-900">
                                 {new Date(user.createdAt).toLocaleDateString('en-US', {
                                   year: 'numeric',
@@ -1506,7 +1506,7 @@ const AdminDashboard = () => {
                         <div className="flex flex-col items-end gap-2 w-full sm:w-auto">
                           <button
                             onClick={() => handleDeleteUser(user._id)}
-                            className="px-4 py-2 bg-red-600 text-white text-xs font-semibold hover:bg-red-700 whitespace-nowrap w-full sm:w-auto"
+                            className="px-4 py-2 bg-[#FE1157] text-white text-xs font-semibold hover:bg-[#FE1157] whitespace-nowrap w-full sm:w-auto"
                             disabled={user.isAdmin}
                           >
                             {user.isAdmin ? 'Cannot Delete Admin' : 'Delete User'}
@@ -1545,11 +1545,11 @@ const AdminDashboard = () => {
         <div className="p-4 border-b border-gray-200 flex items-center justify-between">
           <div>
             <h1 className="text-lg sm:text-xl font-bold text-gray-900">Admin Panel</h1>
-          <p className="text-xs text-gray-500 mt-1">Control Center</p>
+          <p className="text-xs text-[#0F1012] mt-1">Control Center</p>
         </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-gray-600 hover:text-gray-900"
+            className="lg:hidden text-[#0F1012] hover:text-gray-900"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1568,10 +1568,10 @@ const AdminDashboard = () => {
               className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors mb-1 rounded ${
                 activeSection === item.id
                   ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  : 'text-[#0F1012] hover:bg-gray-100'
               }`}
             >
-              <item.icon className={`w-5 h-5 flex-shrink-0 ${activeSection === item.id ? 'text-white' : 'text-gray-600'}`} />
+              <item.icon className={`w-5 h-5 flex-shrink-0 ${activeSection === item.id ? 'text-white' : 'text-[#0F1012]'}`} />
               <span className="font-medium text-sm sm:text-base">{item.label}</span>
             </button>
           ))}
@@ -1579,7 +1579,7 @@ const AdminDashboard = () => {
         <div className="p-4 border-t border-gray-200 mt-auto">
           <Link
             to="/"
-            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded"
+            className="flex items-center gap-2 px-4 py-2 text-[#0F1012] hover:bg-gray-100 transition-colors rounded"
             onClick={() => setSidebarOpen(false)}
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1597,7 +1597,7 @@ const AdminDashboard = () => {
           <h1 className="text-lg font-bold text-gray-900">Admin Panel</h1>
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-gray-600 hover:text-gray-900"
+            className="text-[#0F1012] hover:text-gray-900"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -1609,7 +1609,7 @@ const AdminDashboard = () => {
             <div
               className={`rounded-lg px-4 py-3 text-sm mb-4 sm:mb-6 ${
                 message.type === 'error'
-                  ? 'bg-red-50 text-red-700 border border-red-200'
+                  ? 'bg-[#FE1157] text-[#FE1157] border border-[#FE1157]'
                   : 'bg-green-50 text-green-700 border border-green-200'
               }`}
             >

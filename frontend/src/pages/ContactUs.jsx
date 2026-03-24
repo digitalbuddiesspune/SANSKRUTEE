@@ -6,7 +6,7 @@ const ContactUs = () => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back to Home Link */}
         <div className="mb-6">
-          <Link to="/" className="text-gray-600 hover:text-gray-900 inline-flex items-center text-sm transition-colors">
+          <Link to="/" className="text-[#0F1012] hover:text-gray-900 inline-flex items-center text-sm transition-colors">
             <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -22,7 +22,7 @@ const ContactUs = () => {
           <div className="flex justify-center mb-4">
             <div className="w-20 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"></div>
           </div>
-          <p className="text-base sm:text-lg text-gray-600 italic">
+          <p className="text-base sm:text-lg text-[#0F1012] italic">
             We'd love to hear from you
           </p>
         </div>
@@ -32,7 +32,7 @@ const ContactUs = () => {
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
             GET IN TOUCH
           </h2>
-          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-[#0F1012] max-w-2xl mx-auto leading-relaxed">
             Have a question about our sarees or need assistance with your order? We're here to help! Reach out to us and we'll respond as soon as possible.
           </p>
         </div>
@@ -51,7 +51,7 @@ const ContactUs = () => {
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Email</h3>
                 <a 
                   href="mailto:support@sanskruteefashion.in" 
-                  className="text-sm sm:text-base text-gray-600 hover:text-blue-600 transition-colors break-all"
+                  className="text-sm sm:text-base text-[#0F1012] hover:text-blue-600 transition-colors break-all"
                 >
                   support@sanskruteefashion.in
                 </a>
@@ -70,15 +70,15 @@ const ContactUs = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">Address</h3>
-                <div className="text-xs sm:text-sm text-gray-600 space-y-0.5 sm:space-y-1">
-                  <p><strong className="text-gray-800">Floor No.:</strong> 4th floor</p>
-                  <p><strong className="text-gray-800">Building No./Flat No.:</strong> 401, 6-3-862/1</p>
-                  <p><strong className="text-gray-800">Road/Street:</strong> Laxmi Nivas</p>
-                  <p><strong className="text-gray-800">Locality/Sub Locality:</strong> Begumpet</p>
-                  <p><strong className="text-gray-800">City/Town/Village:</strong> Secunderabad</p>
-                  <p><strong className="text-gray-800">District:</strong> Medchal Malkajgiri</p>
-                  <p><strong className="text-gray-800">State:</strong> Telangana</p>
-                  <p><strong className="text-gray-800">PIN Code:</strong> 500016</p>
+                <div className="text-xs sm:text-sm text-[#0F1012] space-y-0.5 sm:space-y-1">
+                  <p><strong className="text-[#0F1012]">Floor No.:</strong> 4th floor</p>
+                  <p><strong className="text-[#0F1012]">Building No./Flat No.:</strong> 401, 6-3-862/1</p>
+                  <p><strong className="text-[#0F1012]">Road/Street:</strong> Laxmi Nivas</p>
+                  <p><strong className="text-[#0F1012]">Locality/Sub Locality:</strong> Begumpet</p>
+                  <p><strong className="text-[#0F1012]">City/Town/Village:</strong> Secunderabad</p>
+                  <p><strong className="text-[#0F1012]">District:</strong> Medchal Malkajgiri</p>
+                  <p><strong className="text-[#0F1012]">State:</strong> Telangana</p>
+                  <p><strong className="text-[#0F1012]">PIN Code:</strong> 500016</p>
                 </div>
               </div>
             </div>
@@ -89,11 +89,11 @@ const ContactUs = () => {
         <div className="bg-white rounded-lg shadow-md p-5 sm:p-6 border border-gray-200">
           <div className="text-center space-y-3">
             <div>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">GSTIN</h3>
-              <p className="text-lg sm:text-xl font-mono font-semibold text-gray-800">36ABQCS3170D1Z8</p>
+              <h3 className="text-sm font-semibold text-[#0F1012] uppercase tracking-wide mb-2">GSTIN</h3>
+              <p className="text-lg sm:text-xl font-mono font-semibold text-[#0F1012]">36ABQCS3170D1Z8</p>
             </div>
             <div className="pt-3 border-t border-gray-200">
-              <p className="text-sm sm:text-base text-gray-700 font-semibold">
+              <p className="text-sm sm:text-base text-[#0F1012] font-semibold">
                 <strong>STACKSPIRE TECHNOLOGY SOLUTIONS PRIVATE LIMITED</strong>
               </p>
             </div>

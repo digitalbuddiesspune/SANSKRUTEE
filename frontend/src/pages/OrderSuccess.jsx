@@ -150,14 +150,14 @@ const OrderSuccess = () => {
           }}
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg border border-gray-200">
-            <Receipt className="w-4 h-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-600">Order Number:</span>
+            <Receipt className="w-4 h-4 text-[#0F1012]" />
+            <span className="text-sm font-medium text-[#0F1012]">Order Number:</span>
             <span className="text-sm font-bold text-gray-900">#{orderNumber}</span>
           </div>
         </div>
         
         <p 
-          className="text-gray-600 mb-6 text-lg transform transition-all duration-500"
+          className="text-[#0F1012] mb-6 text-lg transform transition-all duration-500"
           style={{
             animation: 'fadeInUp 0.6s ease-out 0.4s both'
           }}
@@ -212,20 +212,20 @@ const OrderSuccess = () => {
             }}
           >
             <div className="flex items-center gap-2 mb-3">
-              <Receipt className="w-4 h-4 text-gray-600" />
+              <Receipt className="w-4 h-4 text-[#0F1012]" />
               <p className="text-sm font-semibold text-gray-900">Order Summary</p>
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600">Order Total</span>
+                <span className="text-[#0F1012]">Order Total</span>
                 <span className="font-semibold text-gray-900">₹{orderTotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Payment Method</span>
+                <span className="text-[#0F1012]">Payment Method</span>
                 <span className="font-medium text-gray-900">{paymentMethod === 'COD' ? 'Cash on Delivery' : 'Online Payment'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Order Date</span>
+                <span className="text-[#0F1012]">Order Date</span>
                 <span className="font-medium text-gray-900">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
               </div>
             </div>
@@ -240,29 +240,29 @@ const OrderSuccess = () => {
           }}
         >
           <div className="flex items-start gap-3">
-            <Truck className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
+            <Truck className="w-5 h-5 text-[#0F1012] mt-0.5 flex-shrink-0" />
             <div className="text-left flex-1">
               <p className="text-sm font-semibold text-gray-900 mb-2">Order Timeline</p>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-xs text-gray-600">Order confirmed</span>
-                  <span className="text-xs text-gray-400 ml-auto">Just now</span>
+                  <span className="text-xs text-[#0F1012]">Order confirmed</span>
+                  <span className="text-xs text-[#0F1012] ml-auto">Just now</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <span className="text-xs text-gray-500">Processing</span>
-                  <span className="text-xs text-gray-400 ml-auto">Within 24hrs</span>
+                  <span className="text-xs text-[#0F1012]">Processing</span>
+                  <span className="text-xs text-[#0F1012] ml-auto">Within 24hrs</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <span className="text-xs text-gray-500">Shipped</span>
-                  <span className="text-xs text-gray-400 ml-auto">2-3 days</span>
+                  <span className="text-xs text-[#0F1012]">Shipped</span>
+                  <span className="text-xs text-[#0F1012] ml-auto">2-3 days</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <span className="text-xs text-gray-500">Delivered</span>
-                  <span className="text-xs text-gray-400 ml-auto">{estimatedDelivery.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <span className="text-xs text-[#0F1012]">Delivered</span>
+                  <span className="text-xs text-[#0F1012] ml-auto">{estimatedDelivery.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                 </div>
               </div>
             </div>
@@ -276,11 +276,11 @@ const OrderSuccess = () => {
             animation: 'fadeInUp 0.6s ease-out 0.8s both'
           }}
         >
-          <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+          <div className="flex items-center justify-center gap-2 text-xs text-[#0F1012]">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <p>
               Redirecting to orders page in{' '}
-              <span className="font-bold text-gray-700 text-sm">{countdown}</span>{' '}
+              <span className="font-bold text-[#0F1012] text-sm">{countdown}</span>{' '}
               second{countdown !== 1 ? 's' : ''}...
             </p>
           </div>
@@ -318,7 +318,7 @@ const OrderSuccess = () => {
           </button>
           <button
             onClick={handleContinueShopping}
-            className="w-full bg-white text-gray-700 py-3.5 rounded-xl border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all duration-300 font-semibold text-base transform hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-white text-[#0F1012] py-3.5 rounded-xl border-2 border-[#FE1157] hover:border-gray-400 hover:bg-[#FE1157]/10 transition-all duration-300 font-semibold text-base transform hover:scale-[1.02] active:scale-[0.98]"
           >
             Continue Shopping
           </button>
@@ -333,7 +333,7 @@ const OrderSuccess = () => {
               <h2 className="text-xl font-bold text-gray-900">Invoice</h2>
               <button
                 onClick={() => setShowInvoice(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-[#0F1012] hover:text-[#0F1012] transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -350,7 +350,7 @@ const OrderSuccess = () => {
               ) : (
                 <div className="text-center py-12">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                  <p className="text-gray-600">Loading invoice...</p>
+                  <p className="text-[#0F1012]">Loading invoice...</p>
                 </div>
               )}
             </div>

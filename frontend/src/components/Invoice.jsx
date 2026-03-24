@@ -80,22 +80,22 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
         {/* Company & Customer Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-gray-200">
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">From</h3>
+            <h3 className="text-sm font-semibold text-[#0F1012] uppercase mb-3">From</h3>
             <div className="space-y-1 text-sm">
               <p className="font-bold text-gray-900" style={{ fontFamily: "'Dancing Script', cursive" }}>Sanskrutee</p>
-              <p className="text-gray-600">Fashion & Lifestyle Store</p>
-              <p className="text-gray-600">Email: support@sanskruteefashion.in</p>
+              <p className="text-[#0F1012]">Fashion & Lifestyle Store</p>
+              <p className="text-[#0F1012]">Email: support@sanskruteefashion.in</p>
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">Bill To</h3>
+            <h3 className="text-sm font-semibold text-[#0F1012] uppercase mb-3">Bill To</h3>
             <div className="space-y-1 text-sm">
               <p className="font-bold text-gray-900">{order?.shippingAddress?.name || user?.name || 'Customer'}</p>
               {order?.shippingAddress?.address && (
-                <p className="text-gray-600">{order.shippingAddress.address}</p>
+                <p className="text-[#0F1012]">{order.shippingAddress.address}</p>
               )}
               {order?.shippingAddress?.city && (
-                <p className="text-gray-600">
+                <p className="text-[#0F1012]">
                   {order.shippingAddress.city}
                   {order.shippingAddress.state && `, ${order.shippingAddress.state}`}
                   {order.shippingAddress.zipCode && ` - ${order.shippingAddress.zipCode}`}
@@ -108,29 +108,29 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
         {/* Order Info */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 pb-8 border-b border-gray-200">
           <div>
-            <p className="text-xs text-gray-500 uppercase mb-1">Order Date</p>
+            <p className="text-xs text-[#0F1012] uppercase mb-1">Order Date</p>
             <p className="text-sm font-semibold text-gray-900">
               {formatDate(order?.orderDate || order?.createdAt)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 uppercase mb-1">Order Time</p>
+            <p className="text-xs text-[#0F1012] uppercase mb-1">Order Time</p>
             <p className="text-sm font-semibold text-gray-900">
               {formatTime(order?.orderDate || order?.createdAt)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 uppercase mb-1">Payment Method</p>
+            <p className="text-xs text-[#0F1012] uppercase mb-1">Payment Method</p>
             <p className="text-sm font-semibold text-gray-900">
               {order?.paymentMethod === 'COD' ? 'Cash on Delivery' : 'Online Payment'}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 uppercase mb-1">Order Status</p>
+            <p className="text-xs text-[#0F1012] uppercase mb-1">Order Status</p>
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
               order?.status === 'delivered' ? 'bg-green-100 text-green-800' :
               order?.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
-              order?.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+              order?.status === 'cancelled' ? 'bg-[#FE1157] text-[#FE1157]' :
               'bg-yellow-100 text-yellow-800'
             }`}>
               {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1) || 'Pending'}
@@ -140,16 +140,16 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
 
         {/* Products Table */}
         <div className="mb-8">
-          <h3 className="text-sm font-semibold text-gray-500 uppercase mb-4">Items</h3>
+          <h3 className="text-sm font-semibold text-[#0F1012] uppercase mb-4">Items</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Item</th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Size</th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Qty</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-[#0F1012] uppercase tracking-wider">Item</th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold text-[#0F1012] uppercase tracking-wider">Size</th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold text-[#0F1012] uppercase tracking-wider">Qty</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-[#0F1012] uppercase tracking-wider">Price</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-[#0F1012] uppercase tracking-wider">Total</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -161,7 +161,7 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
                   const itemTotal = itemPrice * item.quantity;
 
                   return (
-                    <tr key={index} className="hover:bg-gray-50">
+                    <tr key={index} className="hover:bg-[#FE1157]/10">
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-3">
                           {productImage && (
@@ -174,15 +174,15 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
                           <div>
                             <p className="text-sm font-medium text-gray-900">{productName}</p>
                             {product.brand && (
-                              <p className="text-xs text-gray-500">{product.brand}</p>
+                              <p className="text-xs text-[#0F1012]">{product.brand}</p>
                             )}
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">
+                      <td className="px-4 py-4 text-center text-sm text-[#0F1012]">
                         {item.size || '-'}
                       </td>
-                      <td className="px-4 py-4 text-center text-sm text-gray-600">
+                      <td className="px-4 py-4 text-center text-sm text-[#0F1012]">
                         {item.quantity}
                       </td>
                       <td className="px-4 py-4 text-right text-sm text-gray-900">
@@ -203,20 +203,20 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
         <div className="flex justify-end">
           <div className="w-full md:w-80 space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Subtotal</span>
+              <span className="text-[#0F1012]">Subtotal</span>
               <span className="font-medium text-gray-900">₹{formatPrice(subtotal)}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Shipping</span>
+              <span className="text-[#0F1012]">Shipping</span>
               <span className="font-medium text-gray-900">
                 {shipping === 0 ? 'Free' : `₹${formatPrice(shipping)}`}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Tax (GST 18%)</span>
+              <span className="text-[#0F1012]">Tax (GST 18%)</span>
               <span className="font-medium text-gray-900">₹{formatPrice(tax)}</span>
             </div>
-            <div className="pt-3 border-t-2 border-gray-300 flex justify-between">
+            <div className="pt-3 border-t-2 border-[#FE1157] flex justify-between">
               <span className="text-base font-bold text-gray-900">Total</span>
               <span className="text-base font-bold text-gray-900">₹{formatPrice(total)}</span>
             </div>
@@ -225,7 +225,7 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-200">
-          <div className="text-center text-xs text-gray-500 space-y-1">
+          <div className="text-center text-xs text-[#0F1012] space-y-1">
             <p>Thank you for your business!</p>
             <p>For any queries, contact us at support@sanskrutee.com</p>
             <p className="mt-4">This is a computer-generated invoice and does not require a signature.</p>
@@ -248,7 +248,7 @@ const Invoice = ({ order, user, onPrint, onDownload }) => {
           {onDownload && (
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-[#FE1157] text-[#0F1012] rounded-lg hover:bg-[#FE1157]/10 transition-colors text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Download

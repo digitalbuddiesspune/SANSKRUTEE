@@ -5,7 +5,7 @@ import { authAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
 const LeftIcon = ({ children }) => (
-  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8B9A95]">
+  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0F1012]">
     {children}
   </div>
 );
@@ -115,10 +115,10 @@ const LoginOTP = () => {
     }
   };
 
-  const inputClass = "block w-full pl-10 pr-3 py-2.5 sm:py-3 border-2 border-[#E0D8CE] bg-[#F5F0E8] text-[#1A2F2A] placeholder-[#8B9A95] focus:outline-none focus:border-[#2B6B5A] focus:ring-1 focus:ring-[#2B6B5A] sm:text-sm transition-colors duration-150";
+  const inputClass = "block w-full pl-10 pr-3 py-2.5 sm:py-3 border-2 border-[#FE1157] bg-[#FFFFFF] text-[#0F1012] placeholder-[#0F1012] focus:outline-none focus:border-[#FE1157] focus:ring-1 focus:ring-[#FE1157] sm:text-sm transition-colors duration-150";
 
   return (
-    <div className="fixed inset-0 z-50 flex min-h-screen bg-[#F5F0E8] font-sans">
+    <div className="fixed inset-0 z-50 flex min-h-screen bg-[#FFFFFF] font-sans">
       {/* Left Side */}
       <div 
         className="hidden lg:flex flex-col justify-between w-[45%] p-12 text-white relative overflow-hidden bg-cover bg-center"
@@ -150,13 +150,13 @@ const LoginOTP = () => {
       </div>
 
       {/* Right Side */}
-      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 overflow-y-auto bg-[#F5F0E8]">
+      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 overflow-y-auto bg-[#FFFFFF]">
         <div className="w-full max-w-md space-y-4 sm:space-y-6 lg:space-y-8">
           <div className="text-center lg:text-left">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A2F2A] tracking-tight">Login via OTP</h2>
-            <p className="mt-2 text-xs sm:text-sm text-[#8B9A95]">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0F1012] tracking-tight">Login via OTP</h2>
+            <p className="mt-2 text-xs sm:text-sm text-[#0F1012]">
               Go back to{' '}
-              <Link to="/login" className="font-medium text-[#C4A265] hover:underline underline-offset-2 transition-colors">
+              <Link to="/login" className="font-medium text-[#FE1157] hover:underline underline-offset-2 transition-colors">
                 Standard Login
               </Link>
             </p>
@@ -164,7 +164,7 @@ const LoginOTP = () => {
 
           <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={expandForm ? handleVerifyOtp : handleSendOtp}>
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 text-xs sm:text-sm text-red-600">
+              <div className="bg-[#FE1157] border border-[#FE1157] rounded-lg p-3 sm:p-4 text-xs sm:text-sm text-[#FE1157]">
                 <p>{error}</p>
               </div>
             )}
@@ -259,7 +259,7 @@ const LoginOTP = () => {
               <button
                 type="submit"
                 disabled={isLoading || isVerifying}
-                className="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border-2 border-[#2B6B5A] bg-[#2B6B5A] text-white text-xs sm:text-sm font-semibold uppercase tracking-tight hover:bg-[#1A4D3F] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:ring-offset-2 focus:ring-offset-[#F5F0E8] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border-2 border-[#FE1157] bg-[#FE1157] text-white text-xs sm:text-sm font-semibold uppercase tracking-tight hover:bg-[#0F1012] focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:ring-offset-2 focus:ring-offset-[#FFFFFF] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? "Sending OTP..." : isVerifying ? "Verifying..." : (expandForm ? 'Verify OTP' : 'Send OTP')}
               </button>

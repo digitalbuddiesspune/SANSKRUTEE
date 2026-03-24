@@ -17,7 +17,7 @@ const GeneralPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const labelClass = "block text-xs font-semibold text-[#1A2F2A] uppercase tracking-wider mb-2.5";
+  const labelClass = "block text-xs font-semibold text-[#0F1012] uppercase tracking-wider mb-2.5";
 
   useEffect(() => {
     if (authLoading) return;
@@ -97,8 +97,8 @@ const GeneralPage = () => {
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen bg-[#FAF6F0] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2B6B5A]"></div>
+      <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FE1157]"></div>
       </div>
     );
   }
@@ -108,9 +108,9 @@ const GeneralPage = () => {
   const userInitial = displayName.charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#FAF6F0] lg:hidden">
+    <div className="min-h-screen bg-[#FFFFFF] lg:hidden">
       {/* Header */}
-      <div className="bg-[#1A2F2A] text-[#F5F0E8] sticky top-0 z-10">
+      <div className="bg-[#0F1012] text-[#FFFFFF] sticky top-0 z-10">
         <div className="px-4 py-4 flex items-center gap-4">
           <Link to="/profile" className="p-2 -ml-2">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -119,7 +119,7 @@ const GeneralPage = () => {
           </Link>
           <div>
             <h2 className="text-lg font-bold">General</h2>
-            <p className="text-xs text-[#F5F0E8]/80">Personal details & address</p>
+            <p className="text-xs text-[#FFFFFF]/80">Personal details & address</p>
           </div>
         </div>
       </div>
@@ -127,8 +127,8 @@ const GeneralPage = () => {
       {/* Content */}
       <div className="p-4">
         {(error || success) && (
-          <div className={`mb-6 px-4 py-3 border ${error ? 'bg-red-50/80 backdrop-blur-sm text-red-800 border-red-300' : 'bg-green-50/80 backdrop-blur-sm text-green-800 border-green-300'} text-sm flex items-center gap-2.5 rounded luxury-shadow-sm`}>
-            <span className={`w-2 h-2 rounded-full ${error ? 'bg-red-500' : 'bg-green-500'}`}></span>
+          <div className={`mb-6 px-4 py-3 border ${error ? 'bg-[#FE1157] backdrop-blur-sm text-[#FE1157] border-[#FE1157]' : 'bg-green-50/80 backdrop-blur-sm text-green-800 border-green-300'} text-sm flex items-center gap-2.5 rounded luxury-shadow-sm`}>
+            <span className={`w-2 h-2 rounded-full ${error ? 'bg-[#FE1157]' : 'bg-green-500'}`}></span>
             {error || success}
           </div>
         )}
@@ -141,7 +141,7 @@ const GeneralPage = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="block w-full px-4 py-3 border border-[#E0D8CE] text-sm bg-white/60 backdrop-blur-sm text-[#1A2F2A] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition duration-150 ease-in-out placeholder-[#8B9A95] rounded-lg luxury-shadow-sm"
+              className="block w-full px-4 py-3 border border-[#FE1157] text-sm bg-white/60 backdrop-blur-sm text-[#0F1012] focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition duration-150 ease-in-out placeholder-[#0F1012] rounded-lg luxury-shadow-sm"
             />
           </div>
           <div>
@@ -151,7 +151,7 @@ const GeneralPage = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="block w-full px-4 py-3 border border-[#E0D8CE] text-sm bg-white/60 backdrop-blur-sm text-[#1A2F2A] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition duration-150 ease-in-out placeholder-[#8B9A95] rounded-lg luxury-shadow-sm"
+              className="block w-full px-4 py-3 border border-[#FE1157] text-sm bg-white/60 backdrop-blur-sm text-[#0F1012] focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition duration-150 ease-in-out placeholder-[#0F1012] rounded-lg luxury-shadow-sm"
             />
           </div>
           <div>
@@ -161,9 +161,9 @@ const GeneralPage = () => {
                 type="email"
                 value={formData.email}
                 disabled
-                className="block w-full px-4 py-3 border border-[#E0D8CE] text-sm bg-[#1A2F2A]/5 text-[#8B9A95] cursor-not-allowed rounded-lg luxury-shadow-sm"
+                className="block w-full px-4 py-3 border border-[#FE1157] text-sm bg-[#0F1012]/5 text-[#0F1012] cursor-not-allowed rounded-lg luxury-shadow-sm"
               />
-              <span className="absolute right-3 top-3 text-xs font-semibold text-[#1A2F2A] bg-[#2B6B5A]/10 px-2.5 py-1 border border-[#2B6B5A]/30 rounded">
+              <span className="absolute right-3 top-3 text-xs font-semibold text-[#0F1012] bg-[#FE1157]/10 px-2.5 py-1 border border-[#FE1157]/30 rounded">
                 Verified
               </span>
             </div>
@@ -175,15 +175,15 @@ const GeneralPage = () => {
               rows="4"
               value={formData.address}
               onChange={handleChange}
-              className="block w-full px-4 py-3 border border-[#E0D8CE] text-sm bg-white/60 backdrop-blur-sm text-[#1A2F2A] focus:outline-none focus:ring-2 focus:ring-[#2B6B5A] focus:border-[#2B6B5A] transition duration-150 ease-in-out placeholder-[#8B9A95] resize-none rounded-lg luxury-shadow-sm"
+              className="block w-full px-4 py-3 border border-[#FE1157] text-sm bg-white/60 backdrop-blur-sm text-[#0F1012] focus:outline-none focus:ring-2 focus:ring-[#FE1157] focus:border-[#FE1157] transition duration-150 ease-in-out placeholder-[#0F1012] resize-none rounded-lg luxury-shadow-sm"
               placeholder="Street, City, State, Zip, Country"
             />
           </div>
-          <div className="pt-4 border-t border-[#E0D8CE] flex gap-3">
-            <button type="submit" className="flex-1 px-6 py-3 bg-[#2B6B5A] text-white text-sm font-semibold hover:bg-[#1A4D3F] transition-colors border border-[#2B6B5A] rounded-lg luxury-shadow">
+          <div className="pt-4 border-t border-[#FE1157] flex gap-3">
+            <button type="submit" className="flex-1 px-6 py-3 bg-[#FE1157] text-white text-sm font-semibold hover:bg-[#0F1012] transition-colors border border-[#FE1157] rounded-lg luxury-shadow">
               Save Changes
             </button>
-            <button type="button" onClick={loadProfile} className="px-6 py-3 bg-white/60 backdrop-blur-sm text-[#1A2F2A] text-sm font-semibold border border-[#E0D8CE] hover:bg-[#2B6B5A]/5 hover:border-[#2B6B5A]/50 transition-colors rounded-lg luxury-shadow-sm">
+            <button type="button" onClick={loadProfile} className="px-6 py-3 bg-white/60 backdrop-blur-sm text-[#0F1012] text-sm font-semibold border border-[#FE1157] hover:bg-[#FE1157]/5 hover:border-[#FE1157]/50 transition-colors rounded-lg luxury-shadow-sm">
               Reset
             </button>
           </div>
