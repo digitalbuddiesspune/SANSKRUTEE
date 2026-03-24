@@ -764,6 +764,21 @@ const Home = () => {
     });
   };
 
+  const mobileMixedProducts = filterProductsBySearch([
+    ...tshirts,
+    ...watchesMobile,
+    ...eyewear,
+    ...accessoriesMobile,
+    ...skincareProducts,
+    ...womenItems
+  ])
+    .filter((product, index, list) => {
+      const currentId = product?._id || product?.id;
+      if (!currentId) return true;
+      return index === list.findIndex((item) => (item?._id || item?.id) === currentId);
+    })
+    .slice(0, 12);
+
   const getProductImage = (product) => {
     if (!product) return '';
     const imageCandidates = [];
@@ -950,7 +965,7 @@ const Home = () => {
         {/* Products Grid - Mixed T-Shirts, Watches, Eyewear, and Accessories */}
         <div className="px-4 pb-6">
           <div className="grid grid-cols-2 gap-4">
-            {filterProductsBySearch([...tshirts, ...watchesMobile, ...eyewear, ...accessoriesMobile]).map((product) => {
+            {mobileMixedProducts.map((product) => {
               const productId = product._id || product.id;
               const productImage = product.image || product.images?.[0] || product.thumbnail || 'https://via.placeholder.com/200';
               const productName = product.name || product.productName || 'Product';
@@ -1029,7 +1044,7 @@ const Home = () => {
         />
         {/* Mobile banner */}
         <img
-          src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774009783/sale_products_1080_x_1080_px_qgovod.png"
+          src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774359659/f772052f-bc58-4003-9a2c-537fdd08283e.png"
           alt="Sale Products Banner"
           width={1080}
           height={1080}
@@ -1080,6 +1095,99 @@ const Home = () => {
               </Link>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* --- MOBILE: MIXED PRODUCTS UNDER SHOP BY CATEGORY --- */}
+      <div className="md:hidden bg-white px-4 pb-6 pt-4">
+        <h3 className="text-lg font-black text-[#0F1012] tracking-tight mb-3">Popular Picks</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {mobileMixedProducts.map((product) => {
+            const productId = product._id || product.id;
+            const productImage = product.image || product.images?.[0] || product.thumbnail || 'https://via.placeholder.com/200';
+            const productName = product.name || product.productName || 'Product';
+            const productPrice = product.finalPrice || product.price || 0;
+            const originalPrice = product.originalPrice || product.mrp || product.price || 0;
+            const hasDiscount = originalPrice > productPrice && productPrice > 0;
+            const discountPercent = hasDiscount && originalPrice > 0
+              ? Math.round(((originalPrice - productPrice) / originalPrice) * 100)
+              : 0;
+            const shortDescription = String(
+              product.shortDescription || product.description || product.subCategory || product.category || ''
+            ).replace(/<[^>]*>/g, '').trim();
+            const stockCount = Number(product.stock ?? product.quantity ?? 0);
+            const isSoldOut = product.inStock === false || stockCount === 0;
+            const isLowStock = !isSoldOut && Number.isFinite(stockCount) && stockCount > 0 && stockCount <= 5;
+
+            const productCategory = product.category?.toLowerCase().includes('watch') ? 'watches' :
+              product.category?.toLowerCase().includes('lens') ? 'lenses' :
+                product.category?.toLowerCase().includes('accessor') ? 'accessories' :
+                  product.category?.toLowerCase().includes('tshirt') || product.subCategory === 'tshirt' ? 'women' :
+                    'product';
+
+            return (
+              <div key={productId} className="real-card rounded-xl overflow-hidden relative">
+                {hasDiscount && discountPercent > 0 && (
+                  <div className="absolute top-2 right-2 z-10 bg-green-600 text-white px-2.5 py-1 rounded-full flex items-center border border-white/70">
+                    <span className="text-xs font-bold">{discountPercent}% OFF</span>
+                  </div>
+                )}
+
+                <Link to={`/product/${productCategory}/${productId}`}>
+                  <div className="real-card-media w-full aspect-square bg-[#FFFFFF] overflow-hidden">
+                    <img
+                      src={optimizeImageUrl(productImage, 50)}
+                      alt={productName}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/200';
+                      }}
+                    />
+                  </div>
+                </Link>
+
+                <div className="real-card-content p-3 pr-12">
+                  <Link to={`/product/${productCategory}/${productId}`}>
+                    <h4 className="text-sm font-semibold text-[#0F1012] mb-1 line-clamp-1">{productName}</h4>
+                  </Link>
+                  {shortDescription && (
+                    <p className="text-xs text-[#0F1012]/70 line-clamp-2 mb-1.5 leading-relaxed">
+                      {shortDescription}
+                    </p>
+                  )}
+                  <div className="mb-2.5">
+                    <p className="text-base font-bold text-green-700">
+                      {formatPriceWithCurrency(productPrice)}
+                    </p>
+                    {hasDiscount && (
+                      <p className="text-xs text-[#0F1012]/55 line-through">
+                        {formatPriceWithCurrency(originalPrice)}
+                      </p>
+                    )}
+                  </div>
+                  <div className="min-h-[16px] mb-1">
+                    {isSoldOut && (
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-[#FE1157]">Sold Out</p>
+                    )}
+                    {!isSoldOut && isLowStock && (
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-[#FE1157]">Only {stockCount} left</p>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    aria-label={`Add ${productName} to cart`}
+                    disabled={isSoldOut}
+                    className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#0F1012] text-white flex items-center justify-center hover:bg-[#FE1157] hover:text-[#0F1012] transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -1275,7 +1383,7 @@ const Home = () => {
                         onClick={() => handleAddToCart(product)}
                         aria-label={`Add ${productName} to cart`}
                         disabled={isSoldOut}
-                        className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#0F1012] text-white flex items-center justify-center hover:bg-[#FE1157] hover:text-[#0F1012] transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="absolute bottom-3 right-3 w-11 h-11 rounded-full bg-[#0F1012] text-white flex items-center justify-center hover:bg-[#FE1157]  transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -1503,11 +1611,7 @@ const Home = () => {
             to="/sale" 
             className="flex-1 w-full md:w-1/2 overflow-hidden hover:opacity-95 transition-opacity"
           >
-            <img
-              src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1767171485/Mobile_Banner_resize_7_gyz5xo.jpg', 50)}
-              alt="Sale Banner"
-              className="w-full h-auto object-cover"
-            />
+            
           </Link>
           
           {/* Second Banner - Shirts */}
@@ -1518,7 +1622,7 @@ const Home = () => {
             <img
               src={optimizeImageUrl('https://res.cloudinary.com/dvkxgrcbv/image/upload/v1767171505/Mobile_Banner_resize_6_ybv1ud.jpg', 50)}
               alt="Shirts Banner"
-              className="w-full h-auto object-cover"
+              className="w-full h-auto object-cover lg:hidden"
             />
           </Link>
         </div>
@@ -1863,13 +1967,6 @@ const Home = () => {
       />
       
 
-      <div className="w-full overflow-hidden lg:hidden">
-        <img
-          src="https://res.cloudinary.com/de1bg8ivx/image/upload/v1765137210/Black_Elegant_Watch_Special_Offer_Instagram_Post_y3foz1.svg"
-          alt="Full size"
-          className="block w-full h-auto m-0 p-0 border-none outline-none"
-        />
-      </div>
 
 
 

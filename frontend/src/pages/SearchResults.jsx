@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import FilterSidebar from '../components/FilterSidebar';
-import { searchAPI } from '../utils/api';
+import { searchAPI, productAPI } from '../utils/api';
 import { useToast } from '../components/ToastContainer';
 
 const SearchResults = () => {
@@ -50,15 +50,80 @@ const SearchResults = () => {
     try {
       const response = await searchAPI.searchProducts(query);
       if (response.success) {
-        setProducts(response.data.products || []);
+        const apiProducts = response.data.products || [];
+        if (apiProducts.length > 0) {
+          setProducts(apiProducts);
+          return;
+        }
       } else {
         showError('Failed to search products');
-        setProducts([]);
       }
+
+      // Fallback: local whole-catalog filtering if API search returns empty
+      const allProductsResponse = await productAPI.getAllProducts({ limit: 500 });
+      const allProducts = Array.isArray(allProductsResponse?.data?.products)
+        ? allProductsResponse.data.products
+        : [];
+      const queryText = String(query || '').trim().toLowerCase();
+
+      const matched = allProducts
+        .map((product) => {
+          const name = String(product?.name || product?.productName || product?.title || '').toLowerCase();
+          const category = String(product?.category || '').toLowerCase();
+          const subCategory = String(product?.subCategory || '').toLowerCase();
+          const description = String(product?.shortDescription || product?.description || '').toLowerCase();
+          const brand = String(product?.brand || '').toLowerCase();
+          const haystack = `${name} ${category} ${subCategory} ${description} ${brand}`;
+          if (!haystack.includes(queryText)) return null;
+
+          let score = 0;
+          if (name.startsWith(queryText)) score += 7;
+          if (name.includes(queryText)) score += 4;
+          if (category.includes(queryText) || subCategory.includes(queryText)) score += 2;
+          if (brand.includes(queryText)) score += 1;
+          return { product, score };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score)
+        .map((entry) => entry.product);
+
+      setProducts(matched);
     } catch (error) {
       console.error('Search error:', error);
-      showError('Error searching products');
-      setProducts([]);
+      try {
+        // Fallback on API/network failure
+        const allProductsResponse = await productAPI.getAllProducts({ limit: 500 });
+        const allProducts = Array.isArray(allProductsResponse?.data?.products)
+          ? allProductsResponse.data.products
+          : [];
+        const queryText = String(query || '').trim().toLowerCase();
+
+        const matched = allProducts
+          .map((product) => {
+            const name = String(product?.name || product?.productName || product?.title || '').toLowerCase();
+            const category = String(product?.category || '').toLowerCase();
+            const subCategory = String(product?.subCategory || '').toLowerCase();
+            const description = String(product?.shortDescription || product?.description || '').toLowerCase();
+            const brand = String(product?.brand || '').toLowerCase();
+            const haystack = `${name} ${category} ${subCategory} ${description} ${brand}`;
+            if (!haystack.includes(queryText)) return null;
+
+            let score = 0;
+            if (name.startsWith(queryText)) score += 7;
+            if (name.includes(queryText)) score += 4;
+            if (category.includes(queryText) || subCategory.includes(queryText)) score += 2;
+            if (brand.includes(queryText)) score += 1;
+            return { product, score };
+          })
+          .filter(Boolean)
+          .sort((a, b) => b.score - a.score)
+          .map((entry) => entry.product);
+
+        setProducts(matched);
+      } catch (fallbackError) {
+        showError('Error searching products');
+        setProducts([]);
+      }
     } finally {
       setIsLoading(false);
     }

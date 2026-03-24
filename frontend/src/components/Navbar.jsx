@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import CartSidebar from './CartSidebar';
+import { searchAPI } from '../utils/api';
+import { productAPI } from '../utils/api';
 
 const NAV_LINKS = [
   { 
@@ -71,10 +73,17 @@ const Navbar = () => {
 
   const [activeCategory, setActiveCategory] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
+  const searchCacheRef = useRef({});
+  const allProductsRef = useRef(null);
+  const desktopSearchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   useEffect(() => {
     const path = location.pathname;
@@ -101,9 +110,125 @@ const Navbar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
+      setShowSuggestions(false);
     }
   };
+
+  const getProductRoute = (product) => {
+    const category = (product?.category || '').toLowerCase();
+    if (category.includes('watch')) return 'watches';
+    if (category.includes('lens')) return 'lenses';
+    if (category.includes('skincare') || category.includes('skin-care')) return 'skincare';
+    if (category.includes('accessor')) return 'accessories';
+    if (category.includes('women') || category.includes('saree')) return 'women';
+    if (category.includes('shoe')) return 'shoes';
+    return 'product';
+  };
+
+  const handleSuggestionClick = (product) => {
+    const id = product?._id || product?.id;
+    if (!id) return;
+    const routeCategory = getProductRoute(product);
+    setShowSuggestions(false);
+    setSearchQuery('');
+    navigate(`/product/${routeCategory}/${id}`);
+  };
+
+  const getLocalSearchMatches = async (query, limit = 8) => {
+    const queryText = String(query || '').trim().toLowerCase();
+    if (!queryText) return [];
+
+    if (!Array.isArray(allProductsRef.current)) {
+      const allProductsResponse = await productAPI.getAllProducts({ limit: 300 });
+      allProductsRef.current = Array.isArray(allProductsResponse?.data?.products)
+        ? allProductsResponse.data.products
+        : [];
+    }
+
+    const products = allProductsRef.current;
+    const scored = products
+      .map((product) => {
+        const name = String(product?.name || product?.productName || product?.title || '').toLowerCase();
+        const category = String(product?.category || '').toLowerCase();
+        const subCategory = String(product?.subCategory || '').toLowerCase();
+        const description = String(product?.shortDescription || product?.description || '').toLowerCase();
+        const brand = String(product?.brand || '').toLowerCase();
+        const haystack = `${name} ${category} ${subCategory} ${description} ${brand}`;
+        if (!haystack.includes(queryText)) return null;
+
+        let score = 0;
+        if (name.startsWith(queryText)) score += 7;
+        if (name.includes(queryText)) score += 4;
+        if (category.includes(queryText) || subCategory.includes(queryText)) score += 2;
+        if (brand.includes(queryText)) score += 1;
+        return { product, score };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.score - a.score)
+      .map((entry) => entry.product);
+
+    return scored.slice(0, limit);
+  };
+
+  useEffect(() => {
+    const trimmed = searchQuery.trim();
+    if (trimmed.length < 2) {
+      setSuggestions([]);
+      setIsSearching(false);
+      return;
+    }
+
+    const cacheKey = trimmed.toLowerCase();
+    if (searchCacheRef.current[cacheKey]) {
+      setSuggestions(searchCacheRef.current[cacheKey]);
+      setIsSearching(false);
+      return;
+    }
+
+    let cancelled = false;
+    const timeoutId = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const response = await searchAPI.searchProducts(trimmed, { limit: 8 });
+        if (cancelled) return;
+        let items = Array.isArray(response?.data?.products) ? response.data.products.slice(0, 8) : [];
+        if (!items.length) {
+          items = await getLocalSearchMatches(trimmed, 8);
+        }
+        searchCacheRef.current[cacheKey] = items;
+        setSuggestions(items);
+      } catch (error) {
+        if (cancelled) return;
+        try {
+          const fallbackItems = await getLocalSearchMatches(trimmed, 8);
+          setSuggestions(fallbackItems);
+          searchCacheRef.current[cacheKey] = fallbackItems;
+        } catch (fallbackError) {
+          setSuggestions([]);
+        }
+      } finally {
+        if (!cancelled) setIsSearching(false);
+      }
+    }, 220);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      const desktopContains = desktopSearchRef.current?.contains(event.target);
+      const mobileContains = mobileSearchRef.current?.contains(event.target);
+      if (!desktopContains && !mobileContains) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   const toggleMobileAccordion = (id) => {
     setExpandedMobileCategory(expandedMobileCategory === id ? null : id);
@@ -113,9 +238,9 @@ const Navbar = () => {
     <>
       {/* MARQUEE TICKER — teal bg, gold text, elegant style */}
       <div className="w-full bg-[#FE1157] overflow-hidden select-none">
-        <div className="h-7 flex items-center">
+        <div className="h-6 flex items-center">
           <div className="marquee-track">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-white whitespace-nowrap">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] text-white whitespace-nowrap">
               {MARQUEE_TEXT}{MARQUEE_TEXT}
             </span>
           </div>
@@ -130,9 +255,9 @@ const Navbar = () => {
       >
         
         {/* Top row: Logo | Nav Links | Icons */}
-        <div className="border-b border-[#FE1157]/80">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
-            <div className="flex items-center justify-between h-14">
+        <div className="border-b border-[#FE1157]/60">
+          <div className="max-w-[1400px] mx-auto px-3 sm:px-6 lg:px-10">
+            <div className="flex items-center justify-between h-16 sm:h-[62px]">
 
               {/* LEFT: Logo */}
               <Link
@@ -142,18 +267,18 @@ const Navbar = () => {
                 <img 
                   src="https://res.cloudinary.com/dzd47mpdo/image/upload/v1774001804/copy_of_0bfce75b-bbe6-4982-bc33-57feb8587b8c_531e09.png"
                   alt="Logo"
-                  className="h-12 w-auto object-contain drop-shadow-sm"
+                  className="h-9 sm:h-10 lg:h-11 w-auto object-contain drop-shadow-sm"
                 />
                 <span className="text-sm sm:text-base font-bold uppercase tracking-[0.1em] text-[#0F1012]"></span>
               </Link>
 
               {/* CENTER: Desktop Nav Links — underline + pill hover */}
-              <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+              <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 gap-0.5 xl:gap-1.5 mx-4">
                 {NAV_LINKS.slice(0, 5).map((link) => (
                   <Link
                     key={link.id}
                     to={link.path}
-                    className={`relative py-2.5 px-3 rounded-lg text-[11px] xl:text-xs font-semibold uppercase tracking-[0.08em] transition-all duration-300 ease-out outline-none
+                    className={`relative whitespace-nowrap leading-none py-2.5 px-2.5 xl:px-3 rounded-lg text-[10px] xl:text-[11px] font-semibold uppercase tracking-[0.07em] transition-all duration-300 ease-out outline-none
                       after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:w-0 after:-translate-x-1/2 after:rounded-full after:bg-[#FE1157] after:transition-all after:duration-300 after:ease-out
                       hover:text-[#FE1157] hover:bg-[#FE1157]/[0.08] hover:after:w-[65%]
                       focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]
@@ -168,7 +293,7 @@ const Navbar = () => {
                 ))}
                 <Link
                   to="/sale"
-                  className={`relative py-2.5 px-3 rounded-lg text-[11px] xl:text-xs font-bold uppercase tracking-[0.08em] transition-all duration-300 ease-out outline-none
+                  className={`relative whitespace-nowrap leading-none py-2.5 px-2.5 xl:px-3 rounded-lg text-[10px] xl:text-[11px] font-bold uppercase tracking-[0.07em] transition-all duration-300 ease-out outline-none
                     after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:w-0 after:-translate-x-1/2 after:rounded-full after:bg-[#FE1157] after:transition-all after:duration-300
                     hover:text-[#FE1157] hover:bg-[#FE1157]/12 hover:after:w-[65%]
                     focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]
@@ -178,34 +303,87 @@ const Navbar = () => {
                         : 'text-[#FE1157]'
                     }`}
                 >
-                  Sale +++
+                  SALE
                 </Link>
               </div>
 
               {/* RIGHT: Icons */}
-              <div className="flex items-center gap-0.5 sm:gap-1">
+              <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
                 {/* Inline desktop search (stays in navbar) */}
-                <form
-                  onSubmit={handleSearch}
-                  className="hidden md:flex items-center rounded-full border border-[#FE1157]/40 bg-white transition-all duration-300 overflow-hidden w-56 lg:w-64 px-3"
-                >
-                  <button
-                    type="submit"
-                    title="Search"
-                    className="w-10 h-10 flex items-center justify-center text-[#0F1012] hover:text-[#FE1157] transition-colors shrink-0"
+                <div ref={desktopSearchRef} className="hidden md:block relative w-44 lg:w-52 xl:w-64">
+                  <form
+                    onSubmit={handleSearch}
+                    className="flex items-center rounded-full border border-[#FE1157]/35 bg-white transition-all duration-300 overflow-hidden px-3"
                   >
-                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </button>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search Sanskrutee..."
-                    className="w-full bg-transparent text-sm text-[#0F1012] placeholder-[#0F1012]/50 outline-none pr-2"
-                  />
-                </form>
+                    <button
+                      type="submit"
+                      title="Search"
+                      className="w-10 h-10 flex items-center justify-center text-[#0F1012] hover:text-[#FE1157] transition-colors shrink-0"
+                    >
+                      <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </button>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onFocus={() => setShowSuggestions(true)}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setShowSuggestions(true);
+                      }}
+                      placeholder="Search Sanskrutee..."
+                      className="w-full bg-transparent text-sm text-[#0F1012] placeholder-[#0F1012]/50 outline-none pr-2"
+                    />
+                  </form>
+
+                  {showSuggestions && searchQuery.trim().length >= 2 && (
+                    <div className="absolute top-[calc(100%+8px)] left-0 right-0 rounded-xl border border-[#FE1157]/25 bg-white shadow-lg z-[70] max-h-[360px] overflow-y-auto">
+                      {isSearching ? (
+                        <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">Searching...</div>
+                      ) : suggestions.length > 0 ? (
+                        <>
+                          {suggestions.map((item) => {
+                            const itemId = item?._id || item?.id;
+                            const image = item?.image || item?.images?.[0] || item?.thumbnail || '';
+                            return (
+                              <button
+                                key={itemId}
+                                type="button"
+                                onClick={() => handleSuggestionClick(item)}
+                                className="w-full px-3 py-2.5 flex items-center gap-2.5 hover:bg-[#FE1157]/8 transition-colors text-left"
+                              >
+                                <div className="w-10 h-10 rounded-md overflow-hidden bg-[#FFFFFF] border border-[#0F1012]/10 shrink-0">
+                                  {image ? (
+                                    <img src={image} alt={item?.name || item?.productName || 'Product'} className="w-full h-full object-cover" />
+                                  ) : null}
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-xs font-semibold text-[#0F1012] line-clamp-1">{item?.name || item?.productName || 'Product'}</p>
+                                  <p className="text-[11px] text-[#0F1012]/70 line-clamp-1">{item?.category || item?.subCategory || ''}</p>
+                                </div>
+                              </button>
+                            );
+                          })}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (searchQuery.trim()) {
+                                navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                                setShowSuggestions(false);
+                              }
+                            }}
+                            className="w-full border-t border-[#FE1157]/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[#FE1157] hover:bg-[#FE1157]/8 transition-colors"
+                          >
+                            View all results
+                          </button>
+                        </>
+                      ) : (
+                        <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">No products found</div>
+                      )}
+                    </div>
+                  )}
+                </div>
 
                 {/* User Icon */}
                 {isAuthenticated ? (
@@ -222,7 +400,7 @@ const Navbar = () => {
                   <Link
                     to="/login"
                     title="Sign In"
-                    className="hidden sm:inline-flex h-10 items-center justify-center rounded-full border border-[#FE1157]/35 px-4 text-[11px] font-bold uppercase tracking-[0.08em] text-[#0F1012] transition-all duration-200 ease-out hover:border-[#FE1157] hover:bg-[#FE1157]/10 hover:text-[#FE1157] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]"
+                    className="hidden sm:inline-flex whitespace-nowrap h-10 items-center justify-center rounded-full border border-[#FE1157]/35 px-4 text-[10px] font-bold uppercase tracking-[0.08em] text-[#0F1012] transition-all duration-200 ease-out hover:border-[#FE1157] hover:bg-[#FE1157]/10 hover:text-[#FE1157] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FE1157] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]"
                   >
                     Sign In
                   </Link>
@@ -245,11 +423,6 @@ const Navbar = () => {
                   )}
                 </button>
 
-                {/* Cart count text (desktop) */}
-                <span className="hidden lg:inline text-[11px] font-semibold uppercase tracking-wider text-[#0F1012] mr-1">
-                   
-                </span>
-
                 {/* Hamburger */}
                 <button 
                   type="button"
@@ -265,6 +438,84 @@ const Navbar = () => {
                 {/* Shop All New CTA removed */}
               </div>
             </div>
+
+            {/* Mobile inline search for better navbar balance */}
+            <form
+              onSubmit={handleSearch}
+              className="md:hidden pb-3"
+            >
+              <div ref={mobileSearchRef} className="relative">
+                <div className="flex items-center rounded-full border border-[#FE1157]/40 bg-white overflow-hidden px-2.5">
+                  <button
+                    type="submit"
+                    title="Search"
+                    className="w-9 h-9 flex items-center justify-center text-[#0F1012] hover:text-[#FE1157] transition-colors shrink-0"
+                  >
+                    <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </button>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onFocus={() => setShowSuggestions(true)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    placeholder="Search Sanskrutee..."
+                    className="w-full bg-transparent text-sm text-[#0F1012] placeholder-[#0F1012]/50 outline-none pr-2"
+                  />
+                </div>
+
+                {showSuggestions && searchQuery.trim().length >= 2 && (
+                  <div className="absolute top-[calc(100%+8px)] left-0 right-0 rounded-xl border border-[#FE1157]/25 bg-white shadow-lg z-[70] max-h-[340px] overflow-y-auto">
+                    {isSearching ? (
+                      <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">Searching...</div>
+                    ) : suggestions.length > 0 ? (
+                      <>
+                        {suggestions.map((item) => {
+                          const itemId = item?._id || item?.id;
+                          const image = item?.image || item?.images?.[0] || item?.thumbnail || '';
+                          return (
+                            <button
+                              key={itemId}
+                              type="button"
+                              onClick={() => handleSuggestionClick(item)}
+                              className="w-full px-3 py-2.5 flex items-center gap-2.5 hover:bg-[#FE1157]/8 transition-colors text-left"
+                            >
+                              <div className="w-9 h-9 rounded-md overflow-hidden bg-[#FFFFFF] border border-[#0F1012]/10 shrink-0">
+                                {image ? (
+                                  <img src={image} alt={item?.name || item?.productName || 'Product'} className="w-full h-full object-cover" />
+                                ) : null}
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-xs font-semibold text-[#0F1012] line-clamp-1">{item?.name || item?.productName || 'Product'}</p>
+                                <p className="text-[11px] text-[#0F1012]/70 line-clamp-1">{item?.category || item?.subCategory || ''}</p>
+                              </div>
+                            </button>
+                          );
+                        })}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (searchQuery.trim()) {
+                              navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                              setShowSuggestions(false);
+                            }
+                          }}
+                          className="w-full border-t border-[#FE1157]/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[#FE1157] hover:bg-[#FE1157]/8 transition-colors"
+                        >
+                          View all results
+                        </button>
+                      </>
+                    ) : (
+                      <div className="px-3 py-2.5 text-xs text-[#0F1012]/70">No products found</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </nav>
